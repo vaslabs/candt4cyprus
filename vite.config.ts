@@ -19,4 +19,9 @@ function resolveBase(): string {
 export default defineConfig({
   base: resolveBase(),
   plugins: [react(), tailwindcss()],
+  build: {
+    // plotly.js (basic bundle, ~1.2 MB raw) is lazy-loaded only on chart pages; everything else is far smaller.
+    chunkSizeWarningLimit: 1300,
+  },
+  worker: { format: 'es' },
 });
