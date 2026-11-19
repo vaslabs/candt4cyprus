@@ -1,0 +1,227 @@
+{
+  "archive": {
+    "en": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/page21_en/page21_en",
+    "el": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/page21_gr/page21_gr"
+  },
+  "publisher": "Social Insurance Services (ΥΚΑ), Ministry of Labour, Welfare and Social Insurance",
+  "accessed": "2026-11-19",
+  "note": "No July 2025 edition is published in either language archive.",
+  "editions": [
+    {
+      "id": "el-2020-jan",
+      "language": "el",
+      "edition": "January 2020",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/68F9F81345AD21E4C22585270033EBE1?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/68F9F81345AD21E4C22585270033EBE1/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2020.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2020.doc",
+      "sha256": "48c666e9fdadba1ca2148db4899baefd7ba046cfa343859ea1b43910b361f3d7"
+    },
+    {
+      "id": "el-2021-jan",
+      "language": "el",
+      "edition": "January 2021",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E2A655E371E982CEC2258676002DFFA9?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E2A655E371E982CEC2258676002DFFA9/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2021.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2021.doc",
+      "sha256": "a8d881eefcebe928c72c254fc45f40604cd50cddf3bc6ba372d8623513084657"
+    },
+    {
+      "id": "el-2022-jan",
+      "language": "el",
+      "edition": "January 2022",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/991BC064899CBD02C2258895002E8CDA?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/991BC064899CBD02C2258895002E8CDA/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2022.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2022.doc",
+      "sha256": "c73146e7b84d1bc13c5075ace582c6b06d6a6dd959aacff3c71bb248154257d4"
+    },
+    {
+      "id": "el-2023-jan",
+      "language": "el",
+      "edition": "January 2023",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/C64682BE21D27D06C22589A90029B79D?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/C64682BE21D27D06C22589A90029B79D/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2023.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2023.doc",
+      "sha256": "d8007064f2def903faa88b7627b4094f6a6d391ad0d55c04205bc88922c1f687"
+    },
+    {
+      "id": "el-2024-jan",
+      "language": "el",
+      "edition": "January 2024",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/85FDEF50EEAE98D0C2258AE5002A3B8E?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/85FDEF50EEAE98D0C2258AE5002A3B8E/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2024.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2024.doc",
+      "sha256": "3b4277218903a10c1fd3dd3614da7e680046e852d249e5d0f8dba588dfb02b81"
+    },
+    {
+      "id": "el-2025-jan",
+      "language": "el",
+      "edition": "January 2025",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/49515E2108EF988CC2258C30002D9E69?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/49515E2108EF988CC2258C30002D9E69/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2025.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2025.doc",
+      "sha256": "227fbeb37e4631640748e29c79d2a79c26159c2ce0e4131cc268ab481337c0c3"
+    },
+    {
+      "id": "el-2026-jan",
+      "language": "el",
+      "edition": "January 2026",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/42233664CB12E8B6C2258E370029541E?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/42233664CB12E8B6C2258E370029541E/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2026.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2026.doc",
+      "sha256": "14213ce3d4a85a69df30bf022daafabe884351e047e67207fef8b16b32d07fee"
+    },
+    {
+      "id": "el-2020-jul",
+      "language": "el",
+      "edition": "July 2020",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/68F9F81345AD21E4C22585270033EBE1?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/68F9F81345AD21E4C22585270033EBE1/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2020.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2020.doc",
+      "sha256": "da85ee70070c6ab7c02eb445f186829f842ea3cce6113e1e22220f4e949a12b4"
+    },
+    {
+      "id": "el-2021-jul",
+      "language": "el",
+      "edition": "July 2021",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E2A655E371E982CEC2258676002DFFA9?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E2A655E371E982CEC2258676002DFFA9/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2021.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2021.doc",
+      "sha256": "08a854691f504f7d2a9e97c8124515d00aec4e8c9b373d05235f52de273e7728"
+    },
+    {
+      "id": "el-2022-jul",
+      "language": "el",
+      "edition": "July 2022",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/991BC064899CBD02C2258895002E8CDA?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/991BC064899CBD02C2258895002E8CDA/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2022.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2022.doc",
+      "sha256": "6961e940ee8e6a44d3d68dd95b4e9f34ccc438a4c1cd9fa778f351c3d6b37923"
+    },
+    {
+      "id": "el-2023-jul",
+      "language": "el",
+      "edition": "July 2023",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/C64682BE21D27D06C22589A90029B79D?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/C64682BE21D27D06C22589A90029B79D/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2023.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2023.doc",
+      "sha256": "5bd9571b508b73d7e342af138b755d48f41e1d67cc64ff07c7835dedbb895b8a"
+    },
+    {
+      "id": "el-2024-jul",
+      "language": "el",
+      "edition": "July 2024",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/85FDEF50EEAE98D0C2258AE5002A3B8E?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/85FDEF50EEAE98D0C2258AE5002A3B8E/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2024.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2024.doc",
+      "sha256": "0abc69b0cfa78ca3a4998228dbef809d38a369a8178e15f8d8a04139707e150d"
+    },
+    {
+      "id": "el-2026-jul",
+      "language": "el",
+      "edition": "July 2026",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/42233664CB12E8B6C2258E370029541E?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/42233664CB12E8B6C2258E370029541E/$file/Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2026.doc",
+      "fileName": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2026.doc",
+      "sha256": "ba214bd83ffa35c76338eedcebd7ec3a8c6b0ce1524ce5a586d46fb2eef5efc6"
+    },
+    {
+      "id": "en-2021-jan",
+      "language": "en",
+      "edition": "January 2021",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/869FFB8DFF31852DC2258676002E0C62?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/869FFB8DFF31852DC2258676002E0C62/$file/Statistical_data_SIS_January_2021.doc",
+      "fileName": "Statistical_data_SIS_January_2021.doc",
+      "sha256": "b203e48a787ba28ae5f00ea03610f380602668b81b25983a5480474e86b99276"
+    },
+    {
+      "id": "en-2022-jan",
+      "language": "en",
+      "edition": "January 2022",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/DDE28BE7372DCDA6C2258895002EA705?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/DDE28BE7372DCDA6C2258895002EA705/$file/Statistical_data_SIS_January_2022.doc",
+      "fileName": "Statistical_data_SIS_January_2022.doc",
+      "sha256": "74860a97d3627fbc6684b7565e77c5f646e2bc8a5e0d1637b228af47ef97aa2d"
+    },
+    {
+      "id": "en-2023-jan",
+      "language": "en",
+      "edition": "January 2023",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/812304C013CD8BFFC22589A90029C3DB?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/812304C013CD8BFFC22589A90029C3DB/$file/Statistical_data_SIS_January_2023.doc",
+      "fileName": "Statistical_data_SIS_January_2023.doc",
+      "sha256": "465d06211b09293026c492ce3db63c8170f276901bd18584e9bc9775234449a0"
+    },
+    {
+      "id": "en-2024-jan",
+      "language": "en",
+      "edition": "January 2024",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E44CBF47B88E4D63C2258AE5002A4778?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E44CBF47B88E4D63C2258AE5002A4778/$file/Statistical_data_SIS_January_2024.doc",
+      "fileName": "Statistical_data_SIS_January_2024.doc",
+      "sha256": "bd13dde1884b8d6898a05c6aa1b260470fd37303e3d89347cef6b381c4d685ac"
+    },
+    {
+      "id": "en-2025-jan",
+      "language": "en",
+      "edition": "January 2025",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/037498474C81244AC2258C30002DAAFA?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/037498474C81244AC2258C30002DAAFA/$file/Statistical_data_SIS_January_2025.doc",
+      "fileName": "Statistical_data_SIS_January_2025.doc",
+      "sha256": "fbb402bf94de1b7692ee09ef0023df6c7ba6f99480c403e1be0a26b7784fa884"
+    },
+    {
+      "id": "en-2026-jan",
+      "language": "en",
+      "edition": "January 2026",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/B03B7ECFABA9E321C2258E3700296081?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/B03B7ECFABA9E321C2258E3700296081/$file/Statistical_data_SIS_January_2026.doc",
+      "fileName": "Statistical_data_SIS_January_2026.doc",
+      "sha256": "e4d8e491f7f31e29906de551f6139ff2b71590cccae5e9166083eca365e97968"
+    },
+    {
+      "id": "en-2021-jul",
+      "language": "en",
+      "edition": "July 2021",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/869FFB8DFF31852DC2258676002E0C62?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/869FFB8DFF31852DC2258676002E0C62/$file/Statistical_data_SIS_July_2021.doc",
+      "fileName": "Statistical_data_SIS_July_2021.doc",
+      "sha256": "fbdd10e294d6faec0b885fb493c0a44b5a9b8fb29901e31959898dccf24b296e"
+    },
+    {
+      "id": "en-2022-jul",
+      "language": "en",
+      "edition": "July 2022",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/DDE28BE7372DCDA6C2258895002EA705?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/DDE28BE7372DCDA6C2258895002EA705/$file/Statistical_data_SIS_July_2022.doc",
+      "fileName": "Statistical_data_SIS_July_2022.doc",
+      "sha256": "71e420f1d361f1b2fb66c4151f3894b19d91f935e86d105f09526ea3017b8465"
+    },
+    {
+      "id": "en-2023-jul",
+      "language": "en",
+      "edition": "July 2023",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/812304C013CD8BFFC22589A90029C3DB?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/812304C013CD8BFFC22589A90029C3DB/$file/Statistical_data_SIS_July_2023.doc",
+      "fileName": "Statistical_data_SIS_July_2023.doc",
+      "sha256": "079bb00f80c9b4e1aced295abe1a5849465745dd8e2cdae9fd0d5289900f6ea9"
+    },
+    {
+      "id": "en-2024-jul",
+      "language": "en",
+      "edition": "July 2024",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E44CBF47B88E4D63C2258AE5002A4778?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E44CBF47B88E4D63C2258AE5002A4778/$file/Statistical_data_SIS_July_2024.doc",
+      "fileName": "Statistical_data_SIS_July_2024.doc",
+      "sha256": "6779d8927596e622edf065390cf70bd1fe8e7a5eda3a7e32e81b562c393bd3b5"
+    },
+    {
+      "id": "en-2026-jul",
+      "language": "en",
+      "edition": "July 2026",
+      "yearPage": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/B03B7ECFABA9E321C2258E3700296081?OpenDocument",
+      "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/B03B7ECFABA9E321C2258E3700296081/$file/Statistical_data_SIS_July_2026.doc",
+      "fileName": "Statistical_data_SIS_July_2026.doc",
+      "sha256": "6c06832292d857de4d06cb95fc3f4cd1886ed43a960b44cb4b84161c555372d7"
+    }
+  ]
+}

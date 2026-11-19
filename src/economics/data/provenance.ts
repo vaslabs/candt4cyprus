@@ -25,7 +25,11 @@ export const sourceSchema = z
     url: z.url().nullable(),
     obtainedVia: z.enum(['web', 'provided-by-user']).default('web'),
     /** Local files the values were extracted from, with SHA-256 so the exact copy is identifiable. */
-    files: z.array(z.object({ name: z.string(), sha256: z.string().regex(/^[0-9a-f]{64}$/) })).default([]),
+    files: z
+      .array(
+        z.object({ name: z.string(), sha256: z.string().regex(/^[0-9a-f]{64}$/), url: z.url().optional() }),
+      )
+      .default([]),
     kind: z.enum(SOURCE_KINDS),
     /** ISO date or null when the page does not show one. */
     publicationDate: z.iso.date().nullable(),

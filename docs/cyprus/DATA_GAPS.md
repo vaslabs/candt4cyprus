@@ -5,10 +5,17 @@ Access date for all sources: 2026-11-19. Full provenance: `src/data/sources.json
 
 ## 1. Social Insurance Fund finances: mostly closed
 
-**Source:** Social Insurance Services statistical bulletins (January and July editions,
-2021–2026), section "Τελικοί λογαριασμοί του Ταμείου Κοινωνικών Ασφαλίσεων" (€000), provided by
-the project owner. They are identified in the source register by SHA-256 hashes. The public URL
-is still to be recorded.
+**Source:** Social Insurance Services statistical bulletins, official archive
+https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/page21_gr/page21_gr (Greek) and
+https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/page21_en/page21_en (English).
+- 24 editions (January and July, 2020–2026; no July 2025 edition exists), section "Final
+  accounts of the Social Insurance Fund" (€000).
+- Extracted reproducibly by `npm run data:sis` (tools/sis/extract_bulletins.py, antiword,
+  SHA-256 verified against `tools/sis/manifest.json`) into `src/data/sifAccountsEditions.json`,
+  which keeps the full revision history.
+- The 11 copies first supplied by the project owner are byte-identical to the official Greek files.
+- Greek and English editions agree except one €1k rounding cell.
+- The original Word files are not committed (redistribution terms not established).
 
 **Integrity checks (all passed):**
 - income, expenditure and reserve identities in all 11 editions, within ±€1k rounding;
@@ -79,9 +86,12 @@ is still to be recorded.
   - foreign-owned or mobile capital and profit shifting;
   - land and dwellings.
 
-  An alternative calibration with β fixed at 0.975 gives K/Y = 5.70 (untargeted). Both are reported. **Decision needed.**
+  **Decision (step 5 review):** the primary calibration uses β = 0.975 as a structural assumption
+  (K/Y not matched: 5.70 in the model vs 2.89 observed). β = 0.922 is kept as the K/Y-matching
+  alternative. Neither is an established Cyprus discount factor.
 - **Investment/output:** the model's no-growth steady state has replacement investment only (12.8% of output, against 24.5% in the data).
 - **Effective SI rate:** the default is now top-down. It reproduces the Fund's actual 2023
   contributions (τ = 0.0610 per side). Statutory bottom-up gives 0.0792 and overstates revenue by
   ≈27%, because the model wage bill includes non-Fund employer contributions and imputed
-  self-employed income. **Decision needed** on which to use as default.
+  self-employed income. **Decision (step 5 review):** the macro model uses the calibrated 0.0610
+  (a model coefficient, not a statutory rate). The payroll engine keeps the statutory 8.8%.

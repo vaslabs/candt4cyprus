@@ -23,7 +23,8 @@
     "replication:variants": "tsx tools/replication/variantTable.ts",
     "replication:report": "tsx tools/replication/replicationReport.ts",
     "cyprus:report": "tsx tools/cyprus/calibrationReport.ts",
-    "data:validate": "tsx tools/cyprus/validateData.ts"
+    "data:validate": "tsx tools/cyprus/validateData.ts",
+    "data:sis": "python3 -I tools/sis/extract_bulletins.py"
   },
   "dependencies": {
     "react": "^19.3.1",

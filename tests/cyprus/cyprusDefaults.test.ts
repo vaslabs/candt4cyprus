@@ -112,10 +112,12 @@ describe('provenance dataset and source register', () => {
     expect(na.fundContributionsExclState).toBeCloseTo(1860.987, 3); // SIS 2023, not D61 (4,380.5)
     expect(dataset.parameters.find((x) => x.id === 'sif.stateDebtToFund')!.verification).toBe('missing');
   });
-  it('user-provided sources are identified by file hashes', () => {
+  it('SIS bulletins are registered with official URLs, per-file hashes and URLs (originals not committed)', () => {
     const s = sources.find((x) => x.id === 'sis-statistical-bulletins')!;
-    expect(s.obtainedVia).toBe('provided-by-user');
-    expect(s.files.length).toBe(11);
+    expect(s.obtainedVia).toBe('web');
+    expect(s.url).toMatch(/mlsi\.gov\.cy\/mlsi\/sid\/sidv2\.nsf\/page21_gr/);
+    expect(s.files).toHaveLength(24);
+    expect(s.files.every((f) => f.url?.startsWith('https://www.mlsi.gov.cy/'))).toBe(true);
   });
 });
 
@@ -150,12 +152,12 @@ describe('Cyprus calibration (Level 2)', () => {
     expect(cal.steadyState.ok).toBe(true);
     expect(cal.steadyState.ok && cal.steadyState.meta.calibrationPreset).toBe('cyprus-2026');
   });
-  it('reports the β diagnostic honestly (fails under K/Y targeting; passes when β is fixed)', () => {
-    expect(cal.checks.find((c) => c.name.startsWith('β'))!.pass).toBe(false);
-    const fixed = calibrateCyprus(na, rules, { ...assume, betaMode: { kind: 'fixed', beta: 0.975 } }, earn);
-    expect(fixed.params.beta).toBe(0.975);
-    expect(fixed.moments.find((m) => m.name.startsWith('Capital'))!.targeted).toBe(false);
-    expect(fixed.checks.filter((c) => !c.pass)).toEqual([]);
+  it('primary β = 0.975 passes its (assumption) check; the K/Y-matching alternative fails the conventional-range check', () => {
+    expect(cal.params.beta).toBe(0.975);
+    expect(cal.checks.filter((c) => !c.pass)).toEqual([]);
+    const alt = calibrateCyprus(na, rules, { ...assume, betaMode: { kind: 'fromCapitalOutput' } }, earn);
+    expect(alt.checks.find((c) => c.name.startsWith('β'))!.pass).toBe(false);
+    expect(alt.moments.find((m) => m.name.startsWith('Capital'))!.targeted).toBe(true);
   });
   it('carries over no replication correction: weight calibrated directly, eq. (24) as printed', () => {
     expect(cal.params.variant).toEqual({ techAWeight: 'capitalWeight', labourSupply: 'asPrinted' });
@@ -184,7 +186,7 @@ describe('Cyprus calibration (Level 2)', () => {
   });
   it('calibration is invariant to the technology choice at zero adoption (A and B coincide)', () => {
     const a = calibrateCyprus(na, rules, { ...assume, technology: 'A' }, earn);
-    expect(a.params.beta).toBe(cal.params.beta);
+    expect(a.params.capitalShareParam).toBeCloseTo(cal.params.capitalShareParam, 14);
     expect(a.params.gamma).toBeCloseTo(cal.params.gamma, 12);
   });
 });

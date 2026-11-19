@@ -1442,7 +1442,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Μισθωτοί ιδιωτικού/ημιδημόσιου τομέα». 2020: 984.981 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1456,7 +1456,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Μισθωτοί δημόσιου τομέα». 2020: 297.353 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1470,7 +1470,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Αυτοτελώς εργαζόμενοι». 2020: 57.811 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1484,7 +1484,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Προαιρετικά ασφαλισμένοι». 2020: 907 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1498,7 +1498,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Γενική Κυβερνητική Εισφορά». 2020: 397.003 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1512,7 +1512,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Τόκοι». 2020: 10.665 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1526,7 +1526,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Άλλα έσοδα». 2020: 39.003 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1540,7 +1540,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΣΟΔΩΝ». 2020: 1.787.723 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1554,7 +1554,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Συντάξεις». 2020: 1.452.695 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1568,7 +1568,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Άλλες παροχές». 2020: 175.158 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1582,7 +1582,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «Διοικητικά έξοδα». 2020: 8.926 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1596,7 +1596,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΞΟΔΩΝ». 2020: 1.636.780 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1610,7 +1610,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «ΔΙΑΦΟΡΑ ΕΣΟΔΩΝ ΚΑΙ ΕΞΟΔΩΝ». 2020: 150.943 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1624,7 +1624,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2025 edition. Fund final accounts. row «ΑΠΟΘΕΜΑΤΙΚΟ ΤΕΛΟΣ ΤΟΥ ΧΡΟΝΟΥ». 2020: 8.066.692 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1638,7 +1638,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Μισθωτοί ιδιωτικού/ημιδημόσιου τομέα». 2021: 1.088.961 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1652,7 +1652,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Μισθωτοί δημόσιου τομέα». 2021: 306.000 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1666,7 +1666,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Αυτοτελώς εργαζόμενοι». 2021: 60.106 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1680,7 +1680,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Προαιρετικά ασφαλισμένοι». 2021: 962 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1694,7 +1694,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Γενική Κυβερνητική Εισφορά». 2021: 431.506 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1708,7 +1708,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Τόκοι». 2021: 923 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1722,7 +1722,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Άλλα έσοδα». 2021: 33.618 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1736,7 +1736,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΣΟΔΩΝ». 2021: 1.922.076 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1750,7 +1750,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Συντάξεις». 2021: 1.545.652 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1764,7 +1764,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Άλλες παροχές». 2021: 141.894 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1778,7 +1778,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «Διοικητικά έξοδα». 2021: 7.365 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1792,7 +1792,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΞΟΔΩΝ». 2021: 1.694.911 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1806,7 +1806,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «ΔΙΑΦΟΡΑ ΕΣΟΔΩΝ ΚΑΙ ΕΞΟΔΩΝ». 2021: 227.165 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1820,7 +1820,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. January_2026 edition. Fund final accounts. row «ΑΠΟΘΕΜΑΤΙΚΟ ΤΕΛΟΣ ΤΟΥ ΧΡΟΝΟΥ». 2021: 8.293.857 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1834,7 +1834,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Μισθωτοί ιδιωτικού/ημιδημόσιου τομέα». 2022: 1.256.110 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1848,7 +1848,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Μισθωτοί δημόσιου τομέα». 2022: 316.245 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1862,7 +1862,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Αυτοτελώς εργαζόμενοι». 2022: 69.998 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1876,7 +1876,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Προαιρετικά ασφαλισμένοι». 2022: 863 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1890,7 +1890,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Γενική Κυβερνητική Εισφορά». 2022: 486.608 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1904,7 +1904,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Τόκοι». 2022: 47.513 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1918,7 +1918,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Άλλα έσοδα». 2022: 37.662 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1932,7 +1932,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΣΟΔΩΝ». 2022: 2.214.999 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1946,7 +1946,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Συντάξεις». 2022: 1.681.242 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1960,7 +1960,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Άλλες παροχές». 2022: 165.789 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1974,7 +1974,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Διοικητικά έξοδα». 2022: 8.357 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -1988,7 +1988,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΞΟΔΩΝ». 2022: 1.855.388 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2002,7 +2002,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΔΙΑΦΟΡΑ ΕΣΟΔΩΝ ΚΑΙ ΕΞΟΔΩΝ». 2022: 359.611 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2016,7 +2016,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΑΠΟΘΕΜΑΤΙΚΟ ΤΕΛΟΣ ΤΟΥ ΧΡΟΝΟΥ». 2022: 8.653.468 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2030,7 +2030,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Μισθωτοί ιδιωτικού/ημιδημόσιου τομέα». 2023: 1.446.129 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2044,7 +2044,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Μισθωτοί δημόσιου τομέα». 2023: 334.829 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2058,7 +2058,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Αυτοτελώς εργαζόμενοι». 2023: 79.051 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2072,7 +2072,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Προαιρετικά ασφαλισμένοι». 2023: 978 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2086,7 +2086,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Γενική Κυβερνητική Εισφορά». 2023: 551.704 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2100,7 +2100,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Τόκοι». 2023: 327.817 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2114,7 +2114,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Άλλα έσοδα». 2023: 43.765 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2128,7 +2128,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΣΟΔΩΝ». 2023: 2.784.273 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2142,7 +2142,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Συντάξεις». 2023: 1.772.009 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2156,7 +2156,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Άλλες παροχές». 2023: 159.192 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2170,7 +2170,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Διοικητικά έξοδα». 2023: 8.924 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2184,7 +2184,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΞΟΔΩΝ». 2023: 1.940.125 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2198,7 +2198,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΔΙΑΦΟΡΑ ΕΣΟΔΩΝ ΚΑΙ ΕΞΟΔΩΝ». 2023: 844.148 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2212,7 +2212,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΑΠΟΘΕΜΑΤΙΚΟ ΤΕΛΟΣ ΤΟΥ ΧΡΟΝΟΥ». 2023: 9.497.616 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2226,7 +2226,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Μισθωτοί ιδιωτικού/ημιδημόσιου τομέα». 2024: 1.669.398 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2240,7 +2240,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Μισθωτοί δημόσιου τομέα». 2024: 383.061 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2254,7 +2254,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Αυτοτελώς εργαζόμενοι». 2024: 83.285 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2268,7 +2268,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Προαιρετικά ασφαλισμένοι». 2024: 934 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2282,7 +2282,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Γενική Κυβερνητική Εισφορά». 2024: 633.131 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2296,7 +2296,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Τόκοι». 2024: 393.388 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2310,7 +2310,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Άλλα έσοδα». 2024: 46.591 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2324,7 +2324,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΣΟΔΩΝ». 2024: 3.209.788 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2338,7 +2338,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Συντάξεις». 2024: 1.900.994 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2352,7 +2352,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Άλλες παροχές». 2024: 163.057 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2366,7 +2366,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Διοικητικά έξοδα». 2024: 10.772 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2380,7 +2380,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΞΟΔΩΝ». 2024: 2.074.823 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2394,7 +2394,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΔΙΑΦΟΡΑ ΕΣΟΔΩΝ ΚΑΙ ΕΞΟΔΩΝ». 2024: 1.134.965 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2408,7 +2408,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΑΠΟΘΕΜΑΤΙΚΟ ΤΕΛΟΣ ΤΟΥ ΧΡΟΝΟΥ». 2024: 10.632.581 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2422,7 +2422,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Μισθωτοί ιδιωτικού/ημιδημόσιου τομέα». 2025: 1.830.687 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2436,7 +2436,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Μισθωτοί δημόσιου τομέα». 2025: 403.379 (€000)",
-      "explanation": "Employee and employer shares are not reported separately within each employee category.",
+      "explanation": "Employee and employer shares are not reported separately within each employee category. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2450,7 +2450,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Αυτοτελώς εργαζόμενοι». 2025: 89.548 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2464,7 +2464,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Προαιρετικά ασφαλισμένοι». 2025: 961 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2478,7 +2478,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Γενική Κυβερνητική Εισφορά». 2025: 689.287 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2492,7 +2492,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Τόκοι». 2025: 256.151 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2506,7 +2506,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Άλλα έσοδα». 2025: 50.274 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2520,7 +2520,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΣΟΔΩΝ». 2025: 3.320.287 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2534,7 +2534,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Συντάξεις». 2025: 2.044.277 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2548,7 +2548,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Άλλες παροχές». 2025: 187.565 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2562,7 +2562,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «Διοικητικά έξοδα». 2025: 11.465 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2576,7 +2576,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΣΥΝΟΛΟ ΕΞΟΔΩΝ». 2025: 2.243.307 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2590,7 +2590,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΔΙΑΦΟΡΑ ΕΣΟΔΩΝ ΚΑΙ ΕΞΟΔΩΝ». 2025: 1.076.980 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2604,7 +2604,7 @@
       "verification": "verified-official",
       "sourceIds": ["sis-statistical-bulletins"],
       "evidence": "SIS statistical bulletin. July_2026 edition. Fund final accounts. row «ΑΠΟΘΕΜΑΤΙΚΟ ΤΕΛΟΣ ΤΟΥ ΧΡΟΝΟΥ». 2025: 11.709.561 (€000)",
-      "explanation": "Fund-specific final accounts published by Social Insurance Services.",
+      "explanation": "Fund-specific final accounts published by Social Insurance Services. Authoritative value = latest Greek bulletin edition containing the year; full revision history in src/data/sifAccountsEditions.json.",
       "sensitivityRange": null
     },
     {
@@ -2704,6 +2704,20 @@
       "evidence": "«Μέσο ασφαλιστέο εισόδημα (για πλήρεις εισφορείς): Μισθωτών: €25.844 (2025)»",
       "explanation": "Cross-check for the insurable share of the wage bill.",
       "sensitivityRange": null
+    },
+    {
+      "id": "assume.beta",
+      "label": "Discount factor β (primary structural assumption)",
+      "value": 0.975,
+      "units": "per year",
+      "referenceYear": "2026 scenario",
+      "coverage": "Cyprus model (Level 2)",
+      "category": "assumption",
+      "verification": "unverified",
+      "sourceIds": ["casas-torres-2026"],
+      "evidence": "",
+      "explanation": "Primary assumption (paper value). NOT independently established as Cyprus's behavioural discount factor, and it does NOT match the 2023 capital/output target (implied K/Y 5.70 vs 2.89 observed). The alternative calibration β = 0.922 matches K/Y but implies an 8.4% net after-tax return; neither is an empirical estimate of Cyprus preferences.",
+      "sensitivityRange": [0.92, 0.99]
     }
   ]
 }

@@ -13,3 +13,4 @@ tools/oracle/.venv/
 __pycache__/
 reports/
 .stryker-tmp/
+data-cache/

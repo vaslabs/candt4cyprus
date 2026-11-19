@@ -115,6 +115,8 @@ export function cyprusAssumptions(d: Dataset, technology: 'A' | 'B' = 'B'): Cypr
     timeEndowmentHours: v('timeEndowmentHours'),
     earningsLogSd: v('earningsLogSd'),
     baselineAdoption: v('baselineAdoption'),
+    // Primary: β fixed by assumption (user decision, step 5 review). Alternative: { kind: 'fromCapitalOutput' }.
+    betaMode: { kind: 'fixed', beta: v('beta') },
   };
 }
 

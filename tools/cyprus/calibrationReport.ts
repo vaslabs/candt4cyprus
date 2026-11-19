@@ -25,14 +25,18 @@ const na = cyprusNationalAccounts2023(dataset);
 const base = cyprusAssumptions(dataset, 'B');
 const earn = cyprusMonthlyEarnings(dataset);
 const runs: [string, CalibrationResult][] = [
-  ['A. β from capital–output ratio (default, K/Y targeted)', calibrateCyprus(na, rules, base, earn)],
+  ['A. Primary: β = 0.975 (structural assumption; K/Y NOT targeted)', calibrateCyprus(na, rules, base, earn)],
   [
-    'B. β fixed at 0.975 (paper value; K/Y untargeted)',
-    calibrateCyprus(na, rules, { ...base, betaMode: { kind: 'fixed', beta: 0.975 } }, earn),
+    'B. Alternative: β from the 2023 capital/output ratio (K/Y targeted)',
+    calibrateCyprus(na, rules, { ...base, betaMode: { kind: 'fromCapitalOutput' } }, earn),
   ],
   [
     'C. As A, but statutory bottom-up SI rate (Fund contributions untargeted)',
     calibrateCyprus(na, rules, { ...base, ssRateMode: 'statutoryBottomUp' }, earn),
+  ],
+  [
+    'D. Technology A comparison (otherwise as A)',
+    calibrateCyprus(na, rules, { ...base, technology: 'A' }, earn),
   ],
 ];
 const f = (x: number, d = 4) => (Number.isFinite(x) ? x.toFixed(d) : 'n/a (data gap)');
@@ -72,14 +76,14 @@ for (const [title, r] of runs) {
   L.push('| Parameter | Value | How obtained |', '|---|---:|---|');
   const p = r.params;
   L.push(
-    `| β | ${f(p.beta)} | ${title.startsWith('A') ? 'Euler (25) with R_k = s_K/(K/Y)' : 'assumption (paper)'} |`,
+    `| β | ${f(p.beta)} | ${title.startsWith('B') ? 'Euler (25) with R_k = s_K/(K/Y)' : 'structural assumption (paper value)'} |`,
   );
   L.push(`| γ | ${f(p.gamma)} | labour supply (24) matched to hours share ${f(r.derived.hoursShare, 3)} |`);
   L.push(
     `| capital weight w_K | ${f(p.capitalShareParam)} | unit-cost identity with s_K = ${f(1 - r.derived.labourCostShare)} |`,
   );
   L.push(`| δ_k | ${f(p.deltaK)} | CFC / net capital stock (2023) |`);
-  L.push(`| R_k | ${f(r.derived.Rk)} | ${title.startsWith('A') ? 's_K/(K/Y)' : 'Euler (25) given β'} |`);
+  L.push(`| R_k | ${f(r.derived.Rk)} | ${title.startsWith('B') ? 's_K/(K/Y)' : 'Euler (25) given β'} |`);
   L.push(`| τ^c | ${f(p.taxes.consumption)} | D21 / (C + G − D21) |`);
   L.push(`| τ^l | ${f(p.taxes.labour)} | D51A / (D11 + B3G) |`);
   L.push(`| τ^k | ${f(p.taxes.capital)} | D51B / net capital income |`);
