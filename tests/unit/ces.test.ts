@@ -27,6 +27,36 @@ describe('CES known values', () => {
     const s: CesSpec = { weight1: 0.4, elasticity: 0.5 };
     expect(cesOutput(s, 2, 5)).toBeCloseTo(1 / (0.4 / 2 + 0.6 / 5), 13);
   });
+  it('inverse price classifies each failure mode', () => {
+    expect(cesInversePrice2({ weight1: 1, elasticity: 2 }, 1, 1)).toMatchObject({
+      ok: false,
+      reason: 'input2-unused',
+    });
+    // s>1: input 1 alone cheap enough → too cheap; s<1: input 1 essential and too dear.
+    expect(cesInversePrice2({ weight1: 0.5, elasticity: 2 }, 1, 0.1)).toMatchObject({
+      ok: false,
+      reason: 'input1-too-cheap',
+    });
+    expect(cesInversePrice2({ weight1: 0.5, elasticity: 0.5 }, 1, 10)).toMatchObject({
+      ok: false,
+      reason: 'input1-too-expensive',
+    });
+    expect(cesInversePrice2({ weight1: 0.987, elasticity: 1 }, 1000, 0.01)).toMatchObject({
+      ok: false,
+      reason: 'price-out-of-range',
+    });
+    const exact = cesInversePrice2({ weight1: 0.5, elasticity: 2 }, 1, 0.25); // slack = 1 − 0.5·(0.5/1)^(−1) = 0
+    expect(exact.ok).toBe(false);
+    expect(cesInversePrice2({ weight1: 0, elasticity: 2 }, 3, 1)).toEqual({
+      ok: true,
+      price: 3,
+      slack: Infinity,
+    });
+  });
+  it('unit cost and demands with weight 1 use input 1 only', () => {
+    expect(cesUnitCost({ weight1: 1, elasticity: 2 }, 5, 3)).toBe(5);
+    expect(cesUnitDemands({ weight1: 1, elasticity: 2 }, 5, 3)).toEqual([1, 0]);
+  });
   it('degenerate weights drop the unused input', () => {
     expect(cesOutput({ weight1: 0, elasticity: 2 }, 123, 7)).toBe(7);
     expect(cesUnitCost({ weight1: 0, elasticity: 2 }, 5, 3)).toBe(3);
@@ -34,6 +64,10 @@ describe('CES known values', () => {
   });
   it('zero input with substitutes (s>1) still produces; with complements gives 0', () => {
     expect(cesOutput({ weight1: 0.3, elasticity: 2 }, 0, 9)).toBeCloseTo((0.7 * 3) ** 2, 13);
+    expect(cesOutput({ weight1: 0.3, elasticity: 2 }, 4, 0)).toBeCloseTo((0.3 * 2) ** 2, 13);
+    expect(cesOutput({ weight1: 0.3, elasticity: 2 }, 0, 0)).toBe(0);
+    expect(cesOutput({ weight1: 0.3, elasticity: 1 }, 0, 9)).toBe(0);
+    expect(cesOutput({ weight1: 0.3, elasticity: 0.5 }, 4, 0)).toBe(0);
     expect(cesOutput({ weight1: 0.3, elasticity: 0.5 }, 0, 9)).toBe(0);
   });
 });

@@ -144,6 +144,74 @@ Jacobian condition estimate.
 labour-supply equation (24) or γ. Equation (24) only scales levels (Y, C, K, D, L). This
 becomes a metamorphic test: changing γ must leave every ratio and required tax rate unchanged.
 
+## 5a. Propositions used as tests
+
+### Proposition 1 (ratio invariance)
+**Claim.** In the steady state, every quantity per unit of output (K/Y, D/Y, L/Y, C/Y, I/Y,
+SS/Y, gross and net factor shares, W, R_k, R_d, and therefore the required robot-tax rate that
+holds SS/Y at a target) is independent of γ and of which eq. (24) variant is used. Only the scale
+of the economy (Y, C, K, D, L) depends on them.
+
+**Conditions.**
+- (C1) Constant returns to scale in production.
+- (C2) Price-taking firms with zero profit, so the output price = unit cost = 1.
+- (C3) A steady state where the Euler equations (25)–(26) do not involve the level of C. This
+  holds for any time-separable utility, because C_t/C_{t+1} = 1 in steady state.
+- (C4) All taxes proportional to their bases (linear).
+- (C5) The policy target is stated as a ratio (SS/Y).
+
+**Proof.** By (C3), (25)–(26) fix R_k, R_d from (β, δ, taxes) alone. By (C1)–(C2), the
+zero-profit condition $c(R_k,(1+\tau^{ssz})R_d,(1+\tau^{sse})W)=1$ fixes W. Shephard's lemma
+then gives every input per unit of output as a function of those prices. By (C4), every tax
+revenue is a linear function of these ratios times Y. γ and the eq. (24) wedges appear only in
+(24), which pins down L, and hence Y = L/(L/Y). So ratios are independent of them. The
+required tax solves a ratio equation (C5), so it inherits the invariance. ∎
+
+**Where it fails, and why this matters for Cyprus.** (C4) is violated by Cyprus's capped Social
+Insurance contributions (€68,904 ceiling) and its progressive income tax. There, contributions
+per unit of output depend on the earnings distribution and on levels, so **Proposition 1 must
+not be assumed for the Level 2 model.** Each Cyprus extension has to re-establish or drop it.
+(C3) fails off the steady state (transition paths).
+
+**Tests:** `tests/economics/paperModel.test.ts`, block "γ-invariance". It is a property test
+over random parameters and both eq. (24) variants, with a control test showing that levels
+*do* change.
+
+### Proposition 2 (existence boundary)
+**Claim.** A finite steady state exists iff every CES stage of the dual reduction has positive
+slack (and C/Y > 0; under (C1)–(C2) with R_i > δ_i, C/Y is always positive, so that check is
+defensive). For the paper's autonomous nests with elasticity > 1:
+
+- **Tech B** (with ε ≤ 1): $\mu^*$ solves $\mu^{\sigma}\,[(1+\tau^{ssz})R_d]^{1-\sigma}=1$.
+  For σ = 2 this gives $\mu^*=\sqrt{(1+\tau^{ssz})R_d}$. With ε > 1 the inner K–L stage can
+  bind first.
+- **Tech A**: $\phi^*$ solves $\phi^{\upsilon}\,c_X^{\upsilon-1}[(1+\tau^{ssz})R_d]^{1-\upsilon}=1$,
+  where $c_X$ is fixed by the outer stage and R_k. For υ = 2, $\phi^*=\sqrt{(1+\tau^{ssz})R_d/c_X}$.
+- With elasticity exactly 1 (Cobb–Douglas) labour is essential and **no** boundary exists.
+
+**Interpretation.** At the boundary, autonomous capital alone can produce at unit cost equal to
+the zero-profit price. As adoption approaches the boundary from below, labour's cost share → 0,
+p_L → ∞, L → 0 and Y, D → ∞ (an AK economy). Beyond it, no finite steady state exists. The
+paper's calibration gives **φ\* = 0.43484** (Tech A) and **μ\* = 0.48355** (Tech B). The
+independent Python oracle reproduces both to 1e-13.
+
+**Genuine non-existence vs numerical failure.** Results are classified as follows.
+
+| Outcome | Established by | Reported as |
+|---|---|---|
+| No finite steady state | analytic slack ≤ 0 (Solver 1) | `robots-dominate` / `stage-infeasible` / `invalid-capital-returns` |
+| Exists, but a price is outside double range | slack > 0, price overflows | `numerical-range` |
+| Newton did not converge | Solver 2 only | `solver-failed`. Never interpreted as non-existence. |
+| Exists, ill-conditioned | small `labourCostShare`, large `jacobianCondition` | `ok`, with diagnostics |
+
+Recovering a factor price from unit cost has condition number 1/(that factor's cost share).
+Near the boundary this is intrinsic to the model, not a solver defect. Below a cost share of
+about 1e-12, double precision cannot distinguish the point from the boundary.
+
+**Tests:** the closed form for Tech B (property test), the paper-calibration values, continuity
+of the margin across the boundary, Newton never converging beyond the boundary, conditioning
+worsening near it, and agreement with the oracle.
+
 ## 6. Discrepancies between the printed paper and its figures
 
 ### 6.1 Tech A weight θ (affects everything in Tech A)

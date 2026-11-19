@@ -9,15 +9,19 @@ the Cyprus model (Level 2) automatically. If a Cyprus preset reuses one, it gets
 the Cyprus section below, with a justification.
 
 Every simulation output records its `equationVariant`, `calibrationPreset`, `solver` and
-`convergence` status (implemented in step 3).
+`convergence` status (`RunMetadata` in `src/economics/paper/types.ts`).
+
+The numerical comparison table (printed equations vs default vs figure replication vs published
+figure values) is generated from the code: `docs/replication/variant-comparison.md`
+(`npm run replication:variants`).
 
 | ID | Topic | Type | Default (replication) | Alternative | Status |
 |---|---|---|---|---|---|
-| D1 | Tech A CES weight θ | Printed-text conflict | `capitalWeight` = 0.35 on K | `asPrinted`: θ = 0.35 on X | Planned (step 3) |
-| D2 | Tax wedges in labour supply (24) | Figures ≠ printed eq. | `asPrinted`: wedges included | `figureReplication`: wedges removed | Planned (step 3) |
-| D3 | Net income shares | Undefined in paper | Standard net definition | none; the gap is reported | Planned (step 4) |
+| D1 | Tech A CES weight θ | Printed-text conflict | `capitalWeight` = 0.35 on K | `asPrinted`: θ = 0.35 on X | Implemented + tested |
+| D2 | Tax wedges in labour supply (24) | Figures ≠ printed eq. | `asPrinted`: wedges included | `figureReplication`: wedges removed | Implemented + tested |
+| D3 | Net income shares | Undefined in paper | Standard net definition | none; the gap is reported | Implemented; gap reported |
 | D4 | Elasticity = 1 | Formula undefined | Cobb–Douglas limit | none | Implemented (core) |
-| D5 | Robot revenue counted as SS financing | Interpretation | Counted (Fig. 5) | none | Planned (step 4) |
+| D5 | Robot revenue counted as SS financing | Interpretation | Counted (Fig. 5) | none | Implemented (accounts) |
 | D6 | Choice among multiple tax roots | Unspecified | Smallest τ ≥ 0; others reported | none | Planned (step 4) |
 
 ---
@@ -57,8 +61,11 @@ Every simulation output records its `equationVariant`, `calibrationPreset`, `sol
 
 - Not defined in the paper. We use the standard definition: net factor share = (gross factor
   income − depreciation of that factor) / (Y − total depreciation).
-- At baseline this gives a net traditional-capital share of ≈ 0.14, against ≈ 0.16 read off
-  Fig. 10. **The discrepancy is preserved and reported. The definition is not tuned to match.**
+- Labour income is measured as total labour cost (1+τ^sse)WL, and robot income as
+  (1+τ^ssz)R_dD. Net shares therefore sum to exactly 1, which is tested.
+- At baseline this gives net labour 0.862 and net traditional capital 0.138, against ≈ 0.84 and
+  ≈ 0.16 read off Figs 10–11. **The discrepancy is preserved and reported. The definition is not
+  tuned to match.**
 
 ## D4. Unit elasticity
 

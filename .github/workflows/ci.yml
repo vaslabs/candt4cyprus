@@ -23,3 +23,24 @@ jobs:
       - run: npm run format:check
       - run: npm test
       - run: npm run build
+
+  oracle-crosscheck:
+    name: Independent Python/SciPy oracle cross-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: tools/oracle/requirements.txt
+      - run: pip install -r tools/oracle/requirements.txt
+      - run: python -I tools/oracle/oracle.py --out "$RUNNER_TEMP/oracle.json"
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run tests/regression/oracle.test.ts
+        env:
+          ORACLE_FIXTURE: ${{ runner.temp }}/oracle.json

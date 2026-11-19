@@ -19,7 +19,7 @@ export default tseslint.config(
   {
     // Dense numerical kernels index arrays inside loops whose bounds are proven by construction;
     // with `noUncheckedIndexedAccess` the `!` assertion is the honest, zero-cost choice there.
-    files: ['src/economics/core/**/*.ts', 'tests/**/*.ts'],
+    files: ['src/economics/core/**/*.ts', 'tests/**/*.ts', 'tools/**/*.ts'],
     rules: { '@typescript-eslint/no-non-null-assertion': 'off' },
   },
   {

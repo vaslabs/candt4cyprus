@@ -9,3 +9,7 @@ test-results/
 .env*
 # Paper is CC BY-NC 4.0 (publisher licence) — not redistributed; cite via DOI.
 *.pdf
+tools/oracle/.venv/
+__pycache__/
+reports/
+.stryker-tmp/

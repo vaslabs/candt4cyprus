@@ -17,7 +17,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:mutation": "FC_RUNS=40 stryker run",
+    "oracle": "tools/oracle/.venv/bin/python -I tools/oracle/oracle.py",
+    "replication:variants": "tsx tools/replication/variantTable.ts"
   },
   "dependencies": {
     "react": "^19.3.1",
@@ -26,6 +29,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@stryker-mutator/core": "^10.1.1",
+    "@stryker-mutator/vitest-runner": "^10.1.1",
     "@tailwindcss/vite": "^4.3.5",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
