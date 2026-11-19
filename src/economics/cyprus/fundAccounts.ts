@@ -176,8 +176,9 @@ export function checkFundAccounts(series: readonly FundYear[] = fundSeries()): F
     });
   }
   for (let i = 1; i < series.length; i++) {
-    const a = series[i - 1]!;
-    const b = series[i]!;
+    const a = series[i - 1];
+    const b = series[i];
+    if (!a || !b) continue;
     const d = b.reserveOpening - a.reserveClosing;
     out.push({
       name: `${a.year}→${b.year}: closing reserve carries forward`,
@@ -197,7 +198,7 @@ export function revisionHistory(
     .filter((e) => e.language === 'el' && e.years.includes(String(year)))
     .map((e) => ({
       editionId: e.id,
-      value: M(e.rows[item]![String(year)]!),
+      value: M(e.rows[item]?.[String(year)] ?? NaN),
       preliminary: e.preliminary.includes(String(year)),
     }));
 }

@@ -184,11 +184,12 @@ describe('SI ceiling feedback on the effective rate', () => {
     const fixed = solveWithCeiling(auto, ctx('fixedNominal'));
     expect(indexed.ok && fixed.ok).toBe(true);
     expect(indexed.ceiling.effectiveRate).toBe(cal.params.taxes.employerSS);
-    if (fixed.ok && indexed.ok && indexed.levels.W > cal.steadyState.levels.W * 1.01) {
+    const w0 = cal.steadyState.ok ? cal.steadyState.levels.W : NaN;
+    if (fixed.ok && indexed.ok && indexed.levels.W > w0 * 1.01) {
       expect(fixed.ceiling.effectiveRate).toBeLessThan(indexed.ceiling.effectiveRate);
       // fixed-point consistency
       expect(fixed.ceiling.insurableShare).toBeCloseTo(
-        insurableShareAtWageScale(ctx('fixedNominal'), fixed.levels.W / cal.steadyState.levels.W),
+        insurableShareAtWageScale(ctx('fixedNominal'), fixed.levels.W / w0),
         9,
       );
     }
