@@ -70,16 +70,52 @@ describe('provenance dataset and source register', () => {
       }).success,
     ).toBe(false);
   });
-  it('Social Insurance Fund revenue is missing for recent years and never taken from general-government D61', () => {
-    for (const id of ['sif.contributions2025', 'sif.expenditure2025', 'sif.stateDebtToFund']) {
-      const p = dataset.parameters.find((x) => x.id === id)!;
-      expect(p.value).toBeNull();
-      expect(p.verification).toBe('missing');
+  it('Social Insurance Fund accounts 2020–2025 come from the SIS final accounts and satisfy their identities', () => {
+    const v = (id: string) => dataset.parameters.find((x) => x.id === id)!;
+    const val = (id: string) => v(id).value!;
+    const inc = [
+      'privateEmployees',
+      'publicEmployees',
+      'selfEmployed',
+      'voluntary',
+      'state',
+      'interest',
+      'otherIncome',
+    ];
+    const exp = ['pensions', 'otherBenefits', 'admin'];
+    for (const y of [2020, 2021, 2022, 2023, 2024, 2025]) {
+      const a = (k: string) => val(`sif.accounts.${y}.${k}`);
+      expect(v(`sif.accounts.${y}.totalIncome`).sourceIds).toEqual(['sis-statistical-bulletins']);
+      expect(Math.abs(inc.reduce((t, k) => t + a(k), 0) - a('totalIncome'))).toBeLessThan(0.0015); // €000 rounding
+      expect(Math.abs(exp.reduce((t, k) => t + a(k), 0) - a('totalExpenditure'))).toBeLessThan(0.0015);
+      expect(Math.abs(a('totalIncome') - a('totalExpenditure') - a('balance'))).toBeLessThan(0.0015);
+      if (y > 2020)
+        expect(
+          Math.abs(val(`sif.accounts.${y - 1}.reserveClosing`) + a('balance') - a('reserveClosing')),
+        ).toBeLessThan(0.0015);
     }
+    expect(v('sif.accounts.2025.totalIncome').referenceYear).toMatch(/preliminary/);
+  });
+  it('SIS 2020 accounts reproduce the independent ILO valuation exactly (contributions include the state share)', () => {
+    const val = (id: string) => dataset.parameters.find((x) => x.id === id)!.value!;
+    const contrib = ['privateEmployees', 'publicEmployees', 'selfEmployed', 'voluntary', 'state'].reduce(
+      (t, k) => t + val(`sif.accounts.2020.${k}`),
+      0,
+    );
+    expect(contrib).toBeCloseTo(val('sif.contributions2020'), 1);
+    expect(val('sif.accounts.2020.totalExpenditure')).toBeCloseTo(val('sif.expenditure2020'), 1);
+    expect(val('sif.accounts.2020.reserveClosing')).toBeCloseTo(val('sif.reserves2020'), 0);
+  });
+  it('general-government social contributions (D61) are never used as Fund revenue', () => {
     const gg = dataset.parameters.find((x) => x.id === 'macro.ggSocialContributions2025')!;
     expect(gg.coverage).toMatch(/NOT Social Insurance Fund/);
-    const cal = calibrateCyprus(na, rules, assume, earn);
-    expect(Number.isNaN(cal.moments.find((m) => m.name.startsWith('SIF'))!.data)).toBe(true);
+    expect(na.fundContributionsExclState).toBeCloseTo(1860.987, 3); // SIS 2023, not D61 (4,380.5)
+    expect(dataset.parameters.find((x) => x.id === 'sif.stateDebtToFund')!.verification).toBe('missing');
+  });
+  it('user-provided sources are identified by file hashes', () => {
+    const s = sources.find((x) => x.id === 'sis-statistical-bulletins')!;
+    expect(s.obtainedVia).toBe('provided-by-user');
+    expect(s.files.length).toBe(11);
   });
 });
 
@@ -125,9 +161,20 @@ describe('Cyprus calibration (Level 2)', () => {
     expect(cal.params.variant).toEqual({ techAWeight: 'capitalWeight', labourSupply: 'asPrinted' });
     expect(cal.params.capitalShareParam).not.toBe(0.35);
   });
-  it('model SS = Fund employee+employer contributions at effective rates; state and GHS excluded', () => {
-    expect(cal.params.taxes.employerSS).toBeCloseTo(0.088 * cal.derived.siInsurableShare, 15);
-    expect(cal.params.taxes.employerSS).toBeLessThan(0.088);
+  it("default (top-down): model SS/Y reproduces the Fund's actual contributions (excl. state) in the base year", () => {
+    expect(cal.derived.ssRateMode).toBe('fundAccounts');
+    expect(cal.steadyState.ok && cal.steadyState.government.ssTotal / cal.steadyState.levels.Y).toBeCloseTo(
+      cal.derived.fundSsRatio,
+      12,
+    );
+    expect(cal.params.taxes.employerSS).toBeLessThan(cal.derived.statutoryBottomUpRate);
+  });
+  it('bottom-up alternative: statutory 8.8% × insurable share, and it overstates Fund revenue', () => {
+    const bu = calibrateCyprus(na, rules, { ...assume, ssRateMode: 'statutoryBottomUp' }, earn);
+    expect(bu.params.taxes.employerSS).toBeCloseTo(0.088 * bu.derived.siInsurableShare, 15);
+    expect(bu.steadyState.ok && bu.steadyState.government.ssTotal / bu.steadyState.levels.Y).toBeGreaterThan(
+      bu.derived.fundSsRatio,
+    );
   });
   it('the paper replication preset is untouched', () => {
     const p = paperParameters('A');

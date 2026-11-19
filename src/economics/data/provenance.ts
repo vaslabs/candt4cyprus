@@ -16,18 +16,26 @@ export const SOURCE_KINDS = [
   'academic',
 ] as const;
 
-export const sourceSchema = z.object({
-  id: z.string().regex(/^[a-z0-9-]+$/),
-  title: z.string().min(3),
-  publisher: z.string().min(2),
-  url: z.url(),
-  kind: z.enum(SOURCE_KINDS),
-  /** ISO date or null when the page does not show one. */
-  publicationDate: z.iso.date().nullable(),
-  accessed: z.iso.date(),
-  language: z.enum(['en', 'el']).default('en'),
-  notes: z.string().default(''),
-});
+export const sourceSchema = z
+  .object({
+    id: z.string().regex(/^[a-z0-9-]+$/),
+    title: z.string().min(3),
+    publisher: z.string().min(2),
+    /** Public URL; may be null only for documents provided by the user (identified by file hashes). */
+    url: z.url().nullable(),
+    obtainedVia: z.enum(['web', 'provided-by-user']).default('web'),
+    /** Local files the values were extracted from, with SHA-256 so the exact copy is identifiable. */
+    files: z.array(z.object({ name: z.string(), sha256: z.string().regex(/^[0-9a-f]{64}$/) })).default([]),
+    kind: z.enum(SOURCE_KINDS),
+    /** ISO date or null when the page does not show one. */
+    publicationDate: z.iso.date().nullable(),
+    accessed: z.iso.date(),
+    language: z.enum(['en', 'el']).default('en'),
+    notes: z.string().default(''),
+  })
+  .refine((s) => s.url !== null || (s.obtainedVia === 'provided-by-user' && s.files.length > 0), {
+    message: 'a source without a URL must be a user-provided document identified by file hashes',
+  });
 export type Source = z.infer<typeof sourceSchema>;
 
 export const CATEGORIES = ['statutory', 'measured', 'calibrated', 'assumption', 'scenario'] as const;

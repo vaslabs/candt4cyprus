@@ -31,6 +31,10 @@ export interface CrossCheckInputs {
   readonly gdp2020: number;
   /** Ageing Report 2022 employer + employee pension contributions, % GDP (includes GEPS). */
   readonly ageingReportEmployerEmployeePctGdp2022: number;
+  readonly meanInsurableEarnings2023: number;
+  readonly meanWagePerEmployee2023: number;
+  readonly fundContributionsInclState2025: number;
+  readonly gdp2025: number;
 }
 
 export function calibrationCrossChecks(
@@ -53,6 +57,14 @@ export function calibrationCrossChecks(
         'Both from CYSTAT 2025 monthly earnings vs the 2026 monthly ceiling (one-year offset: 2026 wages are higher, so the true 2026 share is slightly lower). Bands: uniform within bands; lognormal: log-sd from mean/median.',
     },
     {
+      name: 'Insurable share used vs SIS mean insurable earnings ÷ NA mean wage (2023)',
+      model: r.derived.siInsurableShare,
+      reference: x.meanInsurableEarnings2023 / x.meanWagePerEmployee2023,
+      units: 'fraction',
+      caveat:
+        'SIS figure is for full contributors (excludes partial-year contributors); NA wage = D11 / employees.',
+    },
+    {
       name: 'Share of employees above the SI ceiling: lognormal vs CYSTAT bands',
       model: shareAboveCeiling({ mean: x.meanMonthly, logSd: s }, x.monthlyCeiling),
       reference: x.observedShareAboveCeiling,
@@ -62,26 +74,22 @@ export function calibrationCrossChecks(
         shareAboveFromBands(x.earningsBands, x.monthlyCeiling).toFixed(4),
     },
   ];
+  out.push({
+    name: 'Fund contributions incl. state, % of GDP: 2025 (SIS, preliminary) vs 2020 (ILO)',
+    model: x.fundContributionsInclState2025 / x.gdp2025,
+    reference: x.sifContributions2020 / x.gdp2020,
+    units: 'fraction of GDP',
+    caveat: 'Both official Fund figures; shows the trend, not a model comparison. 2020 was a COVID year.',
+  });
   if (r.steadyState.ok) {
-    const ssPerFactorOutput = r.steadyState.government.ssTotal / r.steadyState.levels.Y;
-    out.push(
-      {
-        name: 'Fund contributions (employee+employer, model) vs official Fund contribution income 2020, % of GDP',
-        model: (ssPerFactorOutput * factorOutputForRatio) / gdpForRatio,
-        reference: x.sifContributions2020 / x.gdp2020,
-        units: 'fraction of GDP',
-        caveat:
-          'Reference is 2020 (COVID year), includes self-employed and possibly the state share; not a like-for-like target.',
-      },
-      {
-        name: 'Fund contributions (employee+employer, model) vs Ageing Report 2022 employer+employee contributions, % of GDP',
-        model: (ssPerFactorOutput * factorOutputForRatio) / gdpForRatio,
-        reference: x.ageingReportEmployerEmployeePctGdp2022,
-        units: 'fraction of GDP',
-        caveat:
-          "Ageing Report includes the public servants' pension scheme employee contribution; projection base year 2022.",
-      },
-    );
+    out.push({
+      name: 'Model Fund contributions (excl. state) vs Ageing Report 2022 employer + employee, % of GDP',
+      model:
+        ((r.steadyState.government.ssTotal / r.steadyState.levels.Y) * factorOutputForRatio) / gdpForRatio,
+      reference: x.ageingReportEmployerEmployeePctGdp2022,
+      units: 'fraction of GDP',
+      caveat: "Ageing Report includes the public servants' scheme employee contribution; base year 2022.",
+    });
   }
   return out;
 }

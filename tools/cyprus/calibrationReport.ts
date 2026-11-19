@@ -30,6 +30,10 @@ const runs: [string, CalibrationResult][] = [
     'B. β fixed at 0.975 (paper value; K/Y untargeted)',
     calibrateCyprus(na, rules, { ...base, betaMode: { kind: 'fixed', beta: 0.975 } }, earn),
   ],
+  [
+    'C. As A, but statutory bottom-up SI rate (Fund contributions untargeted)',
+    calibrateCyprus(na, rules, { ...base, ssRateMode: 'statutoryBottomUp' }, earn),
+  ],
 ];
 const f = (x: number, d = 4) => (Number.isFinite(x) ? x.toFixed(d) : 'n/a (data gap)');
 const eur = (x: number) => `€${Math.round(x).toLocaleString('en-GB')}`;
@@ -80,7 +84,9 @@ for (const [title, r] of runs) {
   L.push(`| τ^l | ${f(p.taxes.labour)} | D51A / (D11 + B3G) |`);
   L.push(`| τ^k | ${f(p.taxes.capital)} | D51B / net capital income |`);
   L.push(
-    `| τ^sse = τ^ssw | ${f(p.taxes.employerSS)} | 8.8% × insurable share ${f(r.derived.siInsurableShare)} (${r.derived.insurableShareMethod}, CYSTAT ${r.derived.earningsYear} monthly earnings) |`,
+    r.derived.ssRateMode === 'fundAccounts'
+      ? `| τ^sse = τ^ssw | ${f(p.taxes.employerSS)} | top-down: model SS/Y matches Fund contributions (excl. state) / factor output = ${f(r.derived.fundSsRatio)} (SIS accounts ${na.year}). Statutory bottom-up would give ${f(r.derived.statutoryBottomUpRate)}. |`
+      : `| τ^sse = τ^ssw | ${f(p.taxes.employerSS)} | bottom-up: 8.8% × insurable share ${f(r.derived.siInsurableShare)} (${r.derived.insurableShareMethod}, CYSTAT ${r.derived.earningsYear} monthly earnings) |`,
   );
   L.push(
     `| ρ, υ/σ, δ_d | ${p.elasticityKL}, ${p.elasticityAuto}, ${p.deltaD} | assumptions (paper values) with ranges |`,

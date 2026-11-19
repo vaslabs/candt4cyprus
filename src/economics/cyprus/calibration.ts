@@ -42,6 +42,8 @@ export interface CyprusNationalAccounts {
   readonly personalIncomeTax: number; // D51A, S13 receivable
   readonly corporateIncomeTax: number; // D51B
   readonly taxesOnProducts: number; // D21, S13 receivable
+  /** Social Insurance Fund contributions excluding the state contribution, same year (€m; SIS final accounts). */
+  readonly fundContributionsExclState: number;
 }
 
 /** Structural assumptions (not measured); each has a range in the data file. */
@@ -63,6 +65,14 @@ export interface CyprusAssumptions {
    *  'lognormal': lognormal with the published mean and `earningsLogSd`.
    */
   readonly insurableShareMethod?: 'bands' | 'lognormal';
+  /**
+   * Effective SI rate on the model wage bill (MODEL_DEVIATIONS C4).
+   *  'fundAccounts' (default): top-down, chosen so model SS/Y equals the Fund's actual employee +
+   *    employer + self-employed + voluntary contributions / factor output in the base year.
+   *  'statutoryBottomUp': statutory rate × insurable share (overstates revenue because the model wage
+   *    bill includes non-Fund employer contributions and imputed self-employed income).
+   */
+  readonly ssRateMode?: 'fundAccounts' | 'statutoryBottomUp';
   /** Adoption parameter in the base year (no Cyprus estimate exists; scenario value). */
   readonly baselineAdoption: number;
   /**
@@ -92,6 +102,9 @@ export interface CalibrationResult {
     readonly hoursShare: number;
     readonly siInsurableShare: number;
     readonly insurableShareMethod: 'bands' | 'lognormal';
+    readonly ssRateMode: 'fundAccounts' | 'statutoryBottomUp';
+    readonly fundSsRatio: number;
+    readonly statutoryBottomUpRate: number;
     readonly earningsYear: number;
     readonly taxes: {
       readonly consumption: number;
@@ -141,8 +154,13 @@ export function calibrateCyprus(
     method === 'bands'
       ? insurableShareFromBands(earnings.bands, earnings.meanMonthly, ceiling)
       : insurableShare({ mean: earnings.meanMonthly, logSd: a.earningsLogSd }, ceiling);
-  const tauSse = rules.socialInsurance.employerRate * share;
-  const tauSsw = rules.socialInsurance.employeeRate * share;
+  // Observed Fund contributions per unit of factor output (base year).
+  const fundSsRatio = na.fundContributionsExclState / factorOutput;
+  const ssMode = a.ssRateMode ?? 'fundAccounts';
+  // Top-down: 2t·WL/Y = c with WL/Y = s_L/(1+t)  ⇒  t = c / (2 s_L − c). Bottom-up: statutory × share.
+  const topDown = fundSsRatio / (2 * sL - fundSsRatio);
+  const tauSse = ssMode === 'fundAccounts' ? topDown : rules.socialInsurance.employerRate * share;
+  const tauSsw = ssMode === 'fundAccounts' ? topDown : rules.socialInsurance.employeeRate * share;
 
   // Step 3–4: R_k and β (mode-dependent)
   const mode = a.betaMode ?? { kind: 'fromCapitalOutput' as const };
@@ -279,11 +297,11 @@ export function calibrateCyprus(
         note: 'model C includes what government consumes in the data (lump-sum rebate)',
       },
       {
-        name: 'SIF contributions (employee+employer) / factor output',
-        data: NaN,
+        name: 'Fund contributions (excl. state) / factor output',
+        data: fundSsRatio,
         model: s.government.ssTotal / s.levels.Y,
-        targeted: false,
-        note: 'no official SIF contribution figure after 2020 (data gap)',
+        targeted: ssMode === 'fundAccounts',
+        note: `SIS final accounts ${na.year}; ${ssMode === 'fundAccounts' ? 'targeted (top-down effective rate)' : 'untargeted (statutory bottom-up)'}`,
       },
     );
   }
@@ -297,6 +315,9 @@ export function calibrateCyprus(
       hoursShare,
       siInsurableShare: share,
       insurableShareMethod: method,
+      ssRateMode: ssMode,
+      fundSsRatio,
+      statutoryBottomUpRate: rules.socialInsurance.employerRate * share,
       earningsYear: earnings.year,
       taxes: { consumption: tauC, labour: tauL, capital: tauK, employerSS: tauSse, employeeSS: tauSsw },
     },

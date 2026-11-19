@@ -3,22 +3,40 @@
 Access date for all sources: 2026-11-19. Full provenance: `src/data/sources.json` and
 `src/data/cyprus2026.json`. In the app, every number links back to these records.
 
-## 1. Social Insurance Fund finances (the most important gap)
+## 1. Social Insurance Fund finances: mostly closed
 
-| Item | Status | Handling |
-|---|---|---|
-| Fund contribution income, revenue, expenditure, reserves, **2021–2025** | **Missing.** No official Fund accounts after 2020 could be retrieved. Audit Office and Social Insurance Services documents for 2021–2024 are behind gov.cy access controls. | Fields set to `null` with status `missing`. 2020 official values (ILO actuarial valuation, Annex 3) are recorded for reference only. |
-| Contribution income by payer (employee / employer / self-employed / state) in euros | **Missing** (only rates, and Ageing Report % of GDP, which mixes in the public servants' scheme) | Not used. The model uses statutory rates × insurable share. |
-| State's accumulated obligation to the Fund | **Conflicting:** €10.6bn (MoF, end-2023), €12.03bn (Dec 2023), ≈€12bn (Fiscal Council, 2026), €13.9bn (press, Jul 2026) | Left unset. Only explicitly hypothetical scenarios are allowed. |
-| Recent annual surpluses (2022–2025) | Secondary only, and sources conflict | Not used. |
-| Reserve composition | Conflicting: 98.6% non-tradeable government deposits (ILO, 2020) vs 95% government bonds (Fiscal Council, 2026) | Recorded in notes only. |
+**Source:** Social Insurance Services statistical bulletins (January and July editions,
+2021–2026), section "Τελικοί λογαριασμοί του Ταμείου Κοινωνικών Ασφαλίσεων" (€000), provided by
+the project owner. They are identified in the source register by SHA-256 hashes. The public URL
+is still to be recorded.
+
+**Integrity checks (all passed):**
+- income, expenditure and reserve identities in all 11 editions, within ±€1k rounding;
+- reserve continuity 2016–2025;
+- 2020 reproduces the independent ILO actuarial valuation exactly: contributions incl. the state share €1,738.1m, expenditure €1,636.8m, reserve €8,066.7m;
+- the 2024 state contribution matches the Treasury's cash figure (€633.1m vs €633.5m);
+- revisions between editions are minor (2022 income +€0.2m after being marked final; 2024 refined from preliminary).
+
+| Fund, € million | 2021 | 2022 | 2023 | 2024 | 2025 (prelim.) |
+|---|---:|---:|---:|---:|---:|
+| Contributions excl. state | 1,456.0 | 1,643.2 | 1,861.0 | 2,136.7 | 2,324.6 |
+| State contribution | 431.5 | 486.6 | 551.7 | 633.1 | 689.3 |
+| Interest | 0.9 | 47.5 | 327.8 | 393.4 | 256.2 |
+| Total expenditure | 1,694.9 | 1,855.4 | 1,940.1 | 2,074.8 | 2,243.3 |
+| Balance | 227.2 | 359.6 | 844.1 | 1,135.0 | 1,077.0 |
+| Reserve, end of year | 8,293.9 | 8,653.5 | 9,497.6 | 10,632.6 | 11,709.6 |
+
+**Still missing or limited:**
+- Employee vs employer split *within* each employee category (the accounts combine them).
+- Pensions by type (old-age / survivors / invalidity) in euros.
+- **State's accumulated obligation to the Fund:** sources still conflict (€10.6bn–€13.9bn). The
+  Fund's accounting reserve (€11.71bn end-2025) is a different concept and is recorded separately.
+  Hypothetical scenarios only.
+- **Correction of an earlier secondary figure:** the press "Fund balance" figures (546 / 1,174 / 1,421
+  for 2022–24) are Eurostat S1314 net lending (the social security funds subsector, which also
+  includes the HIO/GHS), not the Fund's own balance (360 / 844 / 1,135).
 
 **General-government social contributions (€4,899.8m in 2025) are never used as Fund revenue.**
-That aggregate includes GHS, other funds and imputed contributions.
-
-**What would close the gap:** Social Insurance Fund financial statements for 2021–2025 (Social
-Insurance Services or Audit Office), with contributions split by payer and the state
-contribution reported on both a cash and an accrual basis.
 
 ## 2. Statutory rules not fully confirmed
 
@@ -63,4 +81,7 @@ contribution reported on both a cash and an accrual basis.
 
   An alternative calibration with β fixed at 0.975 gives K/Y = 5.70 (untargeted). Both are reported. **Decision needed.**
 - **Investment/output:** the model's no-growth steady state has replacement investment only (12.8% of output, against 24.5% in the data).
-- **Effective SI rate depends on the earnings distribution:** 7.92% (bands) vs 8.10% (lognormal), against 8.8% statutory.
+- **Effective SI rate:** the default is now top-down. It reproduces the Fund's actual 2023
+  contributions (τ = 0.0610 per side). Statutory bottom-up gives 0.0792 and overstates revenue by
+  ≈27%, because the model wage bill includes non-Fund employer contributions and imputed
+  self-employed income. **Decision needed** on which to use as default.

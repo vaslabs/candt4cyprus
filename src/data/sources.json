@@ -250,7 +250,7 @@
     "publicationDate": null,
     "accessed": "2026-11-19",
     "language": "el",
-    "notes": "October 2026 (day not shown). Synthesis of ministerial statements and other reports; not audited Fund accounts."
+    "notes": "October 2026 (day not shown). Synthesis of ministerial statements and other reports; not audited Fund accounts. Press figures for the \"Fund balance\" (546/1,174/1,421 for 2022–24) equal Eurostat S1314 net lending (social security funds subsector, incl. HIO), NOT the Fund's own balance."
   },
   {
     "id": "td-reform-guide-2026",
@@ -339,5 +339,63 @@
     "accessed": "2026-11-19",
     "language": "en",
     "notes": "\"Last reviewed 04 August 2026\"."
+  },
+  {
+    "id": "sis-statistical-bulletins",
+    "title": "Στατιστικά στοιχεία που αφορούν τα σχέδια που εφαρμόζουν οι Υπηρεσίες Κοινωνικών Ασφαλίσεων (editions January/July 2021–2026)",
+    "publisher": "Social Insurance Services (ΥΚΑ), Ministry of Labour, Welfare and Social Insurance",
+    "url": null,
+    "obtainedVia": "provided-by-user",
+    "files": [
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2021.doc",
+        "sha256": "a8d881eefcebe928c72c254fc45f40604cd50cddf3bc6ba372d8623513084657"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2022.doc",
+        "sha256": "c73146e7b84d1bc13c5075ace582c6b06d6a6dd959aacff3c71bb248154257d4"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2023.doc",
+        "sha256": "d8007064f2def903faa88b7627b4094f6a6d391ad0d55c04205bc88922c1f687"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2024.doc",
+        "sha256": "3b4277218903a10c1fd3dd3614da7e680046e852d249e5d0f8dba588dfb02b81"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2025.doc",
+        "sha256": "227fbeb37e4631640748e29c79d2a79c26159c2ce0e4131cc268ab481337c0c3"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιανουάριος_2026.doc",
+        "sha256": "14213ce3d4a85a69df30bf022daafabe884351e047e67207fef8b16b32d07fee"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2021.doc",
+        "sha256": "08a854691f504f7d2a9e97c8124515d00aec4e8c9b373d05235f52de273e7728"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2022.doc",
+        "sha256": "6961e940ee8e6a44d3d68dd95b4e9f34ccc438a4c1cd9fa778f351c3d6b37923"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2023.doc",
+        "sha256": "5bd9571b508b73d7e342af138b755d48f41e1d67cc64ff07c7835dedbb895b8a"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2024.doc",
+        "sha256": "0abc69b0cfa78ca3a4998228dbef809d38a369a8178e15f8d8a04139707e150d"
+      },
+      {
+        "name": "Στατιστικά_στοιχεία_ΥΚΑ_Ιούλιος_2026.doc",
+        "sha256": "ba214bd83ffa35c76338eedcebd7ec3a8c6b0ce1524ce5a586d46fb2eef5efc6"
+      }
+    ],
+    "kind": "official-report",
+    "publicationDate": null,
+    "accessed": "2026-11-19",
+    "language": "el",
+    "notes": "Section \"Τελικοί λογαριασμοί του Ταμείου Κοινωνικών Ασφαλίσεων\" (€000). Latest edition July 2026 (file saved 2026-07-10) covers 2022–2025, 2025 preliminary. Extracted with antiword; checked: income/expenditure/reserve identities (±€1k rounding), reserve continuity 2016–2025, 2020 equals the ILO valuation exactly (contributions incl. state €1,738,055k). Public URL to be recorded."
   }
 ]

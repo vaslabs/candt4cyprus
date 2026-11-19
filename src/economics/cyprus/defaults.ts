@@ -99,6 +99,9 @@ export function cyprusNationalAccounts2023(d: Dataset): CyprusNationalAccounts {
     personalIncomeTax: v('personalIncomeTax'),
     corporateIncomeTax: v('corporateIncomeTax'),
     taxesOnProducts: v('taxesOnProducts'),
+    fundContributionsExclState: (
+      ['privateEmployees', 'publicEmployees', 'selfEmployed', 'voluntary'] as const
+    ).reduce((s, k) => s + parameterValue(d, `sif.accounts.2023.${k}`), 0),
   };
 }
 
@@ -145,5 +148,11 @@ export function cyprusCrossCheckInputs(d: Dataset): CrossCheckInputs {
     sifContributions2020: v('sif.contributions2020'),
     gdp2020: v('macro.gdp2020'),
     ageingReportEmployerEmployeePctGdp2022: v('sif.ageingReportEmployerEmployeePctGdp2022'),
+    meanInsurableEarnings2023: v('sif.meanInsurableEarningsEmployees.2023'),
+    meanWagePerEmployee2023: (v('na2023.wagesAndSalaries') * 1e6) / (v('na2023.employeesThousands') * 1e3),
+    fundContributionsInclState2025: (
+      ['privateEmployees', 'publicEmployees', 'selfEmployed', 'voluntary', 'state'] as const
+    ).reduce((s, k) => s + v(`sif.accounts.2025.${k}`), 0),
+    gdp2025: v('macro.gdp2025'),
   };
 }
