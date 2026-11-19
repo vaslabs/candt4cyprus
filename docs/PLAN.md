@@ -8,7 +8,7 @@
 | 4 ✅ | Endogenous robot taxes (schemes 1–3), sweeps, replication report with benchmark errors | 2 |
 | 5 ✅ | Cyprus statutory rules (SI, GHS, funds, income tax) + provenance schema; source verification | 3 |
 | 6 ✅ | Cyprus macro calibration bridge (Level 2), merged into step 5 | 3 |
-| 7 | Exploratory policies E/F/G + firm simulator (Level 3) | 4 |
+| 7 ✅ | Exploratory policies E/F/G + firm simulator (Level 3) — reviewer's "Step 6" | 4 |
 | 8 | Web worker protocol, state, scenario persistence/import/export | 5 |
 | 9 | Pages, charts, report export | 5 |
 | 10 | GitHub Pages workflow, Playwright e2e, OSS docs, README | 6–7 |

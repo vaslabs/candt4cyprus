@@ -28,7 +28,8 @@ jobs:
           npm run replication:variants
           npm run replication:report
           npm run cyprus:report
-          git diff --exit-code -- docs/replication docs/cyprus
+          npm run policies:report
+          git diff --exit-code -- docs/replication docs/cyprus docs/policies
       - run: npm run build
 
   oracle-crosscheck:
