@@ -1,5 +1,7 @@
 # Cyprus AI, Automation and Social Insurance simulator
 
+**Live app: <https://vaslabs.github.io/candt4cyprus/>**
+
 A static, browser-only research simulator. It asks how Cyprus could finance its Social Insurance Fund if AI and automation reduce labour's share of income.
 
 It replicates Casas & Torres (2026), *Automation, Taxation, and Social Security Sustainability*, Hacienda Pública Española 256(1):69–104 ([DOI 10.7866/HPE-RPE.26.1.3](https://doi.org/10.7866/HPE-RPE.26.1.3)). It then applies the model to a documented Cyprus calibration and compares the paper's robot taxes (B–D) with exploratory instruments E, F, G and G′.
