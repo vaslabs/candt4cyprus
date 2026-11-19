@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.vite/
+*.log
+.DS_Store
+.env*
+# Paper is CC BY-NC 4.0 (publisher licence) — not redistributed; cite via DOI.
+*.pdf
