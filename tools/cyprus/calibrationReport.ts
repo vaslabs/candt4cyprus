@@ -17,6 +17,7 @@ import {
   loadCyprusDataset,
 } from '../../src/economics/cyprus/defaults';
 import { employeeResult, salarySchedule } from '../../src/economics/cyprus/employerCosts';
+import { salaryWith13th } from '../../src/economics/cyprus/earningsAttribution';
 import { total } from '../../src/economics/cyprus/contributionRules';
 
 const { dataset, sources } = loadCyprusDataset();
@@ -123,6 +124,14 @@ for (const s of [15000, 30000, 50000, 68904, 100000, 250000]) {
   const c = e.contributions.lines;
   L.push(
     `| ${eur(s)} | ${eur(e.contributions.siInsurableAnnual)} | ${eur(total(c, { item: 'si', payer: 'employee' }))} | ${eur(total(c, { item: 'si', payer: 'employer' }))} | ${eur(total(c, { item: 'si', payer: 'state' }))} | ${eur(e.employeeGHS)} | ${eur(e.employerStatutory - total(c, { item: 'si', payer: 'employer' }))} | ${eur(e.incomeTax.tax)} | ${eur(e.employerLabourCost)} | ${eur(e.netPay)} |`,
+  );
+}
+{
+  const r13 = employeeResult(salaryWith13th(72000), rules);
+  const leg = employeeResult(salarySchedule(78000, 13), rules);
+  L.push(
+    '',
+    `13th salary example (€72,000 regular + €6,000 13th salary): insurable ${eur(r13.contributions.siInsurableAnnual)} under Reg. 8(3) earning-period attribution, against ${eur(leg.contributions.siInsurableAnnual)} under the legacy independent-payment assumption.`,
   );
 }
 L.push(

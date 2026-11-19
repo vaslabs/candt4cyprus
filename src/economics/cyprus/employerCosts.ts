@@ -8,6 +8,7 @@ import {
   employeeContributions,
   total,
   type ContributionBreakdown,
+  type EarningsInput,
   type EmployeeEarnings,
 } from './contributionRules';
 import { incomeTax, type IncomeTaxResult } from './incomeTax';
@@ -25,7 +26,7 @@ export interface EmployeeResult {
 }
 
 export function employeeResult(
-  e: EmployeeEarnings,
+  e: EarningsInput,
   rules: CyprusStatutoryRules,
   otherDeductions = 0,
 ): EmployeeResult {
@@ -55,7 +56,7 @@ export function employeeResult(
 export interface PayrollGroup {
   /** Number of employees with this earnings pattern. */
   readonly headcount: number;
-  readonly earnings: EmployeeEarnings;
+  readonly earnings: EarningsInput;
 }
 
 export interface PayrollResult {
@@ -113,7 +114,10 @@ export function payroll(groups: readonly PayrollGroup[], rules: CyprusStatutoryR
   };
 }
 
-/** Equal monthly salary schedule: annual salary over 12 or 13 payments (13th as its own period). */
+/**
+ * LEGACY helper: annual salary over 12 or 13 payments, the 13th treated as its own period
+ * (independent-payment ceiling, an assumption). Prefer `salaryWith13th` (earning-period attribution).
+ */
 export function salarySchedule(annualSalary: number, payments: 12 | 13 = 12): EmployeeEarnings {
   return {
     periodType: 'monthly',

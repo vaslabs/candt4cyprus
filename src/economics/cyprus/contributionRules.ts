@@ -9,8 +9,15 @@
  *    with their own recipients; none of them is Social Insurance Fund revenue.
  */
 import type { ContributionLine, CyprusStatutoryRules, Recipient } from './types';
+import { attributeEarnings, type AttributedEarnings, type AttributionResult } from './earningsAttribution';
 
+/**
+ * LEGACY input (independent-payment ceiling): every entry is treated as its own contribution period,
+ * so a 13th salary listed as a 13th entry is capped separately. This is an explicitly labelled
+ * assumption, NOT verified law; use `AttributedEarnings` (earning-period attribution, Reg. 8(3)).
+ */
 export interface EmployeeEarnings {
+  readonly attribution?: 'legacy-independent-payment';
   /** Gross earnings in each pay period (€). One entry per period actually paid. */
   readonly periodEarnings: readonly number[];
   readonly periodType: 'monthly' | 'weekly';
@@ -18,12 +25,18 @@ export interface EmployeeEarnings {
   readonly centralHolidayFund?: boolean;
 }
 
+export type EarningsInput = EmployeeEarnings | AttributedEarnings;
+
 export interface ContributionBreakdown {
   readonly grossAnnual: number;
   /** Sum over periods of min(period earnings, SI period ceiling). */
   readonly siInsurableAnnual: number;
   readonly ghsBaseAnnual: number;
   readonly lines: readonly ContributionLine[];
+  /** Which ceiling rule produced the insurable base. */
+  readonly ceilingRule: 'earning-period-attribution (Reg. 8(3))' | 'legacy-independent-payment (assumption)';
+  /** Payment-level attribution detail (earning-period rule only). */
+  readonly attribution?: AttributionResult;
 }
 
 const sum = (xs: readonly number[]) => xs.reduce((a, b) => a + b, 0);
@@ -41,14 +54,20 @@ function assertEarnings(e: EmployeeEarnings): void {
   }
 }
 
-export function employeeContributions(
-  e: EmployeeEarnings,
-  rules: CyprusStatutoryRules,
-): ContributionBreakdown {
-  assertEarnings(e);
+export function employeeContributions(e: EarningsInput, rules: CyprusStatutoryRules): ContributionBreakdown {
   const ceiling = siPeriodCeiling(rules, e.periodType);
-  const grossAnnual = sum(e.periodEarnings);
-  const siInsurableAnnual = sum(e.periodEarnings.map((x) => Math.min(x, ceiling)));
+  let grossAnnual: number;
+  let siInsurableAnnual: number;
+  let attribution: AttributionResult | undefined;
+  if (e.attribution === 'earning-period') {
+    attribution = attributeEarnings(e, ceiling);
+    grossAnnual = attribution.grossAnnual;
+    siInsurableAnnual = attribution.siInsurableAnnual;
+  } else {
+    assertEarnings(e);
+    grossAnnual = sum(e.periodEarnings);
+    siInsurableAnnual = sum(e.periodEarnings.map((x) => Math.min(x, ceiling)));
+  }
   const ghsBaseAnnual = Math.min(grossAnnual, rules.ghs.annualCeiling);
   const si = rules.socialInsurance;
   const g = rules.ghs;
@@ -91,7 +110,16 @@ export function employeeContributions(
       ),
     );
   }
-  return { grossAnnual, siInsurableAnnual, ghsBaseAnnual, lines };
+  return {
+    grossAnnual,
+    siInsurableAnnual,
+    ghsBaseAnnual,
+    lines,
+    ceilingRule: attribution
+      ? 'earning-period-attribution (Reg. 8(3))'
+      : 'legacy-independent-payment (assumption)',
+    ...(attribution ? { attribution } : {}),
+  };
 }
 
 /** Self-employed SI and GHS on declared insurable income (annual basis). */
@@ -112,6 +140,7 @@ export function selfEmployedContributions(
     grossAnnual: insurableIncome,
     siInsurableAnnual: siBase,
     ghsBaseAnnual: ghsBase,
+    ceilingRule: 'earning-period-attribution (Reg. 8(3))',
     lines: [
       {
         item: 'si',

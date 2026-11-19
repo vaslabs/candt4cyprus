@@ -473,5 +473,31 @@
     "accessed": "2026-11-19",
     "language": "el",
     "notes": "Official archive (General Statistical Data): Greek https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/page21_gr/page21_gr, English https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/page21_en/page21_en. Section \"Final accounts of the Social Insurance Fund\" (€000). Extraction: tools/sis/extract_bulletins.py (antiword; SHA-256 verified against tools/sis/manifest.json) → src/data/sifAccountsEditions.json (24 editions, revision history). Authoritative value per year = latest Greek edition. Checks: identities within ±€1k; reserve continuity; Greek = English except one €1k rounding cell; 2020 equals the ILO valuation exactly. The 11 copies first supplied by the project owner are byte-identical to the official Greek downloads. Original Word files are not redistributed (terms not established). No July 2025 edition exists."
+  },
+  {
+    "id": "kdp-289-2010",
+    "title": "Οι περί Κοινωνικών Ασφαλίσεων (Εισφορές) Κανονισμοί του 2010 (Κ.Δ.Π. 289/2010), Reg. 8 and 24",
+    "publisher": "Official Gazette of the Republic of Cyprus, Παρ. III(I), Αρ. 4437, pp. 1693–1700",
+    "url": "https://www.cylaw.org/KDP/data/2010_1_289.pdf",
+    "obtainedVia": "web",
+    "files": [],
+    "kind": "official-legal",
+    "publicationDate": "2010-07-09",
+    "accessed": "2026-11-19",
+    "language": "el",
+    "notes": "Reg. 8(3): multi-period earnings (13th salary, commissions, other) divided equally over the contribution periods they relate to, capped per period by the ceiling net of earnings already insured. Reg. 8(4): rounding to whole euro. Amendments of 24.2.2012 and 15.11.2013 not checked against Reg. 8; 167/2017 and 308/2020 do not amend it."
+  },
+  {
+    "id": "sis-employers-guide",
+    "title": "Οδηγός Εργοδότη (Employer's Guide)",
+    "publisher": "Social Insurance Services",
+    "url": "https://www.mlsi.gov.cy/mlsi/sid/sidv2.nsf/All/E7935B990CDA4E8DC2257C9200462145?OpenDocument",
+    "obtainedVia": "web",
+    "files": [],
+    "kind": "official-report",
+    "publicationDate": "2025-06-02",
+    "accessed": "2026-11-19",
+    "language": "el",
+    "notes": "p. 2 earnings definition (incl. 13th/14th salary, commissions); p. 3 cap rule for payments relating to more than one period. Date = PDF creation date."
   }
 ]

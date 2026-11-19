@@ -41,6 +41,26 @@ export interface TaxRates {
   readonly robotSS: number;
 }
 
+/**
+ * Exploratory policy extensions (Level 2; NOT part of Casas & Torres). See docs/policies/POLICIES.md.
+ * All rates are fractions; `coverage` is the share of output produced by firms liable to the
+ * contribution (a representative-firm approximation of size thresholds and sector exemptions).
+ */
+export interface PolicyExtensions {
+  /** E: contribution on firm gross value added (GVA = Y at factor cost in the model). */
+  readonly valueAdded?: { readonly rate: number; readonly coverage: number };
+  /**
+   * F: labour-share-adjusted contribution, τ_F × max(0, s̄·GVA − employee compensation), where
+   * employee compensation = (1+τ^sse)·W·L (employer SS included, as in national accounts D1).
+   */
+  readonly labourShare?: { readonly rate: number; readonly benchmark: number; readonly coverage: number };
+  /**
+   * G: excess-economic-profit contribution, τ_G × (R − δ − r_n)⁺ per unit of each capital, paid by
+   * capital owners. With r_n equal to the required pre-tax net return the policy is neutral.
+   */
+  readonly excessProfit?: { readonly rate: number; readonly normalReturn: number };
+}
+
 export interface PaperParameters {
   readonly technology: Technology;
   /** β discount factor. */
@@ -61,6 +81,8 @@ export interface PaperParameters {
   readonly adoption: number;
   readonly taxes: TaxRates;
   readonly variant: EquationVariant;
+  /** Exploratory policies E/F/G; absent in the paper replication. */
+  readonly extensions?: PolicyExtensions;
 }
 
 /** Endogenous steady-state values: the paper's 10 unknowns plus derived investment split. */
@@ -94,12 +116,20 @@ export interface GovernmentAccounts {
   readonly robotInvestmentTax: number;
   /** Scheme 3 revenue τ^ssz R_d D. */
   readonly robotSS: number;
+  /** Policy E revenue τ_E·c_E·Y. */
+  readonly valueAddedContribution: number;
+  /** Policy F revenue τ_F·c_F·(s̄Y − LC)⁺. */
+  readonly labourShareContribution: number;
+  /** Policy G revenue τ_G·Σ(R − δ − r_n)⁺·capital. */
+  readonly excessProfitContribution: number;
   /** Eq. (33) total, returned lump-sum. */
   readonly total: number;
   /** Labour-source SS: (τ^sse + τ^ssw) W L. */
   readonly ssLabour: number;
   /** Robot-source SS: the active robot tax's revenue (D5). */
   readonly ssRobot: number;
+  /** Revenue of exploratory policies E/F/G, earmarked for SS (by construction of the comparison). */
+  readonly ssPolicy: number;
   readonly ssTotal: number;
 }
 
@@ -111,6 +141,8 @@ export interface FactorShares {
   /** Employer contributions as shares of Y: τ^sse W L / Y, τ^ssz R_d D / Y. */
   readonly employerSSLabour: number;
   readonly employerSSRobot: number;
+  /** Policy E and F contributions paid by firms, as a share of Y (0 in the replication). */
+  readonly firmPolicyContributions: number;
   /**
    * Net shares (D3): (factor income − its depreciation) / (Y − δ_k K − δ_d D), with labour income
    * measured as total labour cost (1+τ^sse) W L. Not defined in the paper; see MODEL_DEVIATIONS D3.
@@ -153,6 +185,14 @@ export interface RunMetadata {
   readonly convergence: ConvergenceInfo;
 }
 
+export type LabourShareRegime = 'inactive' | 'binding' | 'non-binding' | 'kink';
+
+export interface PolicyRegimes {
+  readonly labourShare: LabourShareRegime;
+  readonly excessProfitK: 'inactive' | 'binding' | 'non-binding';
+  readonly excessProfitD: 'inactive' | 'binding' | 'non-binding';
+}
+
 export interface SteadyStateDiagnostics {
   /** Existence slack of each CES stage (> 0 ⇔ a finite steady state exists). */
   readonly outerSlack: number;
@@ -165,6 +205,10 @@ export interface SteadyStateDiagnostics {
   readonly resourceResidual: number;
   /** Household budget (20) residual relative to Y, using T from (33). */
   readonly householdBudgetResidual: number;
+  /** Active regimes of exploratory policies (all 'inactive' in the replication). */
+  readonly regimes: PolicyRegimes;
+  /** Net output price faced by firms (1 without E/F). */
+  readonly firmNetPrice: number;
 }
 
 export type SteadyStateResult =
