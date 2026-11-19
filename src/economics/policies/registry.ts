@@ -3,7 +3,7 @@
  * policies E/F/G (docs/policies/POLICIES.md). E/F/G are NEW research hypotheses, not part of
  * Casas & Torres (2026); their revenue is earmarked for SS by construction of the comparison.
  */
-import { neutralExcessProfitAllowance } from '../paper/households';
+import { neutralAllowances } from '../paper/households';
 import type { PaperParameters, PolicyExtensions } from '../paper/types';
 import {
   rateUpperBound,
@@ -20,6 +20,7 @@ export const ALL_SCHEMES = [
   'valueAdded',
   'labourShare',
   'excessProfit',
+  'capitalReturnLevy',
 ] as const;
 export type ActiveScheme = (typeof ALL_SCHEMES)[number];
 
@@ -54,8 +55,14 @@ export const POLICY_INFO: Record<
   },
   excessProfit: {
     code: 'G',
-    label: 'Excess-economic-profit contribution',
-    base: 'Σ (R − δ − r_n)⁺ · capital',
+    label: "Excess-economic-profit contribution (neutral allowance = each capital's required return)",
+    base: 'Σ (R − δ − r_n)⁺ · capital + pure rents Π',
+    origin: 'exploratory',
+  },
+  capitalReturnLevy: {
+    code: 'G′',
+    label: 'Reduced-allowance capital-return levy (NOT a neutral excess-profit tax)',
+    base: 'Σ (R − δ − f·r_n)⁺ · capital, f < 1 (taxes part of the ordinary return)',
     origin: 'exploratory',
   },
 };
@@ -66,9 +73,13 @@ export interface PolicyConfig {
   /** F: benchmark labour share s̄ (employee compensation / GVA) and liable share of GVA. */
   readonly labourShareBenchmark: number;
   readonly labourShareCoverage: number;
-  /** G: normal-return allowance r_n; 'neutral' = required pre-tax net return (zero-distortion design). */
-  readonly excessProfitAllowance:
-    'neutral' | { readonly fractionOfNeutral: number } | { readonly rate: number };
+  /**
+   * G: allowance. 'neutral' (primary) = each capital's own required pre-tax net return, including the
+   * effect of robot taxes; in the competitive model G then raises nothing on capital returns.
+   */
+  readonly excessProfitAllowance: 'neutral' | { readonly rate: number };
+  /** G′ (capital-return levy): allowance = this fraction of each capital's neutral return (< 1). */
+  readonly capitalReturnLevyFraction: number;
   /** Share ψ ∈ [0,1] of the employer SS rate replaced when the instrument is introduced (0 = supplement). */
   readonly payrollReplacement: number;
 }
@@ -77,15 +88,24 @@ export const DEFAULT_POLICY_CONFIG: PolicyConfig = {
   valueAddedCoverage: 1,
   labourShareBenchmark: 0.5,
   labourShareCoverage: 1,
-  excessProfitAllowance: { fractionOfNeutral: 0.5 },
+  excessProfitAllowance: 'neutral',
+  capitalReturnLevyFraction: 0.5,
   payrollReplacement: 0,
 };
 
-export function excessProfitAllowance(p: PaperParameters, cfg: PolicyConfig): number {
+export function excessProfitAllowances(
+  p: PaperParameters,
+  scheme: 'excessProfit' | 'capitalReturnLevy',
+  cfg: PolicyConfig,
+): { K: number; D: number } {
+  const neutral = neutralAllowances(p);
+  if (scheme === 'capitalReturnLevy') {
+    const f = cfg.capitalReturnLevyFraction;
+    if (!(f >= 0 && f < 1)) throw new RangeError('capitalReturnLevyFraction must be in [0, 1)');
+    return { K: f * neutral.K, D: f * neutral.D };
+  }
   const a = cfg.excessProfitAllowance;
-  const neutral = neutralExcessProfitAllowance(p);
-  if (a === 'neutral') return neutral;
-  return 'rate' in a ? a.rate : a.fractionOfNeutral * neutral;
+  return a === 'neutral' ? neutral : { K: a.rate, D: a.rate };
 }
 
 /** Install exactly one instrument at rate τ (others removed), applying payroll replacement ψ. */
@@ -95,7 +115,9 @@ export function withPolicy(
   rate: number,
   cfg: PolicyConfig = DEFAULT_POLICY_CONFIG,
 ): PaperParameters {
-  const clean: PaperParameters = { ...withRobotTax(p, 'none', 0), extensions: {} };
+  // Keep model-variant extensions (the rents scenario); remove every policy instrument.
+  const rents = p.extensions?.rents;
+  const clean: PaperParameters = { ...withRobotTax(p, 'none', 0), extensions: rents ? { rents } : {} };
   const psi = scheme === 'none' ? 0 : cfg.payrollReplacement;
   if (!(psi >= 0 && psi <= 1)) throw new RangeError('payrollReplacement must be in [0,1]');
   const base: PaperParameters = {
@@ -105,13 +127,15 @@ export function withPolicy(
   if (scheme === 'none') return base;
   if (scheme === 'robotIncome' || scheme === 'robotInvestment' || scheme === 'robotSS')
     return withRobotTax(base, scheme, rate);
-  const ext: PolicyExtensions =
-    scheme === 'valueAdded'
-      ? { valueAdded: { rate, coverage: cfg.valueAddedCoverage } }
-      : scheme === 'labourShare'
-        ? { labourShare: { rate, benchmark: cfg.labourShareBenchmark, coverage: cfg.labourShareCoverage } }
-        : { excessProfit: { rate, normalReturn: excessProfitAllowance(p, cfg) } };
-  return { ...base, extensions: ext };
+  let ext: PolicyExtensions;
+  if (scheme === 'valueAdded') ext = { valueAdded: { rate, coverage: cfg.valueAddedCoverage } };
+  else if (scheme === 'labourShare') {
+    ext = { labourShare: { rate, benchmark: cfg.labourShareBenchmark, coverage: cfg.labourShareCoverage } };
+  } else {
+    const a = excessProfitAllowances(p, scheme, cfg);
+    ext = { excessProfit: { rate, normalReturn: a.K, normalReturnD: a.D } };
+  }
+  return { ...base, extensions: { ...base.extensions, ...ext } };
 }
 
 export function policyRateUpperBound(
@@ -122,7 +146,8 @@ export function policyRateUpperBound(
   if (scheme === 'valueAdded') return 0.5;
   // Keep the labour-cost credit τ_F·c_F strictly below 100% (otherwise labour cost would be negative).
   if (scheme === 'labourShare') return Math.min(2, (1 - 1e-6) / Math.max(1e-12, cfg.labourShareCoverage));
-  if (scheme === 'excessProfit') return 1 - p.taxes.capital - p.taxes.robotIncome - 1e-4;
+  if (scheme === 'excessProfit' || scheme === 'capitalReturnLevy')
+    return 1 - p.taxes.capital - p.taxes.robotIncome - 1e-4;
   return rateUpperBound(p, scheme);
 }
 

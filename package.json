@@ -25,7 +25,8 @@
     "cyprus:report": "tsx tools/cyprus/calibrationReport.ts",
     "data:validate": "tsx tools/cyprus/validateData.ts",
     "data:sis": "python3 -I tools/sis/extract_bulletins.py",
-    "policies:report": "tsx tools/policies/policyReport.ts"
+    "policies:report": "tsx tools/policies/policyReport.ts",
+    "data:sbs": "tsx tools/sbs/fetchSbs.ts"
   },
   "dependencies": {
     "react": "^19.3.1",

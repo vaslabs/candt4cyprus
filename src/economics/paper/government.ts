@@ -3,24 +3,38 @@
  */
 import type { FactorShares, GovernmentAccounts, PaperParameters, SteadyStateLevels } from './types';
 
-/** Revenue of exploratory policies E/F/G at given levels (zero when not configured). */
+/** Revenue of exploratory policies E/F/G and pure profit (rents extension) at given levels. */
 export function policyRevenues(
   p: PaperParameters,
   s: SteadyStateLevels,
-): { valueAdded: number; labourShare: number; excessProfit: number } {
+): {
+  valueAdded: number;
+  labourShare: number;
+  excessProfit: number;
+  excessProfitOnRents: number;
+  pureProfit: number;
+} {
   const x = p.extensions;
   const E = x?.valueAdded;
   const F = x?.labourShare;
   const G = x?.excessProfit;
   const labourCost = (1 + p.taxes.employerSS) * s.W * s.L;
+  const e = E ? E.rate * E.coverage : 0;
+  // Rents extension: markup pricing ⇒ pure profit Π = m/(1+m)·(1 − e)·Y (F excluded by construction).
+  const m = x?.rents?.markup ?? 0;
+  const pureProfit = (m / (1 + m)) * (1 - e) * s.Y;
+  const onCapital = G
+    ? G.rate *
+      (Math.max(0, s.Rk - p.deltaK - G.normalReturn) * s.K +
+        Math.max(0, s.Rd - p.deltaD - (G.normalReturnD ?? G.normalReturn)) * s.D)
+    : 0;
+  const onRents = G ? G.rate * pureProfit : 0;
   return {
-    valueAdded: E ? E.rate * E.coverage * s.Y : 0,
+    valueAdded: e * s.Y,
     labourShare: F ? F.rate * F.coverage * Math.max(0, F.benchmark * s.Y - labourCost) : 0,
-    excessProfit: G
-      ? G.rate *
-        (Math.max(0, s.Rk - p.deltaK - G.normalReturn) * s.K +
-          Math.max(0, s.Rd - p.deltaD - G.normalReturn) * s.D)
-      : 0,
+    excessProfit: onCapital + onRents,
+    excessProfitOnRents: onRents,
+    pureProfit,
   };
 }
 
@@ -66,6 +80,8 @@ export function governmentAccounts(p: PaperParameters, s: SteadyStateLevels): Go
     valueAddedContribution: pol.valueAdded,
     labourShareContribution: pol.labourShare,
     excessProfitContribution: pol.excessProfit,
+    excessProfitOnRents: pol.excessProfitOnRents,
+    excessProfitOnCapitalReturns: pol.excessProfit - pol.excessProfitOnRents,
     total,
     ssLabour,
     ssRobot,
@@ -110,6 +126,7 @@ export function factorShares(p: PaperParameters, s: SteadyStateLevels): FactorSh
     employerSSRobot: (t.robotSS * s.Rd * s.D) / s.Y,
     netLabour: labourCost / netY,
     firmPolicyContributions: (pol.valueAdded + pol.labourShare) / s.Y,
+    pureProfit: pol.pureProfit / s.Y,
     netTraditionalCapital: (s.Rk * s.K - depK) / netY,
     netAutonomousCapital: ((1 + t.robotSS) * s.Rd * s.D - depD) / netY,
   };
@@ -129,6 +146,7 @@ export function householdBudgetResidual(p: PaperParameters, s: SteadyStateLevels
     t.capital * p.deltaK * s.K +
     (t.capital + t.robotIncome) * p.deltaD * s.D -
     policyRevenues(p, s).excessProfit + // paid by capital owners
+    policyRevenues(p, s).pureProfit + // rents distributed to households (rents extension)
     T;
   return (lhs - rhs) / s.Y;
 }

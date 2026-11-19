@@ -3,7 +3,7 @@ import fc from 'fast-check';
 import { paperParameters } from '../../src/economics/paper/calibration';
 import { solveSteadyStateDual } from '../../src/economics/paper/steadyState';
 import { solveSteadyStateNewton } from '../../src/economics/paper/fullSystem';
-import { neutralExcessProfitAllowance } from '../../src/economics/paper/households';
+import { neutralAllowances, neutralExcessProfitAllowance } from '../../src/economics/paper/households';
 import type { PaperParameters, SteadyStateLevels, SteadyStateResult } from '../../src/economics/paper/types';
 import {
   coverageAfterExemptions,
@@ -154,6 +154,83 @@ describe('policy G (excess profit)', () => {
   });
 });
 
+describe('policy G with per-capital neutral allowances and the rents extension', () => {
+  it('per-capital neutral allowances keep G neutral even with robot taxes present', () => {
+    fc.assert(
+      fc.property(paperParams(), d(0.01, 0.5), (p, rate) => {
+        const a = solveSteadyStateDual(p);
+        fc.pre(a.ok);
+        const n = neutralAllowances(p);
+        const b = solveSteadyStateDual({
+          ...p,
+          extensions: { excessProfit: { rate, normalReturn: n.K, normalReturnD: n.D } },
+        });
+        return (
+          b.ok &&
+          maxRel((a as Ok).levels, b.levels) < 1e-12 &&
+          b.government.excessProfitContribution < 1e-12 * b.levels.Y
+        );
+      }),
+    );
+  });
+  it('rents extension: accounting closes with a pure-profit share, both solvers agree', () => {
+    fc.assert(
+      fc.property(paperParams(0.8), d(0, 0.3), (p0, markup) => {
+        const p = { ...p0, extensions: { rents: { markup } } };
+        const a = solveSteadyStateDual(p);
+        fc.pre(a.ok);
+        const r = a as Ok;
+        const s = r.shares;
+        const n = solveSteadyStateNewton(p);
+        return (
+          Math.abs(r.diagnostics.eulerResidual) < 1e-11 &&
+          Math.abs(r.diagnostics.householdBudgetResidual) < 1e-10 &&
+          Math.abs(s.pureProfit - markup / (1 + markup)) < 1e-12 &&
+          n.ok &&
+          maxRel(r.levels, n.levels) < 1e-9
+        );
+      }),
+      { numRuns: 30 },
+    );
+  });
+  it('G on genuine rents raises revenue with NO change in the allocation (a lump-sum tax on rents)', () => {
+    fc.assert(
+      fc.property(paperParams(0.8), d(0.02, 0.3), d(0.05, 0.6), (p0, markup, rate) => {
+        const p = { ...p0, extensions: { rents: { markup } } };
+        const a = solveSteadyStateDual(p);
+        fc.pre(a.ok);
+        const n = neutralAllowances(p);
+        const b = solveSteadyStateDual({
+          ...p,
+          extensions: { rents: { markup }, excessProfit: { rate, normalReturn: n.K, normalReturnD: n.D } },
+        });
+        return (
+          b.ok &&
+          maxRel((a as Ok).levels, b.levels) < 1e-12 &&
+          Math.abs(b.government.excessProfitOnRents - rate * b.shares.pureProfit * b.levels.Y) <
+            1e-12 * b.levels.Y &&
+          b.government.excessProfitOnCapitalReturns < 1e-12 * b.levels.Y
+        );
+      }),
+    );
+  });
+  it('G′ (reduced allowance) taxes ordinary capital returns; rents+F is rejected', () => {
+    const p = paperParameters('B', { adoption: 0.2 });
+    const q = withPolicy(p, 'capitalReturnLevy', 0.2);
+    const r = ok(solveSteadyStateDual(q));
+    expect(r.government.excessProfitOnCapitalReturns).toBeGreaterThan(0);
+    expect(r.government.excessProfitOnRents).toBe(0);
+    const bad = solveSteadyStateDual({
+      ...p,
+      extensions: { rents: { markup: 0.1 }, labourShare: { rate: 0.1, benchmark: 0.6, coverage: 1 } },
+    });
+    expect(bad.ok).toBe(false);
+    expect(
+      withPolicy({ ...p, extensions: { rents: { markup: 0.1 } } }, 'valueAdded', 0.01).extensions?.rents,
+    ).toEqual({ markup: 0.1 });
+  });
+});
+
 describe('policy E (value added) and F (labour share): metamorphic and regime tests', () => {
   it('E at rate e with coverage c ≡ E at rate e·c with full coverage', () => {
     fc.assert(
@@ -225,8 +302,8 @@ describe('policy E (value added) and F (labour share): metamorphic and regime te
 describe('policy registry and required rates', () => {
   const p = paperParameters('B', { adoption: 0.3 });
   const target = baselineSsTarget(p);
-  it('E, F and G rates reproduce the target exactly when solved', () => {
-    for (const s of ['valueAdded', 'labourShare', 'excessProfit'] as const) {
+  it('E, F and G′ rates reproduce the target exactly when solved', () => {
+    for (const s of ['valueAdded', 'labourShare', 'capitalReturnLevy'] as const) {
       const r = solveRequiredRate(p, s, { ...DEFAULT_POLICY_CONFIG, labourShareBenchmark: 0.8 }, { target });
       expect(r.status, s).toBe('solved');
       if (r.status === 'solved') expect(r.steadyState.ssToGdp).toBeCloseTo(target, 10);

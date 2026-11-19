@@ -29,6 +29,15 @@ export interface PolicyOutcome {
   readonly C: number | null;
   readonly I: number | null;
   readonly L: number | null;
+  /** Capital accumulation: traditional and autonomous capital stocks. */
+  readonly K: number | null;
+  readonly D: number | null;
+  readonly dK: number | null;
+  /** Policy F regime (binding / non-binding / kink) where relevant. */
+  readonly labourShareRegime: string | null;
+  /** Policy G revenue split: on genuine rents vs on capital returns above the allowance (/ Y). */
+  readonly gOnRents: number | null;
+  readonly gOnCapitalReturns: number | null;
   readonly grossLabourShare: number | null;
   readonly netLabourShare: number | null;
   readonly grossCapitalShare: number | null;
@@ -58,6 +67,12 @@ const NULLS = {
   C: null,
   I: null,
   L: null,
+  K: null,
+  D: null,
+  dK: null,
+  labourShareRegime: null,
+  gOnRents: null,
+  gOnCapitalReturns: null,
   grossLabourShare: null,
   netLabourShare: null,
   grossCapitalShare: null,
@@ -98,7 +113,7 @@ function describe(
               ? g.valueAddedContribution
               : scheme === 'labourShare'
                 ? g.labourShareContribution
-                : g.excessProfitContribution;
+                : g.excessProfitContribution; // G and G′ share the same revenue line
   const pct = (a: number, b: number) => (a / b - 1) * 100;
   const lambda = ref ? Math.exp((utility(p, r) - utility(p, ref)) / p.gamma) - 1 : null;
   return {
@@ -111,6 +126,12 @@ function describe(
     C: r.levels.C,
     I: r.levels.I,
     L: r.levels.L,
+    K: r.levels.K,
+    D: r.levels.D,
+    dK: ref ? pct(r.levels.K, ref.levels.K) : null,
+    labourShareRegime: r.diagnostics.regimes.labourShare,
+    gOnRents: g.excessProfitOnRents / Y,
+    gOnCapitalReturns: g.excessProfitOnCapitalReturns / Y,
     grossLabourShare: r.shares.grossLabour,
     netLabourShare: r.shares.netLabour,
     grossCapitalShare: r.shares.grossTraditionalCapital + r.shares.grossAutonomousCapital,
@@ -125,9 +146,20 @@ function describe(
   };
 }
 
+/**
+ * Comparison objective.
+ *  'restoreTarget' (default): the instrument raises additional SS revenue until SS/Y returns to the
+ *    target (the zero-adoption ratio = observed 2023 Fund contributions in the Cyprus calibration).
+ *  'revenueNeutralSwap': the instrument REPLACES a share ψ of employer SS and is set to keep SS/Y equal
+ *    to its pre-reform value at the same adoption level (no additional revenue).
+ */
+export type ComparisonObjective =
+  { readonly kind: 'restoreTarget' } | { readonly kind: 'revenueNeutralSwap'; readonly replacement: number };
+
 export interface ComparisonOptions extends RequiredTaxOptions {
   readonly config?: PolicyConfig;
   readonly schemes?: readonly ActiveScheme[];
+  readonly objective?: ComparisonObjective;
 }
 
 /** Compare all instruments at one adoption level (target fixed by the caller or adoption-0 baseline). */
@@ -136,11 +168,21 @@ export function comparePolicies(
   adoption: number,
   opts: ComparisonOptions = {},
 ): PolicyOutcome[] {
-  const cfg = opts.config ?? DEFAULT_POLICY_CONFIG;
+  const objective = opts.objective ?? { kind: 'restoreTarget' };
+  const baseCfg = opts.config ?? DEFAULT_POLICY_CONFIG;
+  const cfg: PolicyConfig =
+    objective.kind === 'revenueNeutralSwap'
+      ? { ...baseCfg, payrollReplacement: objective.replacement }
+      : baseCfg;
   const p = { ...base, adoption };
   const solver = opts.solver ?? solveSteadyStateDual;
-  const refR = solver(withPolicy(p, 'none', 0, cfg), opts);
+  // Reference: the economy without any new instrument and without payroll replacement.
+  const refR = solver(withPolicy(p, 'none', 0, { ...cfg, payrollReplacement: 0 }), opts);
   const ref = refR.ok ? refR : null;
+  if (objective.kind === 'revenueNeutralSwap') {
+    if (!ref) return [{ scheme: 'none', code: 'A', status: 'baseline-missing', ...NULLS }];
+    opts = { ...opts, target: ref.ssToGdp };
+  }
   const out: PolicyOutcome[] = [
     ref
       ? describe(p, 'none', 0, 'baseline', ref, ref)

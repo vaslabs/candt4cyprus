@@ -42,16 +42,19 @@ export function capitalReturns(p: PaperParameters): CapitalReturns {
   if (G && G.rate > 0) {
     const g = G.rate;
     const r = G.normalReturn;
-    if (!(tk + g < 1) || !(tk + td + g < 1)) return { ok: false, detail: `τk + τd + τ_G must be < 1` };
     // Ties (net return = allowance, e.g. the neutral design) are classified as non-binding: the
     // contribution due is zero either way; a 1e-12 relative tolerance absorbs rounding.
     const exceeds = (net: number) => net > r + 1e-12 * Math.max(1, Math.abs(r));
+    // The binding-regime denominators must stay positive; a non-binding G imposes no constraint.
     if (exceeds(Rk - deltaK)) {
+      if (!(tk + g < 1)) return { ok: false, detail: `τk + τ_G must be < 1 when G binds on K` };
       Rk = deltaK + (rho - g * r) / (1 - tk - g);
       excessProfitK = 'binding';
     } else excessProfitK = 'non-binding';
-    if (exceeds(Rd - deltaD)) {
-      Rd = (A - g * (deltaD + r)) / (1 - tk - td - g);
+    const rD = G.normalReturnD ?? r;
+    if (Rd - deltaD > rD + 1e-12 * Math.max(1, Math.abs(rD))) {
+      if (!(tk + td + g < 1)) return { ok: false, detail: `τk + τd + τ_G must be < 1 when G binds on D` };
+      Rd = (A - g * (deltaD + rD)) / (1 - tk - td - g);
       excessProfitD = 'binding';
     } else excessProfitD = 'non-binding';
   }
@@ -59,9 +62,22 @@ export function capitalReturns(p: PaperParameters): CapitalReturns {
   return { ok: true, Rk, Rd, excessProfitK, excessProfitD };
 }
 
-/** Required pre-tax net return on capital without policy G: the neutral allowance for G. */
+/** Required pre-tax net return on TRADITIONAL capital without policy G (neutral allowance for K). */
 export function neutralExcessProfitAllowance(p: PaperParameters): number {
   return (1 / p.beta - 1) / (1 - p.taxes.capital);
+}
+
+/**
+ * Neutral allowances for both capitals: each capital's required pre-tax net return absent G
+ * (R − δ from the Euler equations with all other taxes, including robot taxes). With these
+ * allowances G raises nothing on capital returns in the competitive model.
+ */
+export function neutralAllowances(p: PaperParameters): { K: number; D: number } {
+  const ext = { ...(p.extensions ?? {}) };
+  delete (ext as { excessProfit?: unknown }).excessProfit;
+  const r = capitalReturns({ ...p, extensions: ext });
+  if (!r.ok) throw new Error(`no capital returns: ${r.detail}`);
+  return { K: r.Rk - p.deltaK, D: r.Rd - p.deltaD };
 }
 
 /**

@@ -58,7 +58,22 @@ export interface PolicyExtensions {
    * G: excess-economic-profit contribution, τ_G × (R − δ − r_n)⁺ per unit of each capital, paid by
    * capital owners. With r_n equal to the required pre-tax net return the policy is neutral.
    */
-  readonly excessProfit?: { readonly rate: number; readonly normalReturn: number };
+  readonly excessProfit?: {
+    readonly rate: number;
+    /** Allowance r_n on traditional capital's net return. */
+    readonly normalReturn: number;
+    /**
+     * Allowance on autonomous capital's net return (defaults to `normalReturn`). With robot-specific
+     * taxes the two capitals have different required returns, so a neutral design needs both.
+     */
+    readonly normalReturnD?: number;
+  };
+  /**
+   * Exploratory rents extension (NOT in the paper's competitive model): firms price at a markup m
+   * over marginal cost, so pure profits Π = m/(1+m)·(net revenue) accrue to households lump-sum.
+   * Policy G then also taxes Π, which is a genuine economic rent.
+   */
+  readonly rents?: { readonly markup: number };
 }
 
 export interface PaperParameters {
@@ -120,8 +135,12 @@ export interface GovernmentAccounts {
   readonly valueAddedContribution: number;
   /** Policy F revenue τ_F·c_F·(s̄Y − LC)⁺. */
   readonly labourShareContribution: number;
-  /** Policy G revenue τ_G·Σ(R − δ − r_n)⁺·capital. */
+  /** Policy G revenue τ_G·Σ(R − δ − r_n)⁺·capital + τ_G·Π (rents). */
   readonly excessProfitContribution: number;
+  /** Of which: on pure economic rents Π (rents extension only). */
+  readonly excessProfitOnRents: number;
+  /** Of which: on capital returns above the allowance (ordinary returns if the allowance is reduced). */
+  readonly excessProfitOnCapitalReturns: number;
   /** Eq. (33) total, returned lump-sum. */
   readonly total: number;
   /** Labour-source SS: (τ^sse + τ^ssw) W L. */
@@ -143,6 +162,8 @@ export interface FactorShares {
   readonly employerSSRobot: number;
   /** Policy E and F contributions paid by firms, as a share of Y (0 in the replication). */
   readonly firmPolicyContributions: number;
+  /** Pure profit (rents extension) as a share of Y, before policy G. */
+  readonly pureProfit: number;
   /**
    * Net shares (D3): (factor income − its depreciation) / (Y − δ_k K − δ_d D), with labour income
    * measured as total labour cost (1+τ^sse) W L. Not defined in the paper; see MODEL_DEVIATIONS D3.
@@ -152,7 +173,7 @@ export interface FactorShares {
   readonly netAutonomousCapital: number;
 }
 
-export type SolverName = 'dual' | 'newton';
+export type SolverName = 'dual' | 'newton' | 'short-run-fixed-capital';
 
 export type NonExistenceReason =
   /**

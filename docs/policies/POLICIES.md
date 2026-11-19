@@ -71,25 +71,74 @@ B = max(0, s̄_sector·GVA − (comp + ω·outsourced labour))·(1−τ_F)^ε_F.
 capital intensity, outsourcing, the sector, intangible assets or profit shifting. Policy F is a
 stylised formula, not an empirically validated optimal tax.
 
-## Policy G: excess-economic-profit contribution
+## Policy G: excess-economic-profit contribution (and G′, a different instrument)
 
-**Level 2.** Capital owners pay τ_G on returns above an allowance r_n per unit of capital, for each capital:
+**Level 2, primary design: neutral allowances.** Capital owners pay τ_G on returns above an
+allowance, separately for each capital, plus τ_G on pure rents Π when the rents extension is on:
 
-$$T_G=\tau_G\big[(R_k-\delta_k-r_n)^+K+(R_d-\delta_d-r_n)^+D\big].$$
+$$T_G=\tau_G\big[(R_k-\delta_k-r_K)^+K+(R_d-\delta_d-r_D)^+D+\Pi\big].$$
 
-It enters both Euler equations. If r_n equals the required pre-tax net return
-ρ/(1−τ^k), with ρ = 1/β − 1, the policy is **exactly neutral and raises nothing**
-(tested), because the competitive model has no economic rents.
-- With r_n below the required return it taxes part of the normal return and behaves like a capital-income tax.
-- With robot-specific taxes, a single allowance cannot be neutral for both capitals (tested).
+- The allowances r_K and r_D are **each capital's own required pre-tax net return** in the
+  absence of G (`neutralAllowances`). That includes the effect of robot taxes, which raise D's required return.
+- In the competitive model (zero rents) G then raises **nothing** and changes nothing. That is the
+  correct result, and it is tested, including with robot taxes present.
+- In the comparisons, G is reported as "unattainable": it cannot finance an SS gap without rents.
 
-The model therefore **cannot** represent market-power or AI rents. G's macro revenue is purely a
-normal-return tax by design of the allowance. The default allowance is 50% of neutral, an assumption.
+**G′, the reduced-allowance capital-return levy.** The allowance is a fraction f < 1 of each neutral return
+(default 0.5). G′ taxes part of the **ordinary** return to capital and behaves like a capital-income
+tax. It is **not** a neutral tax on excess economic profits, and it is labelled and reported separately.
+
+**Exploratory rents extension (`extensions.rents.markup`, not in the paper).** Firms price at a markup m
+over marginal cost, so the unit-cost condition becomes c(·) = (1 − τ_E c_E)/(1+m). Pure profit
+Π = m/(1+m)·(1 − τ_E c_E)·Y accrues to households lump-sum. Neutral G then taxes **genuine rents**
+and leaves the allocation unchanged (tested). The two solvers agree.
+- The markup itself is a distortion relative to the competitive economy. Comparisons are made against
+  the same markup economy without a new instrument.
+- Combining it with policy F is rejected, because profit attribution at F's kink is undefined.
+
+Every G result reports revenue **on rents** separately from revenue **on capital returns above the allowance**.
 
 **Level 3.** Base = max(0, EBIT − r_n·capital − allowance share × AI investment − losses brought
 forward). Profit shifting: shifted share = min(max mobility, η·τ_G).
 
 ---
+
+## Policy E: model dependence (step 6 review)
+
+E ranks first on welfare cost per € in every long-run Cyprus configuration tested. **This is a conditional
+model result, not a policy ranking for Cyprus.** It depends on:
+- **Elastic capital supply (long run).** In the short-run scenario with capital fixed (`shortRun.ts`),
+  instruments on capital income or robot use fall on a fixed factor and cost almost nothing, while E
+  still distorts hours. **E then ranks last.** This is the main region where E's relative performance changes.
+- **One representative firm.** Coverage factors only rescale the rate, so the welfare cost per € is
+  invariant to coverage (§3.1 of the comparison report). Coverage is not a behavioural model.
+- **No avoidance or shifting costs** in the macro model. Firm heterogeneity, SME versus large-firm treatment, low-margin and
+  loss-making firms, and behavioural elasticities are therefore covered by separate scenario
+  calculations: SBS sector × size-class cells (business economy only) and Level 3 firms. They are not
+  aggregated to national revenue.
+- **With genuine rents** (the rents extension), neutral G raises revenue at zero welfare cost and outranks E.
+
+**Objectives.** "Restore the Fund financing target" (additional revenue; default) or "revenue-neutral
+swap" (replace a share ψ of employer SS and keep SS/Y unchanged), selectable in `comparePolicies`.
+
+## Policy F: SBS sector benchmarks
+
+Sector labour shares come from Eurostat SBS (sbs_sc_ovw, Cyprus, latest year 2024):
+employee benefits expense / value added at factor cost (`src/economics/data/sbs.ts`). They are
+**descriptive defaults, not optimal thresholds**.
+- The generic 50% remains the illustrative default, and user thresholds are allowed.
+- Wages-only shares are reported separately, because they omit employer social charges.
+- Confidential or missing cells are never imputed: the benchmark becomes unavailable, with a reason.
+- Coverage note: SBS covers the business economy only, with enterprises as statistical units, and excludes the self-employed from employee benefits.
+
+## Business archetypes
+
+The three archetypes are **constructed** from SBS cells: I55, M69 and J62, size class 50–249, 2024.
+Every field is tagged **observed**, **derived**, **assumed** or **behavioural**, with its source
+(`ARCHETYPE_MODELS[*].provenance`).
+- SBS does not publish employees or employee benefits by size class for these cells, so division-wide ratios are applied to the size-class enterprise.
+- Capital stock, depreciation, pay dispersion, AI investment and outsourcing are assumptions.
+- Profit-shifting mobility is a behavioural assumption with a stated sensitivity range.
 
 ## Comparison methodology (Level 2)
 

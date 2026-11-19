@@ -188,8 +188,8 @@ export function firmAccounts(f: FirmInputs, rules: CyprusStatutoryRules): FirmAc
     employerStatutory,
     employeeStatutory,
     stateContributions,
-    payrollAboveSiCeiling: grossPayroll - insurable,
-    shareAboveSiCeiling: grossPayroll > 0 ? (grossPayroll - insurable) / grossPayroll : 0,
+    payrollAboveSiCeiling: Math.max(0, grossPayroll - insurable),
+    shareAboveSiCeiling: grossPayroll > 0 ? Math.max(0, grossPayroll - insurable) / grossPayroll : 0,
     corporateTax,
   };
 }
@@ -215,7 +215,9 @@ export function valueAddedCharge(
   cfg: FirmPolicyConfig['valueAdded'],
   rules: CyprusStatutoryRules,
 ): PolicyCharge {
-  if (cfg.exemptSectors.includes(f.sector)) return notLiable(`sector ${f.sector} exempt`);
+  if (cfg.exemptSectors.includes(f.sector) || cfg.exemptSectors.includes(f.sector.charAt(0))) {
+    return notLiable(`sector ${f.sector} exempt`);
+  }
   if (headcount(f) < cfg.minEmployees) return notLiable(`below ${cfg.minEmployees} employees`);
   if (a.gva < cfg.minGva) return notLiable(`GVA below €${cfg.minGva}`);
   const base = respond(a.gva, cfg.rate, cfg.baseElasticity);
@@ -255,7 +257,9 @@ export function labourShareCharge(
       `operating margin ${(a.operatingMargin * 100).toFixed(1)}% below ${(cfg.minOperatingMargin * 100).toFixed(1)}% (profitability condition)`,
     );
   }
-  const benchmark = cfg.benchmarks[f.sector] ?? cfg.benchmarks['default'];
+  // Most specific benchmark first: NACE division, then section, then the generic default.
+  const benchmark =
+    cfg.benchmarks[f.sector] ?? cfg.benchmarks[f.sector.charAt(0)] ?? cfg.benchmarks['default'];
   if (benchmark === undefined) throw new RangeError('no labour-share benchmark for sector and no default');
   const labour = a.employeeCompensation + cfg.outsourcingCountedAsLabour * f.outsourcedLabourCosts;
   const shortfall = Math.max(0, benchmark * a.gva - labour);

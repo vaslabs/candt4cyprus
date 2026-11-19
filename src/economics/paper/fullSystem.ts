@@ -55,11 +55,11 @@ export function steadyStateResiduals(
   const x = p.extensions;
   const eTax = x?.valueAdded ? x.valueAdded.rate * x.valueAdded.coverage : 0;
   const fAct = x?.labourShare ? labourShareActivity * x.labourShare.rate * x.labourShare.coverage : 0;
-  const price = 1 - eTax - fAct * (x?.labourShare?.benchmark ?? 0);
+  const price = (1 - eTax - fAct * (x?.labourShare?.benchmark ?? 0)) / (1 + (x?.rents?.markup ?? 0));
   const gRate = x?.excessProfit?.rate ?? 0;
   const gAllow = x?.excessProfit?.normalReturn ?? 0;
   const gK = gRate * Math.max(0, Rk - p.deltaK - gAllow);
-  const gD = gRate * Math.max(0, Rd - p.deltaD - gAllow);
+  const gD = gRate * Math.max(0, Rd - p.deltaD - (x?.excessProfit?.normalReturnD ?? gAllow));
   const r: number[] = [
     Math.log(Y) - Math.log(prod.Y), // (1)/(10)
     Math.log(X) - Math.log(prod.X), // (2)/(11)

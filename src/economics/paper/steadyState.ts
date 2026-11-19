@@ -76,7 +76,7 @@ export function assembleResult(
         labourCostShare +
         shares.grossTraditionalCapital +
         (1 + t.robotSS) * shares.grossAutonomousCapital +
-        (pol.valueAdded + pol.labourShare) / levels.Y -
+        (pol.valueAdded + pol.labourShare + pol.pureProfit) / levels.Y -
         1,
       resourceResidual: (levels.C + levels.I - levels.Y) / levels.Y,
       householdBudgetResidual: householdBudgetResidual(p, levels, eq33Revenue(p, levels)),
@@ -104,7 +104,12 @@ export function firmWedges(p: PaperParameters, lambda: number): { price: number;
   const F = p.extensions?.labourShare;
   const e = E ? E.rate * E.coverage : 0;
   const f = F ? lambda * F.rate * F.coverage : 0;
-  return { price: 1 - e - f * (F?.benchmark ?? 0), labourMultiplier: (1 + p.taxes.employerSS) * (1 - f) };
+  const markup = p.extensions?.rents?.markup ?? 0;
+  // Unit cost equals the net price divided by the gross markup (marginal-cost pricing at a markup).
+  return {
+    price: (1 - e - f * (F?.benchmark ?? 0)) / (1 + markup),
+    labourMultiplier: (1 + p.taxes.employerSS) * (1 - f),
+  };
 }
 
 const noSteadyState = (message: string): ConvergenceInfo => ({
@@ -145,6 +150,32 @@ function solveCore(
   }
   const { Rk, Rd } = returns;
   const pD = (1 + p.taxes.robotSS) * Rd;
+  const x = p.extensions;
+  if (x?.rents && !(x.rents.markup >= 0)) {
+    const detail = 'Markup must be ≥ 0.';
+    return {
+      ok: false,
+      failure: {
+        ok: false,
+        reason: 'stage-infeasible',
+        detail,
+        meta: makeMeta(p, 'dual', noSteadyState(detail), opts),
+      },
+    };
+  }
+  if (x?.rents && x.rents.markup > 0 && x.labourShare && x.labourShare.rate > 0) {
+    const detail =
+      'The rents extension cannot be combined with policy F (profit attribution at the F kink is undefined).';
+    return {
+      ok: false,
+      failure: {
+        ok: false,
+        reason: 'stage-infeasible',
+        detail,
+        meta: makeMeta(p, 'dual', noSteadyState(detail), opts),
+      },
+    };
+  }
   const { price, labourMultiplier } = firmWedges(p, lambda);
   if (!(price > 0) || !(labourMultiplier > 0)) {
     const detail = `Firm wedges infeasible (net output price ${price}, labour-cost multiplier ${labourMultiplier}); contribution rates too high.`;

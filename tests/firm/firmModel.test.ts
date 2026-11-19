@@ -116,16 +116,10 @@ describe('policy F (labour share)', () => {
   });
   it('counting outsourced labour as labour lowers the base (anti-avoidance setting)', () => {
     const a = firmAccounts(soft, rules);
-    const no = labourShareCharge(soft, a, {
-      ...CFG.labourShare,
-      outsourcingCountedAsLabour: 0,
-      baseElasticity: 0,
-    });
-    const full = labourShareCharge(soft, a, {
-      ...CFG.labourShare,
-      outsourcingCountedAsLabour: 1,
-      baseElasticity: 0,
-    });
+    // High benchmark so the shortfall is not clipped at zero when outsourcing is counted.
+    const cfgHigh = { ...CFG.labourShare, benchmarks: { default: 0.95 }, baseElasticity: 0 };
+    const no = labourShareCharge(soft, a, { ...cfgHigh, outsourcingCountedAsLabour: 0 });
+    const full = labourShareCharge(soft, a, { ...cfgHigh, outsourcingCountedAsLabour: 1 });
     expect(no.staticBase - full.staticBase).toBeCloseTo(soft.outsourcedLabourCosts, 6);
   });
   it('sector benchmarks override the default', () => {

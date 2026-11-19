@@ -16,7 +16,8 @@ import type { PaperParameters, SteadyStateResult, TaxRates } from '../paper/type
 
 export type RobotTaxScheme = 'none' | 'robotIncome' | 'robotInvestment' | 'robotSS';
 /** All instruments: the paper's three robot taxes plus the exploratory policies E/F/G. */
-export type PolicyScheme = RobotTaxScheme | 'valueAdded' | 'labourShare' | 'excessProfit';
+export type PolicyScheme =
+  RobotTaxScheme | 'valueAdded' | 'labourShare' | 'excessProfit' | 'capitalReturnLevy';
 export const ROBOT_TAX_SCHEMES = ['robotIncome', 'robotInvestment', 'robotSS'] as const;
 
 export const SCHEME_INFO: Record<RobotTaxScheme, { symbol: string; label: string; base: string }> = {
