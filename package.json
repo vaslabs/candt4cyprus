@@ -21,7 +21,9 @@
     "test:mutation": "FC_RUNS=40 stryker run",
     "oracle": "tools/oracle/.venv/bin/python -I tools/oracle/oracle.py",
     "replication:variants": "tsx tools/replication/variantTable.ts",
-    "replication:report": "tsx tools/replication/replicationReport.ts"
+    "replication:report": "tsx tools/replication/replicationReport.ts",
+    "cyprus:report": "tsx tools/cyprus/calibrationReport.ts",
+    "data:validate": "tsx tools/cyprus/validateData.ts"
   },
   "dependencies": {
     "react": "^19.3.1",

@@ -24,9 +24,11 @@ jobs:
       - run: npm test
       - name: Replication documents are reproducible and up to date
         run: |
+          npm run data:validate
           npm run replication:variants
           npm run replication:report
-          git diff --exit-code -- docs/replication
+          npm run cyprus:report
+          git diff --exit-code -- docs/replication docs/cyprus
       - run: npm run build
 
   oracle-crosscheck:

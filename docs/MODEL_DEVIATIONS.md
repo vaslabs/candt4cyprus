@@ -94,5 +94,18 @@ figure values) is generated from the code: `docs/replication/variant-comparison.
 
 ## Cyprus model (Level 2)
 
-No deviations adopted yet. Any replication choice reused here must be listed with its own
-justification.
+The Cyprus preset (`cyprus-2026`) is a separate configuration. The paper-replication preset
+and its variants are unchanged and are tested independently.
+
+| ID | Topic | Choice | Justification |
+|---|---|---|---|
+| C1 | D1 (Tech A weight) | **Not carried over.** The weight on K is calibrated directly from Cyprus data (`capitalShareParam` = calibrated w_K, variant `capitalWeight`). | The θ ambiguity is about the paper's printed notation. The Cyprus calibration defines the weight explicitly from the measured capital share. |
+| C2 | D2 (eq. 24 wedges) | **Not carried over.** Eq. (24) is used as printed (wedges included). | The figure-replication variant exists only to compare with the paper's plotted levels. |
+| C3 | Meaning of "SS" | Model SS = Social Insurance Fund contributions by employees and employers, at effective rates. The 5.2% state contribution, GHS and the other employer funds are **excluded**; the statutory module reports them separately. | Prevents double-counting. Matches the policy question (Fund financing). |
+| C4 | Effective SI rates | τ^sse, τ^ssw = statutory rate × insurable share of the wage bill. Default: **tail-free band estimate** from CYSTAT 2025 monthly earnings bands and the published mean, against the 2026 monthly ceiling (share 0.8995). Alternative: lognormal (log-sd 0.752 from mean/median; share 0.920), also used for wage-change scenarios. | The representative-agent model cannot apply a per-person ceiling. Ceiling and earnings use the same (monthly, nearest-year) basis. An earlier draft compared the 2026 ceiling with 2023 national-accounts wages; that was caught by the cross-checks and corrected. |
+| C5 | Other employer levies | GHS (2.9%), Social Cohesion (2%), Redundancy (1.2%), HRD (0.5%) and Holiday Fund are folded into the gross wage W. They are not SS in the model. | The paper's model has a single employer wedge. Statutory amounts are computed exactly in the firm/payroll module. |
+| C6 | Effective τ^k, τ^l, τ^c | From national accounts: τ^k = D51B / net capital income; τ^l = D51A / (D11 + B3G); τ^c = D21 / (C + G − D21). | Statutory rates (15% CIT, progressive PIT, 19% VAT) are **not** the paper's effective rates. Incidence assumptions are documented in the data file. |
+| C7 | Base year | 2023, the latest year with a net capital stock, so K matches the flows. 2025 figures are used for headline indicators. | Consistency of stocks and flows. |
+| C8 | Baseline adoption | 0 (scenario variable). | No Cyprus estimate of the CES adoption parameter exists. It is not the share of firms using AI. |
+| C9 | Government consumption | Not modelled. Revenue is rebated lump-sum, as in the paper. Model C/Y therefore covers private + government consumption. | Paper's structure. The calibration diagnostics flag the untargeted C/Y and I/Y moments. |
+| C10 | Propositions 1 and 3 | **Not assumed.** They hold inside the Level 2 model only while effective rates are held fixed (condition C4 of Prop. 1). With a fixed euro ceiling and wages that change, the effective SI rate varies, which breaks both propositions. Tests demonstrate this explicitly. | User requirement; MODEL_SPEC §5a conditions. |

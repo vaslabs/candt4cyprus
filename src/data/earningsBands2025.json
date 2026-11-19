@@ -1,0 +1,32 @@
+{
+  "sourceId": "cystat-db-earnings-bands",
+  "year": 2025,
+  "units": "€ gross monthly earnings; share of employees (fraction)",
+  "evidence": "CYSTAT-DB 1110060E, YEAR=2025, SEX=Total (fetched 2026-11-19)",
+  "bands": [
+    { "from": 0, "to": 500, "share": 0.018 },
+    { "from": 500, "to": 750, "share": 0.047 },
+    { "from": 750, "to": 1000, "share": 0.05 },
+    { "from": 1000, "to": 1250, "share": 0.13 },
+    { "from": 1250, "to": 1500, "share": 0.112 },
+    { "from": 1500, "to": 1750, "share": 0.114 },
+    { "from": 1750, "to": 2000, "share": 0.076 },
+    { "from": 2000, "to": 2250, "share": 0.067 },
+    { "from": 2250, "to": 2500, "share": 0.051 },
+    { "from": 2500, "to": 2750, "share": 0.052 },
+    { "from": 2750, "to": 3000, "share": 0.032 },
+    { "from": 3000, "to": 3250, "share": 0.034 },
+    { "from": 3250, "to": 3500, "share": 0.024 },
+    { "from": 3500, "to": 3750, "share": 0.023 },
+    { "from": 3750, "to": 4000, "share": 0.016 },
+    { "from": 4000, "to": 4250, "share": 0.019 },
+    { "from": 4250, "to": 4500, "share": 0.012 },
+    { "from": 4500, "to": 4750, "share": 0.016 },
+    { "from": 4750, "to": 5000, "share": 0.011 },
+    { "from": 5000, "to": 5250, "share": 0.014 },
+    { "from": 5250, "to": 5500, "share": 0.009 },
+    { "from": 5500, "to": 5750, "share": 0.008 },
+    { "from": 5750, "to": 6000, "share": 0.006 },
+    { "from": 6000, "to": null, "share": 0.06 }
+  ]
+}
