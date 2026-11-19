@@ -212,6 +212,31 @@ about 1e-12, double precision cannot distinguish the point from the boundary.
 of the margin across the boundary, Newton never converging beyond the boundary, conditioning
 worsening near it, and agreement with the oracle.
 
+### Proposition 3 (Tech A required rates are constant)
+**Claim.** Under Technology A (either D1 variant), with the target equal to the zero-adoption
+SS/Y, the rate of each robot tax that holds SS/Y at the target does not depend on adoption φ
+or the elasticity υ, wherever a steady state exists at that rate. With
+$a=(\tau^{sse}+\tau^{ssw})/(1+\tau^{sse})$ and $r=1/\beta-1$:
+
+$$\tau^{ssz}=\frac{\tau^{sse}+\tau^{ssw}}{1-\tau^{ssw}},\qquad
+\tau^{d}=\frac{a\,(r+(1-\tau^k)\delta_d)}{r+a\,\delta_d},\qquad
+\tau^{id}=\frac{a\,(r+(1-\tau^k)\delta_d)}{(1-\tau^k)\delta_d-a\,(r+\delta_d)}.$$
+
+**Proof sketch.** R_k fixes c_X through the outer unit-cost condition, so the cost share of X,
+$s_X=1-R_kK/Y$, is fixed. Labour cost and robot cost exhaust $s_X$. Labour yields `a` of SS per
+unit of labour cost, so the target is $a\,s_X$. Holding it requires the robot source to yield `a`
+per unit of robot cost: $\tau^{ssz}/(1+\tau^{ssz})=a$, $\tau^dR_d^{-1}(R_d-\delta_d)=a$,
+$\tau^{id}\delta_d/R_d=a$. With R_d from eq. (26), schemes 1 and 2 are linear in τ. ∎
+
+Paper calibration: 0.2798 / 0.5588 / 0.3789, against the published 0.28 / 0.56 / 0.38. This
+explains the paper's "regardless of the elasticity" finding. It also means the paper's
+low-adoption Tech A transients (Figs 2–4) cannot be reproduced by an exact solution
+(benchmark B11; hypothesis H1 in the replication report). Under Tech B, R_k does not fix the
+relevant cost share, so rates do vary with adoption, as in the paper.
+
+**Tests:** a property test checks that solver rates equal the closed forms over random Tech A
+parameters. `src/economics/policies/closedForms.ts` is used only as a test oracle.
+
 ## 6. Discrepancies between the printed paper and its figures
 
 ### 6.1 Tech A weight θ (affects everything in Tech A)

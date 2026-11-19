@@ -20,7 +20,8 @@
     "test:watch": "vitest",
     "test:mutation": "FC_RUNS=40 stryker run",
     "oracle": "tools/oracle/.venv/bin/python -I tools/oracle/oracle.py",
-    "replication:variants": "tsx tools/replication/variantTable.ts"
+    "replication:variants": "tsx tools/replication/variantTable.ts",
+    "replication:report": "tsx tools/replication/replicationReport.ts"
   },
   "dependencies": {
     "react": "^19.3.1",

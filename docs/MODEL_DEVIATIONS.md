@@ -83,6 +83,12 @@ figure values) is generated from the code: `docs/replication/variant-comparison.
 
 - The paper does not say which root to take if SS/Y(τ) = target has several solutions (a Laffer
   shape). We take the smallest τ ≥ 0, and the output lists any additional roots found.
+- **Prohibitive limit.** As τ^k + τ^d → 1, robots are taxed out of existence (R_d → ∞, D → 0),
+  the economy reverts to the no-automation baseline, and SS/Y → target asymptotically. Roots
+  within 1e-4 of that cap are artefacts of the limit, so the band is excluded (`PROHIBITIVE_BAND`).
+- **Tax-dependent existence.** Robot taxes raise the cost of robots and move the existence
+  boundary outward. Above the untaxed boundary, a steady state may exist only for rates above
+  some minimum. Results flag this (`untaxedSteadyStateExists: false`).
 
 ---
 

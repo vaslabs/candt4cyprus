@@ -22,6 +22,11 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
       - run: npm test
+      - name: Replication documents are reproducible and up to date
+        run: |
+          npm run replication:variants
+          npm run replication:report
+          git diff --exit-code -- docs/replication
       - run: npm run build
 
   oracle-crosscheck:
