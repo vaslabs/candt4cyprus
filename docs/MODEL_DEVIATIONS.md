@@ -1,0 +1,85 @@
+# Model deviations register
+
+Every deliberate departure from the printed text of Casas & Torres (2026), and every
+interpretation of something the paper leaves unspecified. Each entry records the evidence, the
+selectable variants, the default, and where it applies.
+
+**Scope rule:** these choices apply to **Level 1 (paper replication)**. None of them carries over to
+the Cyprus model (Level 2) automatically. If a Cyprus preset reuses one, it gets its own entry in
+the Cyprus section below, with a justification.
+
+Every simulation output records its `equationVariant`, `calibrationPreset`, `solver` and
+`convergence` status (implemented in step 3).
+
+| ID | Topic | Type | Default (replication) | Alternative | Status |
+|---|---|---|---|---|---|
+| D1 | Tech A CES weight θ | Printed-text conflict | `capitalWeight` = 0.35 on K | `asPrinted`: θ = 0.35 on X | Planned (step 3) |
+| D2 | Tax wedges in labour supply (24) | Figures ≠ printed eq. | `asPrinted`: wedges included | `figureReplication`: wedges removed | Planned (step 3) |
+| D3 | Net income shares | Undefined in paper | Standard net definition | none; the gap is reported | Planned (step 4) |
+| D4 | Elasticity = 1 | Formula undefined | Cobb–Douglas limit | none | Implemented (core) |
+| D5 | Robot revenue counted as SS financing | Interpretation | Counted (Fig. 5) | none | Planned (step 4) |
+| D6 | Choice among multiple tax roots | Unspecified | Smallest τ ≥ 0; others reported | none | Planned (step 4) |
+
+---
+
+## D1. Technology A: weight on traditional capital
+
+- **Printed:** eq. (1) $Y=[\theta X^{(\rho-1)/\rho}+(1-\theta)K^{(\rho-1)/\rho}]^{\rho/(\rho-1)}$,
+  with FOC (6) $R_k=(1-\theta)Y^{1/\rho}K^{-1/\rho}$. Table 1 says θ = 0.35 is the *traditional
+  capital share*.
+- **Conflict:** with θ = 0.35 as printed, capital gets weight 0.65.
+- **Evidence** (φ = 0, no robot tax; computed in step 1, to be confirmed by the tests in step 3):
+
+  | | gross labour share | trad. capital share | SS/Y |
+  |---|---|---|---|
+  | 0.35 on K | 0.598 | 0.307 | 0.1516 |
+  | 0.35 on X (as printed) | 0.401 | 0.536 | 0.1015 |
+  | Figs 1, 8 | ≈ 0.59 | ≈ 0.31 | ≈ 0.151 |
+
+- **Decision:** default `capitalWeight` = 0.35, i.e. θ_X = 0.65. Variant `asPrinted` is available
+  and labelled.
+- **Note:** Tech B (eq. 11) puts α = 0.35 on K as printed. The default makes Tech A and Tech B
+  identical at zero adoption, which is what the paper says it intends ("to make the two
+  technological specifications comparable", §4).
+
+## D2. Labour-supply condition (24): tax wedges
+
+- **Printed:** $(1+\tau^c)C=\frac{\gamma}{1-\gamma}(1-L)W(1-\tau^l-\tau^{ssw})$.
+- **Evidence:** the baseline levels in Fig. 6 (L ≈ 0.33, Y ≈ 0.6, K ≈ 2.0, C ≈ 0.48) are
+  reproduced only when the wedges $(1+\tau^c)$ and $(1-\tau^l-\tau^{ssw})$ are dropped. As
+  printed, L = 0.237 and Y = 0.423.
+- **Decision:** default `asPrinted`. Variant `figureReplication` is never applied silently. It is
+  shown in every output, export and scenario file.
+- **Reach:** this affects **levels only**. Ratios (SS/Y, shares, required tax rates) do not depend
+  on (24). The proof and its conditions are in MODEL_SPEC §5 and will be tested in step 3.
+
+## D3. Net income shares (Figs 10–11)
+
+- Not defined in the paper. We use the standard definition: net factor share = (gross factor
+  income − depreciation of that factor) / (Y − total depreciation).
+- At baseline this gives a net traditional-capital share of ≈ 0.14, against ≈ 0.16 read off
+  Fig. 10. **The discrepancy is preserved and reported. The definition is not tuned to match.**
+
+## D4. Unit elasticity
+
+- CES with elasticity 1 is undefined as written. Figs 2–4 use υ = 1 and σ = 1. We use the
+  Cobb–Douglas limit. `src/economics/core/ces.ts` evaluates the power mean with
+  `expm1`/`log1p`, so the result is continuous through s = 1. This is property-tested.
+
+## D5. Robot-tax revenue as social-security financing
+
+- Fig. 5 shows a "robot source" share for all three schemes, so all three robot taxes are treated
+  as earmarked for social security: SS = (τ^sse + τ^ssw)WL + robot revenue. The bases follow eq. (33):
+  τ^d(R_d − δ_d)D, τ^id·I_d, τ^ssz·R_d·D.
+
+## D6. Multiple solutions for the required tax rate
+
+- The paper does not say which root to take if SS/Y(τ) = target has several solutions (a Laffer
+  shape). We take the smallest τ ≥ 0, and the output lists any additional roots found.
+
+---
+
+## Cyprus model (Level 2)
+
+No deviations adopted yet. Any replication choice reused here must be listed with its own
+justification.
