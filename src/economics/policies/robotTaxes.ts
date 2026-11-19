@@ -15,6 +15,8 @@ import { solveSteadyStateDual, type SolveOptions } from '../paper/steadyState';
 import type { PaperParameters, SteadyStateResult, TaxRates } from '../paper/types';
 
 export type RobotTaxScheme = 'none' | 'robotIncome' | 'robotInvestment' | 'robotSS';
+/** All instruments: the paper's three robot taxes plus the exploratory policies E/F/G. */
+export type PolicyScheme = RobotTaxScheme | 'valueAdded' | 'labourShare' | 'excessProfit';
 export const ROBOT_TAX_SCHEMES = ['robotIncome', 'robotInvestment', 'robotSS'] as const;
 
 export const SCHEME_INFO: Record<RobotTaxScheme, { symbol: string; label: string; base: string }> = {
@@ -61,7 +63,7 @@ export function baselineSsTarget(p: PaperParameters): number {
 export type RequiredTaxResult =
   | {
       readonly status: 'solved';
-      readonly scheme: RobotTaxScheme;
+      readonly scheme: PolicyScheme;
       readonly rate: number;
       readonly target: number;
       /** Further roots of SS/Y(τ) = target above the reported (smallest) one (MODEL_DEVIATIONS D6). */
@@ -77,7 +79,7 @@ export type RequiredTaxResult =
   | {
       /** SS/Y already ≥ target without any robot tax. */
       readonly status: 'not-needed';
-      readonly scheme: RobotTaxScheme;
+      readonly scheme: PolicyScheme;
       readonly rate: 0;
       readonly target: number;
       readonly steadyState: Extract<SteadyStateResult, { ok: true }>;
@@ -85,7 +87,7 @@ export type RequiredTaxResult =
   | {
       /** No admissible rate reaches the target; reports the best SS/Y found on the scan grid. */
       readonly status: 'unattainable';
-      readonly scheme: RobotTaxScheme;
+      readonly scheme: PolicyScheme;
       readonly target: number;
       readonly maxSsToGdp: number;
       readonly atRate: number;
@@ -93,14 +95,18 @@ export type RequiredTaxResult =
   | {
       /** No finite steady state for any scanned rate. */
       readonly status: 'no-steady-state';
-      readonly scheme: RobotTaxScheme;
+      readonly scheme: PolicyScheme;
       readonly target: number;
       readonly detail: string;
     };
 
+export type SteadyStateSolver = (p: PaperParameters, opts: SolveOptions) => SteadyStateResult;
+
 export interface RequiredTaxOptions extends SolveOptions {
   /** Target SS/Y. Default: baselineSsTarget(p). */
   readonly target?: number;
+  /** Steady-state solver (default Solver 1; e.g. a ceiling-feedback wrapper for Cyprus). */
+  readonly solver?: SteadyStateSolver;
   /** Grid intervals for root bracketing over [0, upper]. */
   readonly scanIntervals?: number;
 }
@@ -116,8 +122,29 @@ export function solveRequiredRobotTax(
   scheme: Exclude<RobotTaxScheme, 'none'>,
   opts: RequiredTaxOptions = {},
 ): RequiredTaxResult {
+  return solveRequiredRateGeneric(
+    p,
+    scheme,
+    (q, tau) => withRobotTax(q, scheme, tau),
+    rateUpperBound(p, scheme),
+    opts,
+  );
+}
+
+/**
+ * Generic required-rate search for any instrument: `apply(p, τ)` installs the instrument at rate τ.
+ * Same semantics as above (smallest root, additional roots reported, statuses never interpolated).
+ */
+export function solveRequiredRateGeneric(
+  p: PaperParameters,
+  scheme: Exclude<PolicyScheme, 'none'>,
+  apply: (p: PaperParameters, tau: number) => PaperParameters,
+  upper: number,
+  opts: RequiredTaxOptions = {},
+): RequiredTaxResult {
   const target = opts.target ?? baselineSsTarget(p);
-  const solve = (tau: number) => solveSteadyStateDual(withRobotTax(p, scheme, tau), opts);
+  const solver = opts.solver ?? solveSteadyStateDual;
+  const solve = (tau: number) => solver(apply(p, tau), opts);
   const gap = (tau: number) => {
     const r = solve(tau);
     return r.ok ? r.ssToGdp - target : NaN;
@@ -127,7 +154,6 @@ export function solveRequiredRobotTax(
   if (r0.ok && r0.ssToGdp >= target) {
     return { status: 'not-needed', scheme, rate: 0, target, steadyState: r0 };
   }
-  const upper = rateUpperBound(p, scheme);
   const n = opts.scanIntervals ?? 400;
   const brackets = scanBrackets(gap, 0, upper, n);
   const first = brackets[0];
@@ -175,7 +201,7 @@ export function solveRequiredRobotTax(
 
 export interface SweepPoint {
   readonly adoption: number;
-  readonly scheme: RobotTaxScheme;
+  readonly scheme: PolicyScheme;
   readonly rate: number | null;
   readonly status: RequiredTaxResult['status'] | 'baseline';
   readonly result: SteadyStateResult | null;

@@ -10,7 +10,7 @@
 import { conditionNumber1, dampedNewton, numericalJacobian, type Vector } from '../core/numericalSolver';
 import { labourSupplyWedges } from './households';
 import { technologyModel } from './technology';
-import { assembleResult, makeMeta, type SolveOptions } from './steadyState';
+import { assembleResult, firmWedges, makeMeta, type SolveOptions } from './steadyState';
 import type { ConvergenceInfo, PaperParameters, SteadyStateLevels, SteadyStateResult } from './types';
 
 export const UNKNOWNS = ['Y', 'C', 'K', 'D', 'L', 'X', 'W', 'I', 'Rk', 'Rd'] as const;
@@ -36,7 +36,12 @@ export const GENERIC_GUESS: LevelGuess = {
  * (log differences or Euler-equation deviations), so that ‖r‖∞ ≈ relative error.
  * `includeRobotFoc` = false drops eq. (4)/(15) (used at adoption = 0).
  */
-export function steadyStateResiduals(p: PaperParameters, v: LevelGuess, includeRobotFoc = true): number[] {
+export function steadyStateResiduals(
+  p: PaperParameters,
+  v: LevelGuess,
+  includeRobotFoc = true,
+  labourShareActivity = 0,
+): number[] {
   const t = p.taxes;
   const tech = technologyModel(p);
   const { Y, C, K, D, L, X, W, I, Rk, Rd } = v;
@@ -44,20 +49,32 @@ export function steadyStateResiduals(p: PaperParameters, v: LevelGuess, includeR
   const mp = tech.focs(p, Y, X, K, D, L);
   const g = p.gamma / (1 - p.gamma);
   const w = labourSupplyWedges(p);
+  // Exploratory policies, written out here independently of steadyState.ts:
+  //   firm maximises (1 − τ_E c_E − a τ_F c_F s̄)·Y − (1 − a τ_F c_F)(1+τ^sse)WL − R_k K − (1+τ^ssz)R_d D
+  //   capital owners pay τ_G (R − δ − r_n)⁺ on each capital.
+  const x = p.extensions;
+  const eTax = x?.valueAdded ? x.valueAdded.rate * x.valueAdded.coverage : 0;
+  const fAct = x?.labourShare ? labourShareActivity * x.labourShare.rate * x.labourShare.coverage : 0;
+  const price = 1 - eTax - fAct * (x?.labourShare?.benchmark ?? 0);
+  const gRate = x?.excessProfit?.rate ?? 0;
+  const gAllow = x?.excessProfit?.normalReturn ?? 0;
+  const gK = gRate * Math.max(0, Rk - p.deltaK - gAllow);
+  const gD = gRate * Math.max(0, Rd - p.deltaD - gAllow);
   const r: number[] = [
     Math.log(Y) - Math.log(prod.Y), // (1)/(10)
     Math.log(X) - Math.log(prod.X), // (2)/(11)
-    Math.log((1 + t.employerSS) * W) - Math.log(mp.mpL), // (5)/(14)
-    Math.log(Rk) - Math.log(mp.mpK), // (6)/(13)
+    Math.log((1 - fAct) * (1 + t.employerSS) * W) - Math.log(price * mp.mpL), // (5)/(14)
+    Math.log(Rk) - Math.log(price * mp.mpK), // (6)/(13)
     Math.log(w.consumption * C) - Math.log(g * (1 - L) * W * w.wage), // (24)
-    p.beta * ((1 - t.capital) * (Rk - p.deltaK) + 1) - 1, // (25) at steady state
-    (p.beta * ((1 - t.capital - t.robotIncome) * (Rd - p.deltaD) + 1 + t.robotInvestment * (1 - p.deltaD))) /
+    p.beta * ((1 - t.capital) * (Rk - p.deltaK) - gK + 1) - 1, // (25) at steady state (+ policy G)
+    (p.beta *
+      ((1 - t.capital - t.robotIncome) * (Rd - p.deltaD) - gD + 1 + t.robotInvestment * (1 - p.deltaD))) /
       (1 + t.robotInvestment) -
-      1, // (26) at steady state
+      1, // (26) at steady state (+ policy G)
     Math.log(I) - Math.log(p.deltaK * K + p.deltaD * D), // (21)–(22) at steady state
     Math.log(C) - Math.log(Y - I), // resource constraint
   ];
-  if (includeRobotFoc) r.push(Math.log((1 + t.robotSS) * Rd) - Math.log(mp.mpD)); // (4)/(15)
+  if (includeRobotFoc) r.push(Math.log((1 + t.robotSS) * Rd) - Math.log(price * mp.mpD)); // (4)/(15)
   return r;
 }
 
@@ -89,9 +106,9 @@ interface PointSolve {
   readonly status: string;
 }
 
-function solveAt(p: PaperParameters, guess: LevelGuess, tol: number): PointSolve {
+function solveAt(p: PaperParameters, guess: LevelGuess, tol: number, act = 0): PointSolve {
   const withD = p.adoption > 0;
-  const fn = (x: Vector) => steadyStateResiduals(p, unpack(x, withD), withD);
+  const fn = (x: Vector) => steadyStateResiduals(p, unpack(x, withD), withD, act);
   const start = withD && guess.D <= 0 ? { ...guess, D: 1e-6 * guess.K } : guess;
   const res = dampedNewton(fn, pack(start, withD), { tolerance: tol, maxIterations: 200 });
   return {
@@ -104,9 +121,9 @@ function solveAt(p: PaperParameters, guess: LevelGuess, tol: number): PointSolve
 }
 
 /** κ₁ of the log-variable Jacobian at a point (the conditioning that Newton actually faces). */
-export function jacobianConditionAt(p: PaperParameters, v: LevelGuess): number {
+export function jacobianConditionAt(p: PaperParameters, v: LevelGuess, act = 0): number {
   const withD = p.adoption > 0;
-  const fn = (x: Vector) => steadyStateResiduals(p, unpack(x, withD), withD);
+  const fn = (x: Vector) => steadyStateResiduals(p, unpack(x, withD), withD, act);
   return conditionNumber1(numericalJacobian(fn, pack(v, withD)));
 }
 
@@ -125,22 +142,48 @@ function toLevels(p: PaperParameters, v: LevelGuess): SteadyStateLevels {
  * non-existence: only Solver 1's analytic slack can establish non-existence.
  */
 export function solveSteadyStateNewton(p: PaperParameters, opts: NewtonSolveOptions = {}): SteadyStateResult {
+  const F = p.extensions?.labourShare;
+  if (!F || F.rate === 0 || F.coverage === 0) return solveNewtonWithActivity(p, opts, 0, 'inactive');
+  // Labour-share policy: corner regimes only (the kink is resolved by Solver 1).
+  const b = solveNewtonWithActivity(p, opts, 1, 'binding');
+  const n = solveNewtonWithActivity(p, opts, 0, 'non-binding');
+  const bOk = b.ok && b.diagnostics.labourCostShare < F.benchmark;
+  const nOk = n.ok && n.diagnostics.labourCostShare >= F.benchmark;
+  if (bOk && !nOk) return b;
+  if (nOk && !bOk) return n;
+  const why = bOk
+    ? 'both corner regimes are self-consistent (multiple equilibria)'
+    : 'kink regime (not supported by Newton; use Solver 1)';
+  return {
+    ok: false,
+    reason: 'solver-failed',
+    detail: `labour-share policy: ${why}`,
+    meta: (n.ok ? n : b).meta,
+  };
+}
+
+function solveNewtonWithActivity(
+  p: PaperParameters,
+  opts: NewtonSolveOptions,
+  act: number,
+  regime: 'inactive' | 'binding' | 'non-binding',
+): SteadyStateResult {
   const tol = opts.tolerance ?? 1e-12;
   const target = p.adoption;
   let totalIterations = 0;
   let current: PointSolve;
 
   if (opts.continuation === false) {
-    current = solveAt(p, opts.initialGuess ?? GENERIC_GUESS, tol);
+    current = solveAt(p, opts.initialGuess ?? GENERIC_GUESS, tol, act);
     totalIterations = current.iterations;
   } else {
-    current = solveAt({ ...p, adoption: 0 }, opts.initialGuess ?? GENERIC_GUESS, tol);
+    current = solveAt({ ...p, adoption: 0 }, opts.initialGuess ?? GENERIC_GUESS, tol, act);
     totalIterations += current.iterations;
     let a = 0;
     let step = Math.min(0.05, target);
     while (current.converged && a < target) {
       const next = Math.min(target, a + step);
-      const trial = solveAt({ ...p, adoption: next }, current.levels, tol);
+      const trial = solveAt({ ...p, adoption: next }, current.levels, tol, act);
       totalIterations += trial.iterations;
       if (trial.converged) {
         current = trial;
@@ -160,7 +203,7 @@ export function solveSteadyStateNewton(p: PaperParameters, opts: NewtonSolveOpti
     }
   }
 
-  const condition = jacobianConditionAt(p, current.levels);
+  const condition = jacobianConditionAt(p, current.levels, act);
   const convergence: ConvergenceInfo = {
     status: current.converged ? 'converged' : 'failed',
     residualNorm: current.residualNorm,
@@ -179,5 +222,21 @@ export function solveSteadyStateNewton(p: PaperParameters, opts: NewtonSolveOpti
       meta,
     };
   }
-  return assembleResult(p, toLevels(p, current.levels), meta, { outer: NaN, inner: NaN });
+  const lv = toLevels(p, current.levels);
+  const G = p.extensions?.excessProfit;
+  // Same tie rule as Solver 1, looser tolerance because Newton converges to ~1e-12.
+  const gReg = (net: number) =>
+    !G || G.rate === 0
+      ? 'inactive'
+      : net > G.normalReturn + 1e-9 * Math.max(1, Math.abs(G.normalReturn))
+        ? 'binding'
+        : 'non-binding';
+  return assembleResult(
+    p,
+    lv,
+    meta,
+    { outer: NaN, inner: NaN },
+    { labourShare: regime, excessProfitK: gReg(lv.Rk - p.deltaK), excessProfitD: gReg(lv.Rd - p.deltaD) },
+    firmWedges(p, act).price,
+  );
 }

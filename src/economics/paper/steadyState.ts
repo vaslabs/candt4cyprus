@@ -146,8 +146,8 @@ function solveCore(
   const { Rk, Rd } = returns;
   const pD = (1 + p.taxes.robotSS) * Rd;
   const { price, labourMultiplier } = firmWedges(p, lambda);
-  if (!(price > 0)) {
-    const detail = `Firm net output price ${price} ≤ 0 (contribution rates too high).`;
+  if (!(price > 0) || !(labourMultiplier > 0)) {
+    const detail = `Firm wedges infeasible (net output price ${price}, labour-cost multiplier ${labourMultiplier}); contribution rates too high.`;
     return {
       ok: false,
       failure: {
@@ -213,6 +213,26 @@ function solveCore(
   const D = dy * Y;
   const Ik = p.deltaK * K;
   const Id = p.deltaD * D;
+  // Economic feasibility guard: never report impossible quantities as a steady state.
+  const bad = [
+    ['W', W],
+    ['L', L],
+    ['Y', Y],
+    ['K', K],
+    ['C', cy * Y],
+  ].find(([, v]) => !((v as number) > 0 && Number.isFinite(v as number)));
+  if (bad || !(L < 1) || !(D >= 0)) {
+    const detail = `Infeasible quantities (${bad ? `${bad[0]} = ${bad[1]}` : `L = ${L}, D = ${D}`}).`;
+    return {
+      ok: false,
+      failure: {
+        ok: false,
+        reason: 'stage-infeasible',
+        detail,
+        meta: makeMeta(p, 'dual', noSteadyState(detail), opts),
+      },
+    };
+  }
   return {
     ok: true,
     levels: { Y, C: cy * Y, K, D, L, X: xy * Y, W, I: Ik + Id, Rk, Rd, Ik, Id },

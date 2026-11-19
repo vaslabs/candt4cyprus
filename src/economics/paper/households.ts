@@ -43,11 +43,14 @@ export function capitalReturns(p: PaperParameters): CapitalReturns {
     const g = G.rate;
     const r = G.normalReturn;
     if (!(tk + g < 1) || !(tk + td + g < 1)) return { ok: false, detail: `τk + τd + τ_G must be < 1` };
-    if (Rk - deltaK > r) {
+    // Ties (net return = allowance, e.g. the neutral design) are classified as non-binding: the
+    // contribution due is zero either way; a 1e-12 relative tolerance absorbs rounding.
+    const exceeds = (net: number) => net > r + 1e-12 * Math.max(1, Math.abs(r));
+    if (exceeds(Rk - deltaK)) {
       Rk = deltaK + (rho - g * r) / (1 - tk - g);
       excessProfitK = 'binding';
     } else excessProfitK = 'non-binding';
-    if (Rd - deltaD > r) {
+    if (exceeds(Rd - deltaD)) {
       Rd = (A - g * (deltaD + r)) / (1 - tk - td - g);
       excessProfitD = 'binding';
     } else excessProfitD = 'non-binding';
