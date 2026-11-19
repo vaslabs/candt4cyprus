@@ -38,10 +38,16 @@ export function assertCesSpec(spec: CesSpec): void {
  * (so its value may be +Infinity, as happens for dual prices p/a with a = 0).
  */
 export function powerMean(z1: number, z2: number, a: number, q: number): number {
-  if (a === 0) return z2;
-  if (a === 1) return z1;
-  const l1 = Math.log(z1);
-  const l2 = Math.log(z2);
+  return powerMeanLog(Math.log(z1), Math.log(z2), a, q);
+}
+
+/**
+ * Power mean from log-arguments l_i = ln z_i. Working in logs lets callers pass ln(p/a) =
+ * ln p − ln a without forming p/a, which overflows when the weight a is tiny.
+ */
+export function powerMeanLog(l1: number, l2: number, a: number, q: number): number {
+  if (a === 0) return Math.exp(l2);
+  if (a === 1) return Math.exp(l1);
   if (Math.abs(q) < ZERO_EXPONENT) return Math.exp(a * l1 + (1 - a) * l2);
   // For large |q·ln z| expm1 overflows; fall back to a log-sum-exp form.
   const t1 = q * l1;
@@ -84,7 +90,9 @@ export function cesMarginalProducts(spec: CesSpec, x1: number, x2: number): [num
 /** Unit cost c(p1, p2); prices must be > 0. */
 export function cesUnitCost(spec: CesSpec, p1: number, p2: number): number {
   const { weight1: a, elasticity: s } = spec;
-  return powerMean(p1 / a, p2 / (1 - a), a, 1 - s);
+  if (a === 0) return p2;
+  if (a === 1) return p1;
+  return powerMeanLog(Math.log(p1) - Math.log(a), Math.log(p2) - Math.log1p(-a), a, 1 - s);
 }
 
 /**
@@ -94,11 +102,20 @@ export function cesUnitCost(spec: CesSpec, p1: number, p2: number): number {
 export function cesUnitDemands(spec: CesSpec, p1: number, p2: number): [number, number] {
   const { weight1: a, elasticity: s } = spec;
   const c = cesUnitCost(spec, p1, p2);
-  return [a === 0 ? 0 : a ** s * (c / p1) ** s, a === 1 ? 0 : (1 - a) ** s * (c / p2) ** s];
+  const lc = Math.log(c);
+  return [
+    a === 0 ? 0 : Math.exp(s * (Math.log(a) + lc - Math.log(p1))),
+    a === 1 ? 0 : Math.exp(s * (Math.log1p(-a) + lc - Math.log(p2))),
+  ];
 }
 
 export type InversePriceResult =
-  | { readonly ok: true; readonly price: number }
+  | {
+      readonly ok: true;
+      readonly price: number;
+      /** Existence slack (> 0); Infinity when the stage cannot fail (Cobb–Douglas or unused input 1). */
+      readonly slack: number;
+    }
   | {
       readonly ok: false;
       /**
@@ -106,8 +123,10 @@ export type InversePriceResult =
        * finite price of input 2 is consistent with zero profit (input 2 would be priced out
        * entirely or would need an infinite price).
        * 'input1-too-expensive': with s < 1 input 1 is essential and too dear for unit cost c.
+       * 'price-out-of-range': a solution exists mathematically but p2 is outside double range
+       * (overflow/underflow); reported rather than returned as Infinity or 0.
        */
-      readonly reason: 'input1-too-cheap' | 'input1-too-expensive' | 'input2-unused';
+      readonly reason: 'input1-too-cheap' | 'input1-too-expensive' | 'input2-unused' | 'price-out-of-range';
       /** Signed slack of the existence condition; ≤ 0 means infeasible. 0 is the exact boundary. */
       readonly slack: number;
     };
@@ -125,12 +144,12 @@ export type InversePriceResult =
 export function cesInversePrice2(spec: CesSpec, unitCost: number, p1: number): InversePriceResult {
   const { weight1: a, elasticity: s } = spec;
   if (a === 1) return { ok: false, reason: 'input2-unused', slack: 0 };
-  if (a === 0) return { ok: true, price: unitCost };
+  if (a === 0) return { ok: true, price: unitCost, slack: Infinity };
   const k = 1 - s;
-  const lq1 = Math.log(p1 / a);
+  const lq1 = Math.log(p1) - Math.log(a);
   const lc = Math.log(unitCost);
   if (Math.abs(k) < ZERO_EXPONENT) {
-    return { ok: true, price: (1 - a) * Math.exp((lc - a * lq1) / (1 - a)) };
+    return finitePrice((1 - a) * Math.exp((lc - a * lq1) / (1 - a)), Infinity);
   }
   // Ratio form: c^k − a·q1^k > 0  ⇔  1 − a·(q1/c)^k > 0 ; expm1 keeps accuracy for small k.
   const e = Math.expm1(k * (lq1 - lc)); // (q1/c)^k − 1
@@ -141,5 +160,11 @@ export function cesInversePrice2(spec: CesSpec, unitCost: number, p1: number): I
   // (p2/(1−a))^k = c^k · slack/(1−a), and slack/(1−a) = 1 − a·e/(1−a). Using log1p avoids
   // the cancellation in forming 1 − a·(1+e) when k (hence e) is tiny, near Cobb–Douglas.
   const logP2 = Math.log(1 - a) + lc + Math.log1p((-a * e) / (1 - a)) / k;
-  return { ok: true, price: Math.exp(logP2) };
+  return finitePrice(Math.exp(logP2), slack);
+}
+
+function finitePrice(price: number, slack: number): InversePriceResult {
+  return price > 0 && Number.isFinite(price)
+    ? { ok: true, price, slack }
+    : { ok: false, reason: 'price-out-of-range', slack };
 }

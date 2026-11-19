@@ -146,7 +146,9 @@ describe('CES properties', () => {
         // scale with 1/share (backward stability), not be a fixed relative tolerance.
         const [, d2] = cesUnitDemands(s, p1, p2);
         const share2 = (p2 * d2) / c;
-        return inv.ok && relErr(inv.price, p2) < 1e-8 + 1e-14 / share2;
+        // If input 2's share is below ~eps the point is numerically on the existence boundary
+        // (slack = share2 rounds to ≤ 0); reporting infeasibility there is the honest answer.
+        return inv.ok ? relErr(inv.price, p2) < 1e-8 + 1e-14 / share2 : share2 < 1e-12;
       }),
     );
   });
@@ -156,6 +158,7 @@ describe('CES properties', () => {
       fc.property(spec, positive(-2, 2), positive(-2, 2), (s, p1, c) => {
         const inv = cesInversePrice2(s, c, p1);
         if (inv.ok) return relErr(cesUnitCost(s, p1, inv.price), c) < 1e-8;
+        if (inv.reason === 'price-out-of-range') return inv.slack > 0; // exists, but beyond double range
         // c(p1, ·) is increasing in p2; its supremum (p2 → ∞) must not exceed the target.
         // For s>1 sup = (p1/a)·a^(1/(1−s)); for s<1 the infimum (p2 → 0) must be above target.
         const a = s.weight1;
