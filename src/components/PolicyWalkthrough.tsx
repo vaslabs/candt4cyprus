@@ -4,7 +4,7 @@ import { Card, CardBody, CardHeader } from './ui/core';
 import { cn } from '../lib/utils';
 import { activeEntry, mmss, type TranscriptEntry } from '../lib/walkthrough';
 
-const ENTRIES: readonly TranscriptEntry[] = transcript;
+const ENTRIES: readonly TranscriptEntry[] = transcript.entries;
 const MEDIA = `${import.meta.env.BASE_URL}media/policy-walkthrough`;
 
 /**

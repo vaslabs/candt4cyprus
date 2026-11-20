@@ -14,6 +14,8 @@ Results are long-run model simulations under stated assumptions. They are not fo
 
 A three-minute captioned video, also embedded with a timed transcript on the app's overview page. It shows how to assume a level of automation, read the financing gap it opens, compare the rate each instrument needs to close it, weigh the long-run costs, test the assumptions, and save and share a report. The numbers in the captions are read from the app during recording (`npm run demo:walkthrough`).
 
+The video is published as a GitHub release asset, not stored in git. `src/content/policyWalkthrough.json` names the release that matches its transcript, and the deploy workflow downloads that video into the site (`npm run media:fetch`). The first recording is committed in `public/media` only as a fallback.
+
 ## Demo
 
 The GIFs are recorded with Playwright against the production build (`npm run demo:gifs`). All numbers are live model output, not mock-ups.
@@ -73,7 +75,7 @@ npm test             # unit, property, differential and regression tests (Vitest
 npm run test:e2e     # Playwright against the production build under /candt4cyprus/
 npm run build        # static build in dist/
 npm run demo:gifs    # re-record the README demo GIFs (needs ffmpeg)
-npm run demo:walkthrough  # re-record the policy-maker walkthrough video (needs ffmpeg)
+RELEASE=walkthrough-vN npm run demo:walkthrough  # re-record the walkthrough (needs ffmpeg); add UPLOAD=1 to publish it with gh
 ```
 
 Correctness checks:
