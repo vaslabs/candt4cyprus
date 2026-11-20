@@ -214,7 +214,7 @@ export function evaluateBenchmarks(): BenchmarkResult[] {
       qual(
         'B6b',
         'At the crossover, autonomous capital ≈ 35% of total capital',
-        'Introduction (p. 72)',
+        'Introduction (p. 72); cf. Conclusions (p. 96), which state it as an adoption rate (B6)',
         'D/(K+D) ≈ 0.35',
         `Tech A: ${fmt(share(r), 3)}, Tech B: ${fmt(share(rb), 3)}`,
         Math.abs(share(r) - 0.35) < 0.05 && Math.abs(share(rb) - 0.35) < 0.05,
@@ -282,19 +282,46 @@ export function evaluateBenchmarks(): BenchmarkResult[] {
     );
   }
 
-  // B10 — net labour share: τssz is most labour-friendly in net terms (Conclusions; Figs 10–11)
-  for (const tech of ['A', 'B'] as const) {
-    const hi = (['none', ...TAX_SCHEMES] as const).map(
-      (s) => atAdoption(tech, s, HIGH[tech])?.shares.netLabour ?? NaN,
-    );
+  // B10 — net labour share at high adoption, as stated in the results section (§5, p. 94):
+  //   Tech A: "all three alternative autonomous capital taxation schemes converge to the same labor
+  //   share when the autonomous capital adoption rate reaches 45%, suggesting that, in the long run,
+  //   these schemes all lead to a higher net labor share."
+  //   Tech B: "the only tax policy that results in a higher net labor share in the long run is the
+  //   robots' social security tax, while the other two taxation schemes converge to the same long-run
+  //   labor share as in the case without specific autonomous capital taxation."
+  // "Same share" is tested with an a-priori tolerance of 0.01, the resolution of a figure reading.
+  {
+    const NET_TOL = 0.01;
+    const net = (tech: Technology) =>
+      (['none', ...TAX_SCHEMES] as const).map(
+        (s) => atAdoption(tech, s, HIGH[tech])?.shares.netLabour ?? NaN,
+      );
+    const [n0, nd, nid, nssz] = net('A');
+    const taxedA = [nd, nid, nssz].map((v) => v ?? NaN);
+    const spreadA = Math.max(...taxedA) - Math.min(...taxedA);
+    const aboveA = taxedA.every((v) => v > (n0 ?? NaN) + NET_TOL);
     out.push(
       qual(
-        `B10-${tech}`,
-        `Net labour share highest under τssz at high adoption (Tech ${tech})`,
-        'Figs 10–11, Conclusions',
-        'τssz highest',
-        `(none, τd, τid, τssz) = ${hi.map((v) => fmt(v, 3)).join(', ')}`,
-        (hi[3] ?? NaN) > Math.max(hi[1] ?? NaN, hi[2] ?? NaN),
+        'B10-A',
+        `Net labour share: the three taxes converge to the same share, above no tax (Tech A, adoption ${HIGH.A})`,
+        'Fig. 10, §5 (p. 94)',
+        `spread of (τd, τid, τssz) ≤ ${NET_TOL}; all > none`,
+        `(none, τd, τid, τssz) = ${[n0, ...taxedA].map((v) => fmt(v ?? NaN, 3)).join(', ')}; spread = ${fmt(spreadA, 3)}, above none = ${aboveA}`,
+        spreadA <= NET_TOL && aboveA,
+        'Net shares are not defined in the paper (MODEL_DEVIATIONS D3); the definition is not tuned to match.',
+      ),
+    );
+    const [m0, md, mid, mssz] = net('B').map((v) => v ?? NaN) as [number, number, number, number];
+    const sszAbove = mssz > m0 + NET_TOL;
+    const othersAtNone = Math.abs(md - m0) <= NET_TOL && Math.abs(mid - m0) <= NET_TOL;
+    out.push(
+      qual(
+        'B10-B',
+        `Net labour share: only τssz ends above no tax; τd and τid converge to the no-tax share (Tech B, adoption ${HIGH.B})`,
+        'Fig. 11, §5 (p. 94)',
+        `τssz > none + ${NET_TOL}; τd and τid within ${NET_TOL} of none`,
+        `(none, τd, τid, τssz) = ${[m0, md, mid, mssz].map((v) => fmt(v, 3)).join(', ')}; τssz above = ${sszAbove}, others at none = ${othersAtNone}`,
+        sszAbove && othersAtNone,
         'Net shares are not defined in the paper (MODEL_DEVIATIONS D3); the definition is not tuned to match.',
       ),
     );
@@ -352,8 +379,12 @@ export function evaluateBenchmarks(): BenchmarkResult[] {
 
 /** Benchmarks expected NOT to replicate, with the reason (asserted by tests so changes are noticed). */
 export const KNOWN_DISCREPANCIES: Record<string, string> = {
-  B6b: 'Paper equates adoption with the share of autonomous in total capital; in the model they differ.',
-  'B10-A': 'Net-share definition unspecified in the paper (D3).',
-  'B10-B': 'Net-share definition unspecified in the paper (D3).',
+  B6b:
+    'The paper states the 35% crossover both as a share of total capital (Introduction) and as an adoption rate ' +
+    '(Conclusions); in the model they differ, and only the adoption-rate version (B6) holds.',
+  'B10-A':
+    'The three taxes do not converge to one net labour share (paper, p. 94); net shares are undefined in the paper (D3).',
+  'B10-B':
+    'τd and τid stay above the no-tax net labour share (paper, p. 94: they converge to it); net shares are undefined (D3).',
   B11: 'Tech A required rates are exactly constant (Proposition 3); the paper shows low-adoption transients.',
 };

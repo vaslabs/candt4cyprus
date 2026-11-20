@@ -72,9 +72,12 @@ Robot income tax, Technology A, υ = 2:
    unaffected either way.
 4. How are the net income shares in Figs 10–11 defined? With (factor income − its
    depreciation)/(Y − total depreciation), and labour income including employer SS, we obtain a
-   baseline net labour share of 0.862 against ≈ 0.84 in the figures, and different scheme
-   rankings at high adoption.
-5. Fig. 5 / Introduction: is "robots constitute approximately 35% of total capital" meant as the
+   baseline net labour share of 0.862 against ≈ 0.84 in the figures. The results described on
+   p. 94 also do not reproduce: under Tech A the three taxes do not converge to one net labour
+   share, and under Tech B τ^d and τ^id stay above the no-tax share instead of returning to it.
+5. The Introduction (p. 72) says contributions equalise when "robots constitute approximately 35%
+   of total capital"; the Conclusions (p. 96) say "once the rate of adoption … exceeds a threshold
+   of approximately 35%". Is the 35% meant as the
    adoption parameter (≈ 0.35 at the crossover in our solution) or as D/(K+D) (≈ 0.26 for Tech A
    and ≈ 0.51 for Tech B in our solution)?
 

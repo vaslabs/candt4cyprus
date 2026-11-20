@@ -130,7 +130,7 @@ L.push(
   'The paper does not define net shares. We use (factor income − its depreciation)/(Y − total depreciation), with labour income including employer SS.',
 );
 L.push(
-  'At baseline this gives net labour 0.862, against ≈ 0.84 in the figures. Under this definition the paper’s net-share rankings (B10) do not reproduce.',
+  'At baseline this gives net labour 0.862, against ≈ 0.84 in the figures. Under this definition the paper’s net-share results (B10, stated on p. 94: Tech A taxes converge to one share; Tech B only τ^ssz ends above no tax) do not reproduce.',
 );
 L.push('The definition is deliberately **not** adjusted to match.', '');
 

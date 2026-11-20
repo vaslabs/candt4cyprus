@@ -40,6 +40,8 @@ figure values) is generated from the code: `docs/replication/variant-comparison.
   | 0.35 on X (as printed) | 0.401 | 0.536 | 0.1015 |
   | Figs 1, 8 | ≈ 0.59 | ≈ 0.31 | ≈ 0.151 |
 
+- **Source check:** re-read from a 170-dpi render of p. 76 (2026-11-20). Eq. (1) and FOC (6) are
+  printed as quoted above, so this is a conflict in the printed paper, not a transcription error.
 - **Decision:** default `capitalWeight` = 0.35, i.e. θ_X = 0.65. Variant `asPrinted` is available
   and labelled.
 - **Note:** Tech B (eq. 11) puts α = 0.35 on K as printed. The default makes Tech A and Tech B
@@ -52,6 +54,8 @@ figure values) is generated from the code: `docs/replication/variant-comparison.
 - **Evidence:** the baseline levels in Fig. 6 (L ≈ 0.33, Y ≈ 0.6, K ≈ 2.0, C ≈ 0.48) are
   reproduced only when the wedges $(1+\tau^c)$ and $(1-\tau^l-\tau^{ssw})$ are dropped. As
   printed, L = 0.237 and Y = 0.423.
+- **Source check:** re-read from a 170-dpi render of p. 79 (2026-11-20). The wedges are printed as
+  quoted. Euler equation (26) and its steady-state form (29) also match `capitalReturns`.
 - **Decision:** default `asPrinted`. Variant `figureReplication` is never applied silently. It is
   shown in every output, export and scenario file.
 - **Reach:** this affects **levels only**. Ratios (SS/Y, shares, required tax rates) do not depend

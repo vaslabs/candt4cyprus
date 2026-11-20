@@ -46,14 +46,14 @@ The 4 failures are documented discrepancies, explained below. They are not hidde
 | B5-B | Robot SS contribution, Tech B, μ = 0.45 | Abstract/§5, Fig. 4 | 0.180 | 0.1782 | 0.0018 | ±0.01 | PASS |
 | B6-A | Adoption where robot SS share reaches 50%, Tech A (worst of 3 schemes) | §5 text, Fig. 5, Conclusions | 0.350 | 0.3750 | 0.0250 | ±0.05 | PASS |
 | B6-B | Adoption where robot SS share reaches 50%, Tech B (worst of 3 schemes) | §5 text, Fig. 5, Conclusions | 0.350 | 0.3870 | 0.0370 | ±0.05 | PASS |
-| B6b | At the crossover, autonomous capital ≈ 35% of total capital | Introduction (p. 72) | D/(K+D) ≈ 0.35 | Tech A: 0.264, Tech B: 0.515 |  | qualitative | **FAIL** |
+| B6b | At the crossover, autonomous capital ≈ 35% of total capital | Introduction (p. 72); cf. Conclusions (p. 96), which state it as an adoption rate (B6) | D/(K+D) ≈ 0.35 | Tech A: 0.264, Tech B: 0.515 |  | qualitative | **FAIL** |
 | B7-A | τssz yields the highest Y and C among the three taxes (Tech A, adoption 0.42) | Figs 6–7, Conclusions | τssz highest | Y (τd, τid, τssz) = 0.734, 0.627, 1.036; C = 0.384, 0.346, 0.483 |  | qualitative | PASS |
 | B7-B | τssz yields the highest Y and C among the three taxes (Tech B, adoption 0.45) | Figs 6–7, Conclusions | τssz highest | Y (τd, τid, τssz) = 0.804, 0.687, 1.119; C = 0.374, 0.337, 0.465 |  | qualitative | PASS |
 | B8-A | Gross labour share falls with adoption under all schemes; taxes slow the decline; τid > τd > τssz (Tech A) | Figs 8–9, §5 | all three hold | (none, τd, τid, τssz) at 0.42: 0.040, 0.201, 0.222, 0.162; declines=true, slows=true, ordering=true |  | qualitative | PASS |
 | B8-B | Gross labour share falls with adoption under all schemes; taxes slow the decline; τid > τd > τssz (Tech B) | Figs 8–9, §5 | all three hold | (none, τd, τid, τssz) at 0.45: 0.083, 0.184, 0.196, 0.159; declines=true, slows=true, ordering=true |  | qualitative | PASS |
 | B9 | Tech A gross traditional-capital share (constant across adoption and schemes) | Fig. 8 | 0.310 | 0.3068 | 0.0032 | ±0.01 | PASS |
-| B10-A | Net labour share highest under τssz at high adoption (Tech A) | Figs 10–11, Conclusions | τssz highest | (none, τd, τid, τssz) = 0.186, 0.445, 0.465, 0.403 |  | qualitative | **FAIL** |
-| B10-B | Net labour share highest under τssz at high adoption (Tech B) | Figs 10–11, Conclusions | τssz highest | (none, τd, τid, τssz) = 0.409, 0.457, 0.464, 0.445 |  | qualitative | **FAIL** |
+| B10-A | Net labour share: the three taxes converge to the same share, above no tax (Tech A, adoption 0.42) | Fig. 10, §5 (p. 94) | spread of (τd, τid, τssz) ≤ 0.01; all > none | (none, τd, τid, τssz) = 0.186, 0.445, 0.465, 0.403; spread = 0.062, above none = true |  | qualitative | **FAIL** |
+| B10-B | Net labour share: only τssz ends above no tax; τd and τid converge to the no-tax share (Tech B, adoption 0.45) | Fig. 11, §5 (p. 94) | τssz > none + 0.01; τd and τid within 0.01 of none | (none, τd, τid, τssz) = 0.409, 0.457, 0.464, 0.445; τssz above = true, others at none = false |  | qualitative | **FAIL** |
 | B11 | Robot income tax, Tech A, υ = 2, φ = 0.02 (elevated before converging) | Fig. 2 (visual reading) | 0.620 | 0.5588 | 0.0612 | ±0.01 | **FAIL** |
 | B12 | Tech B robot income tax decreases with adoption (σ = 1, 2) | Fig. 2 right, §5 | decreasing | σ=1: 0.499, 0.493, 0.488, 0.483; σ=2: 0.527, 0.499, 0.488, 0.480 |  | qualitative | PASS |
 | B13 | Adoption where Tech A SS/Y reaches 0 without robot tax (end of Fig. 1 curve) | Fig. 1 (visual reading) | 0.440 | 0.4348 | 0.0052 | ±0.01 | PASS |
@@ -74,9 +74,9 @@ Notes per benchmark:
 
 ## Documented discrepancies
 
-- **B6b**: Paper equates adoption with the share of autonomous in total capital; in the model they differ.
-- **B10-A**: Net-share definition unspecified in the paper (D3).
-- **B10-B**: Net-share definition unspecified in the paper (D3).
+- **B6b**: The paper states the 35% crossover both as a share of total capital (Introduction) and as an adoption rate (Conclusions); in the model they differ, and only the adoption-rate version (B6) holds.
+- **B10-A**: The three taxes do not converge to one net labour share (paper, p. 94); net shares are undefined in the paper (D3).
+- **B10-B**: τd and τid stay above the no-tax net labour share (paper, p. 94: they converge to it); net shares are undefined (D3).
 - **B11**: Tech A required rates are exactly constant (Proposition 3); the paper shows low-adoption transients.
 
 ### Tech A rates are exactly constant (Proposition 3)
@@ -107,7 +107,7 @@ The table shows the Tech A robot income tax (υ = 2) under small target offsets.
 ### Net income shares (D3)
 
 The paper does not define net shares. We use (factor income − its depreciation)/(Y − total depreciation), with labour income including employer SS.
-At baseline this gives net labour 0.862, against ≈ 0.84 in the figures. Under this definition the paper’s net-share rankings (B10) do not reproduce.
+At baseline this gives net labour 0.862, against ≈ 0.84 in the figures. Under this definition the paper’s net-share results (B10, stated on p. 94: Tech A taxes converge to one share; Tech B only τ^ssz ends above no tax) do not reproduce.
 The definition is deliberately **not** adjusted to match.
 
 ## Required rates across adoption (Figs 2–4)
