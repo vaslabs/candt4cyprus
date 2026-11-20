@@ -1,0 +1,123 @@
+name: Walkthrough release
+
+# Publishes the policy-maker walkthrough video as a GitHub release asset. The video is not kept
+# in git: the deploy workflow downloads the release named in src/content/policyWalkthrough.json.
+#
+# Modes (run manually from the Actions tab):
+#   committed-fallback  Publishes the committed public/media files under the release named in the
+#                       transcript (used once, to create walkthrough-v1), then redeploys.
+#   record              Records a new video in CI from the production build, creates release
+#                       <release>, and pushes a branch with the matching transcript for review.
+#                       Merging it deploys the new video.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: What to publish
+        type: choice
+        options: [record, committed-fallback]
+        default: record
+      release:
+        description: New release tag for mode=record, e.g. walkthrough-v2
+        required: false
+        default: ''
+
+permissions:
+  contents: write # create the release and push the transcript branch
+  pull-requests: write # open the transcript PR (if the repository allows Actions to)
+  actions: write # trigger the deploy workflow
+
+concurrency:
+  group: walkthrough-release
+  cancel-in-progress: false
+
+jobs:
+  committed-fallback:
+    if: inputs.mode == 'committed-fallback'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Create the release from the committed files
+        run: |
+          tag=$(jq -r .release src/content/policyWalkthrough.json)
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "::notice::Release $tag already exists; nothing to do."
+            exit 0
+          fi
+          gh release create "$tag" public/media/policy-walkthrough.mp4 public/media/policy-walkthrough.jpg \
+            --target "$GITHUB_SHA" --latest=false \
+            --title "Policy-maker walkthrough ($tag)" \
+            --notes "Captioned walkthrough video served by the app (transcript: src/content/policyWalkthrough.json)."
+          gh workflow run deploy.yml --ref main
+
+  record:
+    if: inputs.mode == 'record'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE: ${{ inputs.release }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check the release tag
+        run: |
+          if [[ ! "$RELEASE" =~ ^walkthrough-v[0-9]+$ ]]; then
+            echo "::error::release must look like walkthrough-vN"
+            exit 1
+          fi
+          if gh release view "$RELEASE" >/dev/null 2>&1; then
+            echo "::error::Release $RELEASE already exists; releases are not overwritten."
+            exit 1
+          fi
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium, ffmpeg and the Inter font
+        run: |
+          npx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg fonts-inter
+          # The app uses the system UI font; make it Inter, as on the machine that recorded v1.
+          mkdir -p ~/.config/fontconfig
+          cat > ~/.config/fontconfig/fonts.conf <<'XML'
+          <?xml version="1.0"?>
+          <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+          <fontconfig>
+            <alias><family>sans-serif</family><prefer><family>Inter</family></prefer></alias>
+            <alias><family>system-ui</family><prefer><family>Inter</family></prefer></alias>
+          </fontconfig>
+          XML
+          fc-cache -f >/dev/null
+          fc-match sans-serif
+      - name: Record and encode
+        run: npm run demo:walkthrough
+      - uses: actions/upload-artifact@v7
+        with:
+          name: walkthrough-${{ inputs.release }}
+          path: |
+            tools/demo/out/walkthrough/policy-walkthrough.mp4
+            tools/demo/out/walkthrough/policy-walkthrough.jpg
+            src/content/policyWalkthrough.json
+      - name: Create the release
+        run: |
+          gh release create "$RELEASE" \
+            tools/demo/out/walkthrough/policy-walkthrough.mp4 tools/demo/out/walkthrough/policy-walkthrough.jpg \
+            --target "$GITHUB_SHA" --latest=false \
+            --title "Policy-maker walkthrough ($RELEASE)" \
+            --notes "Captioned walkthrough video served by the app. Recorded in CI from $GITHUB_SHA."
+      - name: Push the matching transcript for review
+        run: |
+          branch="walkthrough/$RELEASE"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$branch"
+          git add src/content/policyWalkthrough.json
+          git commit -m "chore(walkthrough): transcript for $RELEASE"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "Walkthrough video $RELEASE" \
+            --body "Switches the app to release $RELEASE (video recorded in CI; artifact attached to the workflow run). Merging deploys it." \
+            || echo "::notice::Could not open a PR (Actions may not be allowed to); open one from $branch."

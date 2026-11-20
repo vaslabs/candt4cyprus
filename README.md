@@ -14,7 +14,7 @@ Results are long-run model simulations under stated assumptions. They are not fo
 
 A three-minute captioned video, also embedded with a timed transcript on the app's overview page. It shows how to assume a level of automation, read the financing gap it opens, compare the rate each instrument needs to close it, weigh the long-run costs, test the assumptions, and save and share a report. The numbers in the captions are read from the app during recording (`npm run demo:walkthrough`).
 
-The video is published as a GitHub release asset, not stored in git. `src/content/policyWalkthrough.json` names the release that matches its transcript, and the deploy workflow downloads that video into the site (`npm run media:fetch`). The first recording is committed in `public/media` only as a fallback.
+The video is published as a GitHub release asset, not stored in git. `src/content/policyWalkthrough.json` names the release that matches its transcript, and the deploy workflow downloads that video into the site (`npm run media:fetch`). The first recording is committed in `public/media` only as a fallback. New recordings are made and published by the manually run **Walkthrough release** workflow (`.github/workflows/walkthrough.yml`), which records in CI, creates the release, and opens a pull request with the matching transcript.
 
 ## Demo
 

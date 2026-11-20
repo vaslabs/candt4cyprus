@@ -5,6 +5,8 @@
 # The video is NOT committed. public/media/policy-walkthrough.{mp4,jpg} is the frozen first
 # recording, kept only as a fallback. New recordings are published as GitHub release assets;
 # the deploy workflow downloads them into the built site (tools/demo/fetchWalkthrough.sh).
+# Usually this runs in CI via the "Walkthrough release" workflow (.github/workflows/walkthrough.yml).
+# Locally:
 #
 #   RELEASE=walkthrough-v2 npm run demo:walkthrough            # record; writes the transcript
 #   RELEASE=walkthrough-v2 UPLOAD=1 SKIP_RECORD=1 npm run demo:walkthrough   # publish (gh)
