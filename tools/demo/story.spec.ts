@@ -7,12 +7,11 @@
  * Layout respects Instagram story safe zones: nothing important in the top ~14%
  * or bottom ~20% of the frame.
  */
-import { expect, test, type CDPSession, type Locator, type Page } from '@playwright/test';
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 import { join } from 'node:path';
+import { Recorder } from './recorder';
 
 const OUT = join(import.meta.dirname, 'out', 'story');
-const FRAMES = join(OUT, 'frames');
 
 const OVERLAY = `
 (() => {
@@ -53,47 +52,6 @@ const OVERLAY = `
   };
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', install); else install();
 })();`;
-
-/** Records Chrome screencast frames (JPEG, full device resolution) with their timestamps. */
-class Recorder {
-  private readonly stamps: { file: string; t: number }[] = [];
-  private cdp: CDPSession | null = null;
-  constructor(private readonly page: Page) {}
-
-  async start() {
-    rmSync(OUT, { recursive: true, force: true });
-    mkdirSync(FRAMES, { recursive: true });
-    const cdp = await this.page.context().newCDPSession(this.page);
-    this.cdp = cdp;
-    cdp.on('Page.screencastFrame', (f) => {
-      const file = `${String(this.stamps.length).padStart(5, '0')}.jpg`;
-      writeFileSync(join(FRAMES, file), Buffer.from(f.data, 'base64'));
-      this.stamps.push({ file, t: f.metadata.timestamp ?? Date.now() / 1000 });
-      void cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId }).catch(() => undefined);
-    });
-    await cdp.send('Page.startScreencast', {
-      format: 'jpeg',
-      quality: 92,
-      maxWidth: 1080,
-      maxHeight: 1920,
-      everyNthFrame: 1,
-    });
-  }
-
-  /** Writes an ffmpeg concat list where each frame lasts until the next one arrived. */
-  async stop() {
-    await this.cdp?.send('Page.stopScreencast');
-    const end = Date.now() / 1000;
-    const lines: string[] = [];
-    this.stamps.forEach((s, i) => {
-      const next = this.stamps[i + 1]?.t ?? end;
-      lines.push(`file 'frames/${s.file}'`, `duration ${Math.max(0.001, next - s.t).toFixed(4)}`);
-    });
-    const last = this.stamps[this.stamps.length - 1];
-    if (last) lines.push(`file 'frames/${last.file}'`); // concat demuxer needs the last file repeated
-    writeFileSync(join(OUT, 'frames.txt'), lines.join('\n') + '\n');
-  }
-}
 
 class Story {
   constructor(readonly page: Page) {}
@@ -167,7 +125,7 @@ test('instagram-story', async ({ page }) => {
     const el = document.getElementById('st-card');
     if (el) el.style.transition = '';
   });
-  const rec = new Recorder(page);
+  const rec = new Recorder(page, OUT, { width: 1080, height: 1920 });
   await rec.start();
 
   // 1. The claim

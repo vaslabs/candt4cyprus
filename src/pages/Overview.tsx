@@ -6,6 +6,7 @@ import { ChartCard } from '../components/charts/ChartCard';
 import { Callout, Card, CardBody, CardHeader, DataTable } from '../components/ui/core';
 import { ProvenanceBadge, ProvenanceLegend } from '../components/provenance/ProvenanceBadge';
 import { PageHeader } from '../components/PageHeader';
+import { PolicyWalkthrough } from '../components/PolicyWalkthrough';
 import { eurM, pct } from '../lib/format';
 
 const GDP: Record<number, number> = {
@@ -82,6 +83,8 @@ export default function Overview() {
       >
         <ProvenanceLegend />
       </PageHeader>
+
+      <PolicyWalkthrough />
 
       <section aria-labelledby="kpi" className="mb-6">
         <h2 id="kpi" className="sr-only">

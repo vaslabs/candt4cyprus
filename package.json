@@ -29,7 +29,8 @@
     "data:sbs": "tsx tools/sbs/fetchSbs.ts",
     "test:e2e": "playwright test",
     "demo:gifs": "bash tools/demo/makeGifs.sh",
-    "demo:story": "bash tools/demo/makeStory.sh"
+    "demo:story": "bash tools/demo/makeStory.sh",
+    "demo:walkthrough": "bash tools/demo/makeWalkthrough.sh"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.3.1",

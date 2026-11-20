@@ -22,6 +22,31 @@ async function collectErrors(page: Page): Promise<string[]> {
   return errors;
 }
 
+test('overview embeds the policy-maker walkthrough with a working transcript', async ({ page, request }) => {
+  await page.goto('./');
+  const video = page.getByTestId('walkthrough-video');
+  await expect(video).toBeVisible();
+  await expect(video).toHaveAttribute('preload', 'none');
+  for (const [attr, type] of [
+    ['poster', 'image/jpeg'],
+    ['src', 'video/mp4'],
+  ] as const) {
+    const url =
+      attr === 'poster'
+        ? await video.getAttribute('poster')
+        : await video.locator('source').getAttribute('src');
+    expect(url).toMatch(/^\/candt4cyprus\/media\/policy-walkthrough\./);
+    const res = await request.get(url ?? '');
+    expect(res.status()).toBe(200);
+    expect(res.headers()['content-type']).toContain(type);
+  }
+  const transcript = page.getByTestId('walkthrough-transcript');
+  await expect(transcript).toContainText('Step 1');
+  const third = transcript.getByRole('listitem').nth(2);
+  await third.getByRole('button').click();
+  await expect(third).toHaveAttribute('aria-current', 'true');
+});
+
 test('overview loads under the GitHub Pages subpath with observed data and a chart', async ({ page }) => {
   const errors = await collectErrors(page);
   await page.goto('./');

@@ -1,0 +1,99 @@
+[
+  {
+    "t": 0.3,
+    "text": "If automation erodes payroll contributions, what would it take to keep Cyprus’s Social Insurance Fund financed, and at what cost?"
+  },
+  {
+    "t": 5.5,
+    "text": "The method: assume how far automation goes; see the financing gap it opens; compare the instruments that could close it, and their rates; weigh the economic costs; test the assumptions, then save and share."
+  },
+  {
+    "t": 12.2,
+    "step": "Start from the facts",
+    "text": "Every number is labelled: observed, derived, calibrated, assumed, simulated or hypothetical."
+  },
+  {
+    "t": 20.6,
+    "step": "Start from the facts",
+    "text": "Official CYSTAT and Social Insurance Services data: the Fund’s receipts and expenditure, 2015–2025."
+  },
+  {
+    "t": 29.3,
+    "step": "Step 1 · Assume how far automation goes",
+    "text": "The adoption parameter sets how much of production autonomous capital (AI, robots) can take over. It is an assumption, not a forecast."
+  },
+  {
+    "t": 42.8,
+    "step": "Step 2 · See the financing gap",
+    "text": "At adoption 0.10, labour earns 49.9% of output, and social-security contributions are 6.09% of output against a target of 6.45%."
+  },
+  {
+    "t": 57.3,
+    "step": "Step 2 · See the financing gap",
+    "text": "At adoption 0.30, labour’s share falls to 31.8% and contributions to 3.89% of output."
+  },
+  {
+    "t": 65.1,
+    "step": "Step 2 · See the financing gap",
+    "text": "The gap between the line and the dashed target is what a new instrument would have to raise."
+  },
+  {
+    "t": 73.9,
+    "step": "Step 3 · Compare instruments",
+    "text": "Objective: restore the Fund’s financing target. Each instrument’s rate is solved to raise exactly the missing revenue."
+  },
+  {
+    "t": 84.6,
+    "step": "Step 3 · Compare instruments",
+    "text": "At adoption 0.30, restoring 6.45% of output takes: an employer contribution on autonomous capital (D) of 7.2%, a contribution on value added (E) of 2.6%, or a labour-share-adjusted contribution (F) of 17.9%."
+  },
+  {
+    "t": 98.9,
+    "step": "Step 3 · Compare instruments",
+    "text": "Instruments that cannot reach the target are flagged, not hidden."
+  },
+  {
+    "t": 105.3,
+    "step": "Step 4 · Weigh the costs",
+    "text": "No option is free. Long-run GDP compared with no new instrument: -12.46% under D, -9.27% under E."
+  },
+  {
+    "t": 113.6,
+    "step": "Step 4 · Weigh the costs",
+    "text": "Distribution and efficiency are reported side by side. There is no single “winner” score."
+  },
+  {
+    "t": 121.5,
+    "step": "Change the assumption",
+    "text": "What if automation goes less far? Move adoption back to 0.10 and compare again."
+  },
+  {
+    "t": 128.7,
+    "step": "Change the assumption",
+    "text": "At adoption 0.10: D needs 9.4%, E 0.4%, and F is unattainable."
+  },
+  {
+    "t": 133.3,
+    "step": "Change the assumption",
+    "text": "D’s rate is higher at low adoption (9.4% against 7.2%): the gap is smaller, but so is the autonomous capital it taxes."
+  },
+  {
+    "t": 143.1,
+    "step": "Change the assumption",
+    "text": "The long-run GDP cost shrinks too: -1.26% under D, -0.68% under E."
+  },
+  {
+    "t": 153.4,
+    "step": "Step 5 · Test the assumptions",
+    "text": "Sensitivity analyses and Monte Carlo bands show how far each conclusion depends on the assumptions, for example long run against short run with capital fixed."
+  },
+  {
+    "t": 171,
+    "step": "Step 6 · Save and share",
+    "text": "Save scenarios in your browser and generate a report in Markdown, HTML or PDF to share with colleagues."
+  },
+  {
+    "t": 178.5,
+    "text": "Long-run model simulations under stated assumptions, not forecasts. Every number is traceable to its source, and the tool runs entirely in your browser."
+  }
+]
